@@ -1,0 +1,45 @@
+p {
+    font-size: 14px;
+    color: var(--ion-color-primary);
+    font-family: 'montserrat_semiboldregular';
+    line-height: 1;
+    color: white;
+}
+small {
+    font-family: 'montserrat_mediumregular';
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: #a6cdf1;
+    ion-icon, i {
+        margin-right: 3px;
+    }
+}
+.divider {
+    margin: 0;
+    border-color: #639ed4;
+}
+.border-right {
+    border-right: 1px dotted #639ed4;
+}
+
+ion-input{
+    border: 2px white !important;
+    width: 100% !important;
+    height: auto !important;
+    color: white !important;
+    input{
+        border: 2px white !important;
+        width: 100% !important;
+        height: auto !important;
+        color: white !important;
+
+    };
+}
+input {
+    flex: unset; 
+    width: 30px; 
+    margin-left: 5px; 
+    padding-left: 2px;
+    text-align: center;
+}

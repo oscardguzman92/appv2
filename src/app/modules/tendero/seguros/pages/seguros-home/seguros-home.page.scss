@@ -1,0 +1,54 @@
+.insurance {
+    h5 {
+        color: var(--ion-color-primary);
+    }
+    p {
+        margin: 5px 0;
+    }
+    .steps {
+        margin-bottom: 8px;
+        ion-col {
+            font-size: 13px;
+            color: var(--ion-color-primary);
+            font-family: "montserrat_mediumregular";
+            display: flex;
+            align-self: center;
+            span {
+                display: flex;
+                background: var(--ion-color-primary);
+                color: white;
+                width: 24px;
+                height: 24px;
+                text-align: center;
+                border-radius: 20px;
+                justify-content: center;
+                align-items: center;
+                font-family: "montserrat_semiboldregular";
+                font-size: 13px;
+                margin-right: 10px;
+            }
+            p {
+                margin: 0;
+                width: 83%;
+            }
+        }
+    }
+    .below-text {
+        p {
+            font-size: 14px;
+            font-family: "montserrat_mediumregular";
+            margin: 0;
+            text-align: center;
+            b {
+                margin-right: 5px;
+            }
+        }
+    }
+    .cancel-insurance {
+        ion-button {
+            --padding-top: 25px;
+            --padding-bottom: 24px; 
+            margin-bottom: 16px;
+        }
+    }
+}

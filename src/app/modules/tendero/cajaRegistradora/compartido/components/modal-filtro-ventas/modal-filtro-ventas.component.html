@@ -1,0 +1,55 @@
+<div class="header-modal">
+  <ion-icon class="icon-filter" name="null"></ion-icon>
+  Filtrar
+</div>
+<ion-content class="ion-padding-horizontal">
+  <div class="scroll-cont-filter">
+
+      <ion-slides pager="true" [options]="slideClients">
+          <ion-slide
+            *ngFor="
+              let client of clients;
+              let i = index;
+              let even = even;
+              let odd = odd
+            "
+            [ngClass]="{ odd: odd, even: even }"
+          >
+            <app-tarjeta-cliente
+              *ngIf="client.phone != null"
+              [client]="client"
+              [position]="i"
+              [ngStyle]="{ order: i }"
+              (click)="applyFilter(client, 'client')"
+            >
+            </app-tarjeta-cliente>
+          </ion-slide>
+        </ion-slides>
+            
+    <ion-item lines="full">
+      <ion-label text-wrap>Sin Pagar</ion-label>
+      <ion-checkbox
+        slot="start"
+        name="paid_out_off"
+        ngDefaultControl
+        [(ngModel)]="paid_out_off"
+        (ionChange)="applyFilter(false,'paid_out')"
+        color="primary"
+      ></ion-checkbox>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label text-wrap>Pagado</ion-label>
+      <ion-checkbox
+        slot="start"
+        name="paid_out_on"
+        ngDefaultControl
+        [(ngModel)]="paid_out_on"
+        (ionChange)="applyFilter(true,'paid_out')"
+        color="primary"
+      ></ion-checkbox>
+    </ion-item>
+
+
+  </div>
+</ion-content>

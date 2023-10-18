@@ -1,0 +1,26 @@
+<div class="window-list-shops" [class.window-show]="statusWindowShops" [class.with-scroll]="showScrollEvent">
+    <div class="button-toggle-window" (click)="toggleWindowShops()">
+        <span class="open">Abrir</span>
+        <span class="close">Cerrar</span>
+    </div>
+    <p class="small ion-text-center">Estos son los siguientes pedidos: </p>
+    <ion-list class="route-clients" #containerRoutes>
+        <span *ngFor="let wayPoint of wayPoints; let i = index">
+            <ion-item [ngClass]="{'focus-item': i == 0}" lines="full"
+                    (click)="(enabledEditRoutes && editRoute(wayPoint.orden - 1)) || (!enabledEditRoutes && goToOrder())"
+                      *ngIf="i < limitShowRoute">
+                <div class="number" slot="start">
+                    {{wayPoint.orden}}
+                </div>
+                <ion-label [class.disable-by-edit]="enabledEditRoutes">
+                    <h2>{{wayPoint.shopName}}</h2>
+                    <p>{{wayPoint.address}}</p>
+                </ion-label>
+                <div slot="end" [class.disable-by-edit]="enabledEditRoutes">
+                    <ion-icon class="icon-chevron-right" name="null"></ion-icon>
+                </div>
+            </ion-item>
+        </span>
+    </ion-list>
+    <p class="small ion-text-center">A medida de que se entreguen los pedidos se irán cargando los demás</p>
+</div>

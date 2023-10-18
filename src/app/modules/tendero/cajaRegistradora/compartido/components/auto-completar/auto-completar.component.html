@@ -1,0 +1,5 @@
+<ion-auto-complete [dataProvider]="optionService" [multi]="true"
+                   (itemSelected)="selected($event)" [model]="tagsSelected" maxSelected="100"
+                   maxResults="10" [options]="{placeholder: 'Buscar'}"
+                   (keypress)="change($event)" (itemRemoved)="removeItem($event)"></ion-auto-complete>
+<span *ngIf="error">Ya elegiste esta opción</span>

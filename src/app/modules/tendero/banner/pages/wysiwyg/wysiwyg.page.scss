@@ -1,0 +1,59 @@
+::ng-deep {
+    .wrapper-cont {
+        h1 {
+            font-family: montserratbold;
+            font-size: 22px;
+        }
+        iframe {
+            width: 100%;
+        }
+        a {
+            &.boton {
+                display: block;
+                background-color: var(--ion-color-primary);
+                color: white;
+                text-align: center;
+                font-family: montserrat_mediumregular;
+                font-weight: bold;
+                text-transform: uppercase;
+                font-size: 13px;
+                padding: 10px;
+                border-radius: 25px;
+                text-decoration: none;
+                &__bancolombia {
+                    @extend .boton;
+                    background-color: #ffd200;
+                    color: #58595b;
+                }
+                &__naranja {
+                    @extend .boton;
+                    background-color: var(--ion-color-secondary);
+                    color: white;
+                }
+                &__amarillo {
+                    @extend .boton;
+                    background-color: var(--ion-color-tertiary);
+                    color:  var(--ion-color-primary);
+                }
+                &__gris {
+                    @extend .boton;
+                    background-color: var(--ion-color-medium);
+                    color: white;
+                }
+                &__verde {
+                    @extend .boton;
+                    background-color: var(--ion-color-success);
+                    color: white;
+                }
+                &__rojo {
+                    @extend .boton;
+                    background-color: var(--ion-color-danger);
+                    color: white;
+                }
+            }
+        }
+        p {
+            font-size: 16px;
+        }
+    }
+}

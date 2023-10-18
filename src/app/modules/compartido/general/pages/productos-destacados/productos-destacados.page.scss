@@ -1,0 +1,35 @@
+
+virtual-scroller {
+    height: 100vh;
+    flex-wrap: wrap;
+    overflow: scroll;
+}
+
+.item-virtual {
+    position: relative;
+    height: auto !important;
+    transform: translate3d(0px, 16px, 0px) !important;
+}
+
+.item-virtual:nth-last-of-type(1) {
+    margin-bottom: 10px;
+}
+
+.item-virtual:nth-of-type(1) {
+    margin-top: 10px;
+}
+.quantity-control {
+    height: auto;
+    .count-products-offer {
+        height: 30px;
+        display: flex;
+        p {
+            height: auto;
+            margin-bottom: 0;
+        }
+        ion-icon {
+            font-size: 20px;
+            width: 60px;
+        }
+    }
+}

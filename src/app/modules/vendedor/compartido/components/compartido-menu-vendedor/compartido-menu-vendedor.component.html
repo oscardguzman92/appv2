@@ -1,0 +1,180 @@
+<ion-content class="menu-app" scrollable>
+    <ion-toolbar class="ion-margin-bottom" no-padding>
+        <ion-title class="large">
+            {{ user.nombre_contacto | titlecase }}
+            <p class="small" no-margin>
+                {{user.compania && user.compania.nombre ? user.compania.nombre : ""}}
+                ({{ user.cedula }})
+            </p>
+        </ion-title>
+        <ion-buttons slot="secondary">
+            <ion-button *ngIf="!pepperoni" (click)="refreshData()" class="refresh-button">
+                <i class="icon-rotate-ccw icon-flipped"></i>
+                <span>Refrescar</span>
+            </ion-button>
+            <ion-button (click)="closeModal()">
+                <i class="icon-x-circle"></i>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+    <div class="divider-white no-margin-bottom"></div>
+    <ion-row *ngIf="!user.sin_archivos_offline">
+        <ion-col size="12" no-padding>
+            <ion-list>
+                <ion-item lines="none">
+                    <ion-label class="offline-option">
+                        <i class="icon-wifi-off"></i>
+                        Modo sin conexión
+                    </ion-label>
+                    <ion-toggle slot="end" (click)="switchOfflineMode()" [(ngModel)]="pepperoni"
+                                [checked]="pepperoni" color="tertiary"></ion-toggle>
+                </ion-item>
+            </ion-list>
+            <ion-row>
+                <ion-col no-padding *ngIf="syncTimeOffline" size="12">
+                    <div ion-align-items-center>
+                        <p class="small ion-margin-bottom" no-margin>
+                            Ultima hora de sincronización: {{syncTimeOffline}}
+                        </p>
+                    </div>
+                    <ion-row class="section-menu">
+                        <ion-col [size]="12" (click)="syncUp()"><a>
+                            <p>
+                                <i class="icon-refresh-ccw"></i>
+                                Volver a sincronizar datos
+                            </p>
+                            <i class="icon-chevron-right ion-float-right"></i>
+                        </a></ion-col>
+                    </ion-row>
+                </ion-col>
+                <ion-col no-padding>
+                    <div ion-align-items-center>
+                        <p class="small ion-margin-bottom" no-margin>Activando esta opción, no contarás con datos en
+                            línea, podrás trabajar fácilmente en zonas alejadas. Necesitarás una conexión para
+                            actualizar tus pedidos nuevamente. </p>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+    <div class="divider-white"></div>
+        <ion-button expand="block" *ngIf="!pepperoni" class="new-item-label new-client" no-margin
+                    (click)="goCreateClient()" color="secondary">
+                    <ion-icon name="person-add" slot="start"></ion-icon>
+            Crear nuevo cliente
+        </ion-button>
+    <div class="divider-white"></div>
+    <ion-row class="section-menu btns-vendedor">
+        <!-- <ion-col [size]="pepperoni ? 12 : 6" (click)="goHome()"> -->
+        <ion-col size="12" (click)="goHome()">
+            <a>
+                <p>
+                    <i class="icon-home"></i>
+                    Mis Clientes
+                </p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+        <!-- <ion-col *ngIf="!pepperoni" size="6" (click)="goMyOrders()">
+            <a>
+                <p>
+                    <i class="icon-help-circle"></i>
+                    Comunidad
+                </p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col> -->
+        <!-- <ion-col *ngIf="!pepperoni" size="12" (click)="goToHelpTree()" class="no-padding-horizontal">
+            <a>
+                <p>
+                    <i class="icon-info"></i>
+                    Atención en línea
+                </p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col> -->
+        <ion-col *ngIf="!pepperoni" size="12" (click)="goSalesReport()" class="no-padding-horizontal">
+            <a>
+                <p>
+                    <i class="icon-dollar-sign"></i>
+                    Mi Reporte de Ventas
+                </p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+        <ion-col size="12" (click)="goSurveyFanny()" class="no-padding-horizontal">
+            <a>
+                <p>
+                    <i class="icon-file-text"></i>
+                    Crear encuesta Fanny
+                </p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+        <ion-col class="no-padding-horizontal" size="12" (click)="goSurveys()" routerDirection="forward">
+            <a>
+                <p>
+                    <i class="icon-award"></i>
+                    Encuestas
+                </p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+        <ion-col *ngIf="!messageInformation && !pepperoni" size="12" (click)="goMyMessages()"
+                 class="no-padding-horizontal">
+            <a>
+                <p>
+                    <i class="icon-mail"></i>
+                    Mensajes
+                </p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="no-padding-horizontal ion-padding-bottom">
+            <a href="https://storeappsupport.zendesk.com/hc/es" target="_blank">
+                <img src="assets/images/boton-centro-ayuda.png"/>
+            </a>
+        </ion-col>
+    </ion-row>
+    <div class="divider-white" *ngIf="messageInformation && !pepperoni"></div>
+    <div class="messages" *ngIf="messageInformation && !pepperoni">
+        <div (click)="goMyMessages()" class="messages-top ion-justify-content-between">
+            <p no-margin>
+                <i class="icon-mail"></i>
+                Mensajes
+            </p>
+            <span *ngIf="messageInformation && !pepperoni && messageInformation.count > 0">( {{ messageInformation.count }} Nuevos )</span>
+        </div>
+        <div class="last-message" *ngIf="messageInformation && !pepperoni && messageInformation.message" (click)="openMessage(messageInformation.message)">
+            <span class="date">Hoy</span>
+            <span class="title-message">{{messageInformation.message.titulo | titlecase}}</span>
+            <p [innerHTML]="messageInformation.message.mensaje"></p>
+        </div>
+    </div>
+    <div class="divider-white" *ngIf="!pepperoni"></div>
+    <ion-button expand="block" *ngIf="!pepperoni" class="tiny-menu-button" no-margin (click)="goMobileCharge()">
+        Incentivos Compañías
+    </ion-button>
+    <ion-button expand="block" *ngIf="!pepperoni" class="tiny-menu-button" no-margin (click)="goHistoryAssignments()">
+        Historial de asignaciones
+    </ion-button>
+    <!-- <ion-button expand="block" *ngIf="!pepperoni" class="tiny-menu-button" no-margin (click)="goToHelpTree()">
+        Preguntas Frecuentes
+    </ion-button> -->
+    <ion-button expand="block" *ngIf="!pepperoni" class="tiny-menu-button"
+                (click)="goTermsConditions()">
+        Términos & Condiciones
+    </ion-button>
+    <ion-button expand="block" class="tiny-menu-button ion-margin-bottom" (click)="goPrivacyPolicies()">Políticas de privacidad
+    </ion-button>
+    <ion-button (click)="logOut()" expand="block" class="small button-outline white" no-margin>
+        Cerrar Sesión
+    </ion-button>
+    <ion-row>
+        <ion-col class="ion-text-center ion-padding">
+            <small>Versión: {{ionVersionNumber}} - {{ionVersionCode}}</small>
+        </ion-col>
+    </ion-row>
+</ion-content>

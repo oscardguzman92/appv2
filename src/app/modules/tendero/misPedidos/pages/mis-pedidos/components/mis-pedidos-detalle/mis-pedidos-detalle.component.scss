@@ -1,0 +1,28 @@
+.header-list {
+    small {
+        display: block;
+        font-weight: bold;
+    }
+}
+.quantity {
+    font-family: "montserrat_semiboldregular";
+    font-size: 18px;
+    color: var(--ion-color-primary);
+}
+
+ion-segment {
+    &.segment-general {
+        padding-top: 0;
+    }
+
+    ion-segment-button {
+        ion-icon {
+            font-size: 14px;
+            margin-right: 8px;
+            font-weight: bold;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+    }
+}
+

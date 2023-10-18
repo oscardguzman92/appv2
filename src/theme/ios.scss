@@ -1,0 +1,117 @@
+.ios {
+  /*:host(.item-input.input-form) {
+    --inner-border-width: 0px;
+  }*/
+  ion-item.input-form {
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    --inner-border-width: 0px;
+  }
+  .menu-app ion-toolbar ion-title {
+    position: absolute;
+    text-align: left;
+  }
+  .menu-app ion-toolbar ion-buttons{
+    position: absolute;
+    right: 0;
+  }
+  .shopping-cart ion-toolbar ion-title {
+    -webkit-padding-start: 0;
+    padding-inline-start: 0;
+    -webkit-padding-end: 0;
+    padding-inline-end: 0;
+    width: 85%;
+    margin-left: 15%;
+    padding-left: 0 !important;
+    text-align: left;
+  }
+  .contact-us .icon-inner {
+    display: none;
+  }
+  app-mis-ventas-consolidado ion-icon {
+    svg {
+      display: none;
+    }
+  }
+
+  app-puntos-productos-aredimir {
+    .footer-card {
+      height: 56px;
+    }
+  }
+  app-comunidad-tenderos,
+  app-comunidad-tenderos-crear-post,
+  app-detalle-cliente ion-content,
+  app-mis-ventas-consolidado {
+    ion-button {
+      max-height: 33px;
+    }
+  }
+  .categories-buttons-wrapper ion-title {
+    -webkit-padding-start: 0px;
+    padding-inline-start: 0px;
+    -webkit-padding-end: 0px;
+    padding-inline-end: 0px;
+    position: relative;
+  }
+  ion-app {
+    margin-top: var(--ion-safe-area-top);
+  }
+  ion-app.ion-page {
+    height: calc(100vh - var(--ion-safe-area-top));
+  }
+  .ion-page {
+    min-height: calc(96vh - var(--ion-safe-area-top));
+  }
+  .backdrop-no-scroll {
+    /*ion-content:not([scrollable]) {
+      --overflow: hidden;
+    }*/
+  }
+  .listing-clients.my-sales ion-item .footer-data {
+    position: absolute;
+    left: 16px;
+    bottom: 0;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 40px;
+    display: flex;
+  }
+  ion-card.product-card.with-offer:before{
+    box-sizing: border-box;
+  }
+  .banner-ofertas{
+    max-height: 120px;
+  }
+  .banner-hdi{
+    max-height: 130px;
+  }
+}
+
+@media (max-width: 321px) {
+  .ios {
+    app-detalle-cliente ion-content,
+    app-mis-ventas-consolidado {
+      ion-button {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media (max-height: 600px) {
+  .ios {
+    .menu-app .section-menu ion-col a {
+      padding: 5px 12px;
+    }
+    .menu-app .points .card-button {
+      padding: 6px;
+    }
+    .menu-app .ion-margin-bottom {
+      --margin-bottom: 6px !important;
+      margin-bottom: 6px !important;
+    }
+  }
+}

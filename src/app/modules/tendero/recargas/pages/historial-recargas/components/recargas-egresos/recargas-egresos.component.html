@@ -1,0 +1,36 @@
+<ion-list>
+    <ion-item *ngFor="let egreso of egresos" lines="full">
+        <ion-row class="ion-align-items-center">
+            <ion-col size="2" no-padding>
+                <ion-icon color="success" name="checkmark-circle" *ngIf="egreso.estado !== 'rechazada'"></ion-icon>
+                <ion-icon color="danger" name="close-circle" *ngIf="egreso.estado === 'rechazada'"></ion-icon>
+            </ion-col>
+            <ion-col size="10">
+                <ion-row>
+                    <ion-col size="5">
+                        <h3 class="sub-title"
+                            [ngClass]="{'color-success': egreso.estado !== 'rechazada', 'color-danger': egreso.estado === 'rechazada'}">
+                            {{egreso.monto | currency:"COP":'symbol-narrow':'0.0-0'}}
+                        </h3>
+                    </ion-col>
+                    <ion-col size="7">
+                        <p class="phone-number" no-margin text-right>
+                            <small class="icon-smartphone"></small>
+                            {{egreso.beneficiario}}
+                        </p>
+                    </ion-col>
+                    <ion-col size="12">
+                        <p no-margin><i class="icon-calendar"></i> {{egreso.fecha}}</p>
+                        <p no-margin>Saldo anterior: {{egreso.saldo_anterior | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+                        <p no-margin *ngIf="egreso.estado !== 'rechazada'">
+                            Saldo nuevo: {{egreso.saldo_anterior | historialAsignaciones: egreso.operacion: egreso.monto}}
+                        </p>
+                        <p no-margin *ngIf="egreso.estado === 'rechazada'">
+                            Saldo nuevo: {{egreso.saldo_anterior | currency:"COP":'symbol-narrow':'0.0-0'}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+</ion-list>

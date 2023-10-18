@@ -1,0 +1,28 @@
+div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    background: #f9fafd;
+    border-radius: 10px;
+    padding: 10px;
+    h5{
+        color: var(--ion-color-primary);
+    }
+    p{
+        text-align: center;
+    }
+    ion-button{
+        idth: 100%;
+        margin-top: 15px;
+        height: auto;
+        min-height: 40px;
+        white-space: normal;
+        line-height: 10px;
+    }
+    img{
+        max-width: 200px;
+        max-height: 200px;
+    }
+}

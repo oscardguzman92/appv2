@@ -1,0 +1,45 @@
+<app-compartido-cabecera [showBackButton]="true" titulo="Centro de ayuda"
+                         [mostrarBotonAuxiliar]="false"></app-compartido-cabecera>
+<ion-content padding class="with-searchbox">
+    <ion-grid fixed no-padding>
+        <div *ngFor="let question of questions; let i = index;">
+            <ion-row class="question-title" (click)="mostrarDetalleRespuesta(i)">
+                <ion-col size="11" no-padding>
+                    <ion-label *ngIf="!validaMostrarPregunta(i)">{{question.titulo}}</ion-label>
+                    <h4 *ngIf="preguntaSeleccionada >= 0 && validaMostrarPregunta(i)">{{question.titulo}}</h4>
+                </ion-col>
+                <ion-col size="1" no-padding text-right>
+                    <i *ngIf="!validaMostrarPregunta(i)" class="icon-chevron-down"></i>
+                    <i *ngIf="preguntaSeleccionada >= 0 && validaMostrarPregunta(i)" class="icon-chevron-up"></i>
+                </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="preguntaSeleccionada >= 0 && validaMostrarPregunta(i)" class="ion-margin-top">
+                <ion-col size="12" no-padding *ngIf="question.imagen && !question.video">
+                    <img [src]="question.imagen">
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="preguntaSeleccionada >= 0 && validaMostrarPregunta(i)" class="ion-margin-top">
+                <ion-col size="12" no-padding *ngIf="question.video">
+                    <iframe class="video" [src]="question.video" frameborder="0" allowfullscreen="allowfullscreen"
+                            mozallowfullscreen="mozallowfullscreen"
+                            msallowfullscreen="msallowfullscreen"
+                            oallowfullscreen="oallowfullscreen"
+                            webkitallowfullscreen="webkitallowfullscreen"></iframe>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="preguntaSeleccionada >= 0 && validaMostrarPregunta(i)">
+                <ion-col size="12" no-padding [innerHTML]="question.texto"></ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="12" no-padding>
+                    <div class="divider"></div>
+                </ion-col>
+            </ion-row>
+        </div>
+    </ion-grid>
+</ion-content>
+<ion-footer class="wrapper-search-scan">
+    <app-preguntas-frecuentes-buscador (eventSearch)="search($event)"></app-preguntas-frecuentes-buscador>
+</ion-footer>

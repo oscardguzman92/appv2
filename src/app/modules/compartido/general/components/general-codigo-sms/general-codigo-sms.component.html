@@ -1,0 +1,81 @@
+<form [formGroup]="formMsmNumber" text-center>
+
+    <!--<p>Se ha enviado un mensaje de texto con el código de ingreso al teléfono registrado, por favor ingrese el código a
+        continución.</p>-->
+
+    <ion-grid class="valid-code">
+        <ion-row justify-content-center>
+            <ion-col size="11" no-padding>
+                <ion-row justify-content-center>
+                    <ion-col size="3">
+                        <ion-item class="input-form">
+                            <ion-input type="tel" formControlName="msmNumberFirst" #codeElement
+                                       (keyup)="changeNumberCode($event,1)" maxlength="1" placeholder="0"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="3">
+                        <ion-item class="input-form">
+                            <ion-input type="tel" formControlName="msmNumberSecond" #codeElement
+                                       (keyup)="changeNumberCode($event,2)" maxlength="1" placeholder="0"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="3">
+                        <ion-item class="input-form">
+                            <ion-input type="tel" formControlName="msmNumberThird" #codeElement
+                                       (keyup)="changeNumberCode($event,3)" maxlength="1" placeholder="0"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="3">
+                        <ion-item class="input-form">
+                            <ion-input [(ngModel)]="msmCode" formControlName="msmNumberFourth" #codeElement
+                                       (keyup)="changeNumberCode($event,4)" type="tel" maxlength="1"
+                                       placeholder="0">
+                            </ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <div class="error" *ngIf="msmNumber.invalid && msmNumber.touched">
+                                    <span *ngIf="msmNumber.errors?.required">
+                                        El codigo SMS es obligatorio
+                                    </span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+
+        </ion-row>
+        <ion-row justify-content-center *ngIf="noSms">
+            <ion-col size="12" no-padding>
+                <p class="small">Si no has recibido un mensaje de texto con el código, solicítalo nuevamente aquí:</p>
+                <!-- <ion-button class="with-text" expand="block" (click)="resendMsm()">
+                    <ion-grid>
+                            <ion-row>
+                                <ion-col size="12">No he recibido el código,</ion-col>
+                                <ion-col size="12"><span>enviármelo nuevamente</span></ion-col>
+                              </ion-row>
+                        </ion-grid>
+                </ion-button> -->
+                <!-- <p class="text-description">
+                    Recibe el código de verificación vía:
+                </p> -->
+                <ion-row justify-content-center align-items-center>
+                    <ion-col size="6">
+                        <ion-button (click)="resendMsm()" class="ion-margin-bottom"
+                            expand="block">SMS <ion-icon slot="start" name="text"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="6">
+                        <ion-button (click)='resendWapp()' class="ion-margin-bottom" 
+                            expand="block">Whatsapp <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+                <div>
+                    <ion-button (click)="openChat()" expand="block" class="orange-button">
+                        Atención en línea
+                    </ion-button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</form>

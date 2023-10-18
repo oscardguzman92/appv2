@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget android-packageName="com.mukuralab.storeapp" android-versionCode="429" ios-CFBundleIdentifier="com.mukuralab.storeappios" ios-CFBundleVersion="59" version="1.3.27" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>storeapp</name>
+    <description>Su tienda a otro nivel.</description>
+    <author email="elis@storeapp.net" href="https://storeapp.net/">storeapp</author>
+    <content original-src="index.html" src="http://localhost:8100" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="30" />
+    <preference name="ScrollEnabled" value="false" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="FadeSplashScreenDuration" value="300" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="intercom-app-id" value="n5w7hm9k" />
+    <preference name="intercom-ios-api-key" value="ios_sdk-89259b7ef4d676499087da9999e33518c33b5d59" />
+    <preference name="intercom-android-api-key" value="android_sdk-e4960965943efeda5ea8d4f20ddb2d62741a164e" />
+    <feature name="CDVWKWebViewEngine">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+    <preference name="WKWebViewOnly" value="true" />
+    <platform name="android">
+        <resource-file src="resources/android/icon/drawable-xxxhdpi-icon.png" target="app/src/main/res/mipmap/icon.png" />
+        <hook src="scripts/copy_build_extra.js" type="after_prepare" />
+        <allow-intent href="market:*" />
+        <preference name="api_key" value="ak-b9ba413a-3689-411a-86b5-37268c326b0c" />
+        <preference name="sdk_notficiation_messaging" value="false" />
+        <preference name="icon_folder" value="mipmap" />
+        <preference name="icon_name" value="ic_launcher" />
+        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
+            <application android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" />
+            <application android:usesCleartextTraffic="true" />
+        </edit-config>
+        <resource-file src="resources/android/adaptiveicon/mipmap-anydpi-v26/ic_launcher.xml" target="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-anydpi-v26/ic_launcher_round.xml" target="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-hdpi/ic_launcher.png" target="app/src/main/res/mipmap-hdpi/ic_launcher.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-hdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-hdpi/ic_launcher_round.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-hdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-mdpi/ic_launcher.png" target="app/src/main/res/mipmap-mdpi/ic_launcher.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-mdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-mdpi/ic_launcher_round.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-mdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xhdpi/ic_launcher.png" target="app/src/main/res/mipmap-xhdpi/ic_launcher.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xhdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xhdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xxhdpi/ic_launcher.png" target="app/src/main/res/mipmap-xxhdpi/ic_launcher.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xxhdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xxhdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xxxhdpi/ic_launcher.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xxxhdpi/ic_launcher_round.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" />
+        <resource-file src="resources/android/adaptiveicon/mipmap-xxxhdpi/ic_launcher_foreground.png" target="app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" />
+        <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
+        <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
+        <icon density="hdpi" src="resources/android/icon/drawable-hdpi-icon.png" />
+        <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
+        <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
+        <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
+        <splash density="land-ldpi" src="resources/android/splash/drawable-land-ldpi-screen.png" />
+        <splash density="land-mdpi" src="resources/android/splash/drawable-land-mdpi-screen.png" />
+        <splash density="land-hdpi" src="resources/android/splash/drawable-land-hdpi-screen.png" />
+        <splash density="land-xhdpi" src="resources/android/splash/drawable-land-xhdpi-screen.png" />
+        <splash density="land-xxhdpi" src="resources/android/splash/drawable-land-xxhdpi-screen.png" />
+        <splash density="land-xxxhdpi" src="resources/android/splash/drawable-land-xxxhdpi-screen.png" />
+        <splash density="port-ldpi" src="resources/android/splash/drawable-port-ldpi-screen.png" />
+        <splash density="port-mdpi" src="resources/android/splash/drawable-port-mdpi-screen.png" />
+        <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
+        <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
+        <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
+        <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+        <resource-file src="google-services.json" target="app/google-services.json" />
+        <resource-file src="locales/android/drawable-mdpi/ic_stat_onesignal_default.png" target="app/src/main/res/drawable-mdpi/ic_stat_onesignal_default.png" />
+        <resource-file src="locales/android/drawable-hdpi/ic_stat_onesignal_default.png" target="app/src/main/res/drawable-hdpi/ic_stat_onesignal_default.png" />
+        <resource-file src="locales/android/drawable-xhdpi/ic_stat_onesignal_default.png" target="app/src/main/res/drawable-xhdpi/ic_stat_onesignal_default.png" />
+        <resource-file src="locales/android/drawable-xxhdpi/ic_stat_onesignal_default.png" target="app/src/main/res/drawable-xxhdpi/ic_stat_onesignal_default.png" />
+        <resource-file src="locales/android/drawable-xxxhdpi/ic_stat_onesignal_default.png" target="app/src/main/res/drawable-xxxhdpi/ic_stat_onesignal_default.png" />
+        <resource-file src="locales/android/drawable-xxxhdpi/ic_onesignal_large_icon_default.png" target="app/src/main/res/drawable-xxxhdpi/ic_onesignal_large_icon_default.png" />
+        <allow-intent href="mailto:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <preference name="webviewbounce" value="false" />
+        <preference name="UIWebViewBounce" value="false" />
+        <preference name="DisallowOverscroll" value="true" />
+        <preference name="ScrollEnabled" value="true" />
+        <preference name="AllowInlineMediaPlayback" value="true" />
+        <access origin="*" subdomains="true" />
+        <allow-navigation href="*://*.youtube.com/*" />
+        <config-file parent="NSBluetoothAlwaysUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Utilizamos Bluetooth para conectarse a impresoras y que los usuarios puedan impriman sus facturas.</string>
+        </config-file>
+        <config-file parent="NSBluetoothPeripheralUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Utilizamos Bluetooth para conectarse a impresoras y que los usuarios puedan impriman sus facturas.</string>
+        </config-file>
+        <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Utilizamos el acceso a la biblioteca de fotos en el chat de soporte para que los usuarios puedan enviar una imagen de lo que está sucediendo.</string>
+        </config-file>
+        <config-file parent="NSPhotoLibraryAddUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Utilizamos el acceso a la biblioteca de fotos en el chat de soporte para que los usuarios puedan enviar una imagen de lo que está sucediendo.</string>
+        </config-file>
+        <config-file parent="NSLocationUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Utilizamos la ubicación para ayudar a los usuarios en el proceso de registro, para que puedan acceder fácilmente a su GPS y con esas coordenadas les mostramos su dirección para confirmar y completar el formulario de registro más rápido. </string>
+        </config-file>
+        <config-file parent="NSLocationAlwaysUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Utilizamos la ubicación para ayudar a los usuarios en el proceso de registro, para que puedan acceder fácilmente a su GPS y con esas coordenadas les mostramos su dirección para confirmar y completar el formulario de registro más rápido. </string>
+        </config-file>
+        <config-file parent="NSLocationWhenInUseUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Utilizamos la ubicación para ayudar a los usuarios en el proceso de registro, para que puedan acceder fácilmente a su GPS y con esas coordenadas les mostramos su dirección para confirmar y completar el formulario de registro más rápido. </string>
+        </config-file>
+        <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Utilizamos el acceso a la cámara para que los usuarios puedan enviarnos fotos en la sección de red social y en el chat de soporte.</string>
+        </config-file>
+        <icon height="57" src="resources/ios/icon/icon.png" width="57" />
+        <icon height="114" src="resources/ios/icon/icon@2x.png" width="114" />
+        <icon height="40" src="resources/ios/icon/icon-40.png" width="40" />
+        <icon height="80" src="resources/ios/icon/icon-40@2x.png" width="80" />
+        <icon height="120" src="resources/ios/icon/icon-40@3x.png" width="120" />
+        <icon height="50" src="resources/ios/icon/icon-50.png" width="50" />
+        <icon height="100" src="resources/ios/icon/icon-50@2x.png" width="100" />
+        <icon height="60" src="resources/ios/icon/icon-60.png" width="60" />
+        <icon height="120" src="resources/ios/icon/icon-60@2x.png" width="120" />
+        <icon height="180" src="resources/ios/icon/icon-60@3x.png" width="180" />
+        <icon height="72" src="resources/ios/icon/icon-72.png" width="72" />
+        <icon height="144" src="resources/ios/icon/icon-72@2x.png" width="144" />
+        <icon height="76" src="resources/ios/icon/icon-76.png" width="76" />
+        <icon height="152" src="resources/ios/icon/icon-76@2x.png" width="152" />
+        <icon height="167" src="resources/ios/icon/icon-83.5@2x.png" width="167" />
+        <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
+        <icon height="58" src="resources/ios/icon/icon-small@2x.png" width="58" />
+        <icon height="87" src="resources/ios/icon/icon-small@3x.png" width="87" />
+        <icon height="1024" src="resources/ios/icon/icon-1024.png" width="1024" />
+        <splash height="1136" src="resources/ios/splash/Default-568h@2x~iphone.png" width="640" />
+        <splash height="1334" src="resources/ios/splash/Default-667h.png" width="750" />
+        <splash height="2208" src="resources/ios/splash/Default-736h.png" width="1242" />
+        <splash height="1242" src="resources/ios/splash/Default-Landscape-736h.png" width="2208" />
+        <splash height="1536" src="resources/ios/splash/Default-Landscape@2x~ipad.png" width="2048" />
+        <splash height="2048" src="resources/ios/splash/Default-Landscape@~ipadpro.png" width="2732" />
+        <splash height="768" src="resources/ios/splash/Default-Landscape~ipad.png" width="1024" />
+        <splash height="2048" src="resources/ios/splash/Default-Portrait@2x~ipad.png" width="1536" />
+        <splash height="2732" src="resources/ios/splash/Default-Portrait@~ipadpro.png" width="2048" />
+        <splash height="1024" src="resources/ios/splash/Default-Portrait~ipad.png" width="768" />
+        <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
+        <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
+        <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
+        <preference name="WKSuspendInBackground" value="false" />
+        <resource-file src="GoogleService-Info.plist" />
+        <icon height="20" src="resources/ios/icon/icon-20.png" width="20" />
+        <icon height="40" src="resources/ios/icon/icon-20@2x.png" width="40" />
+        <icon height="60" src="resources/ios/icon/icon-20@3x.png" width="60" />
+        <icon height="29" src="resources/ios/icon/icon-29.png" width="29" />
+        <icon height="58" src="resources/ios/icon/icon-29@2x.png" width="58" />
+        <icon height="87" src="resources/ios/icon/icon-29@3x.png" width="87" />
+        <icon height="48" src="resources/ios/icon/icon-24@2x.png" width="48" />
+        <icon height="55" src="resources/ios/icon/icon-27.5@2x.png" width="55" />
+        <icon height="88" src="resources/ios/icon/icon-44@2x.png" width="88" />
+        <icon height="172" src="resources/ios/icon/icon-86@2x.png" width="172" />
+        <icon height="196" src="resources/ios/icon/icon-98@2x.png" width="196" />
+        <splash height="2436" src="resources/ios/splash/Default-2436h.png" width="1125" />
+        <splash height="1125" src="resources/ios/splash/Default-Landscape-2436h.png" width="2436" />
+        <icon height="216" src="resources/ios/icon/icon-108@2x.png" width="216" />
+        <splash height="2688" src="resources/ios/splash/Default-2688h~iphone.png" width="1242" />
+        <splash height="1242" src="resources/ios/splash/Default-Landscape-2688h~iphone.png" width="2688" />
+        <splash height="1792" src="resources/ios/splash/Default-1792h~iphone.png" width="828" />
+        <splash height="828" src="resources/ios/splash/Default-Landscape-1792h~iphone.png" width="1792" />
+    </platform>
+    <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
+    <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
+    <plugin name="cordova-plugin-device" spec="2.0.2" />
+    <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
+    <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
+    <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
+    <plugin name="cordova-sqlite-storage" spec="3.2.0" />
+    <plugin name="com.telerik.plugins.nativepagetransitions" spec="0.6.5" />
+    <plugin name="cordova-plugin-advanced-http" spec="2.0.9" />
+    <branch-config>
+        <branch-key value="key_live_dgOK4QViywbepIYpj6EVefbmyqo6oQCt" />
+        <uri-scheme value="storeapp" />
+        <link-domain value="storeapp.app.link" />
+        <link-domain value="storeapp-alternate.app.link" />
+        <ios-team-release value="PW4Q8885U7" />
+    </branch-config>    
+    <engine name="browser" spec="5.0.4" />
+    <allow-navigation href="http://localhost:8100" sessionid="1f204bd7" />
+</widget>

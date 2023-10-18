@@ -1,0 +1,83 @@
+<app-compartido-cabecera [titulo]="title" [mostrarBotonAuxiliar]="false" [showBackButton]="showBack"></app-compartido-cabecera>
+<ion-content class="order-history" no-padding>
+    <ion-grid no-padding>
+        <ion-virtual-scroll *ngIf="myOrders" [items]="myOrders" class="listing-clients my-sales" approxItemHeight="98px" approxHeaderHeight="60px" approxFooterHeight="70px">
+            <ion-item class="order" *virtualItem="let order" (click)="openModalDetailOrder(order,$event)" lines="full">
+                <ion-grid no-padding>
+                    <ion-row>
+                        <ion-col no-padding>
+                            <span class="dist-value">{{order.distribuidor}} - Total:
+                                <span *ngIf="order.valor">
+                                    {{order.valor | currency:"COP":'symbol-narrow':'0.0-0'}}
+                                </span>
+                            <span *ngIf="!order.valor">
+                                    {{order.valor_pedido | currency:"COP":'symbol-narrow':'0.0-0'}}
+                                </span>
+                            </span>
+                            <span class="state" [ngClass]="{
+                                        'complete': order.estado_pedido_id == 4,
+                                        'in-progress':[3, 1].indexOf(order.estado_pedido_id) > -1,
+                                        'not-complete': [6, 8].indexOf(order.estado_pedido_id) > -1,
+                                        'conflict': [7, 11].indexOf(order.estado_pedido_id) > -1
+                                  }">
+                                <div class="icon"
+                                     [ngClass]="{
+                                        'icon-flag': (order.estado_pedido_id == 4 && order.devoluciones == false),
+                                        'icon-truck': [3, 1].indexOf(order.estado_pedido_id) > -1,
+                                        'icon-x-circle': [6, 8].indexOf(order.estado_pedido_id) > -1,
+                                        'icon-back-product': (order.estado_pedido_id == 4 && order.devoluciones == true) || order.estado_pedido_id == 11,
+                                        'icon-alert-triangle': (order.estado_pedido_id == 7)
+                                    }">
+                                </div>
+                                <span> {{order.estado}}
+                                    <span *ngIf="order.estado_pedido_id == 4 && order.devoluciones == true">
+                                         (Con devolución)
+                                    </span>
+                            </span>
+                            </span>
+                        </ion-col>
+
+                        <ion-col no-padding *ngIf="(order.estado_pedido_id == 4 && order.devoluciones == true) && (order.motivo)" size="12">
+                            <span class="state" style="margin-top: 3px;">
+                                Motivo: {{order.motivo | titlecase}}
+                            </span>
+                        </ion-col>
+                        <ion-col *ngIf="user.role=='cliente' && order.estado == 'Completo' " size="auto" text-right no-padding>
+                            <ion-button *ngIf="!order.calificacion" size="small" class="button-outline" (click)="openModalEvaluateOrder(order)" expand="block">
+                                <!--|| !order.califica-->
+                                Calificar
+                            </ion-button>
+                            <div *ngIf="order.calificacion">
+                                <!--&& order.califica === true -->
+                                <app-mis-pedidos-estrellas [calificacion]="order.calificacion">
+                                </app-mis-pedidos-estrellas>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="12" no-padding>
+                            <div class="footer-data">
+                                <span class="status-date">Entrega: {{order.fecha_entrega}}</span>
+                                <span class="creation-date">Creado: {{order.created_at | deleteHourDate}}</span>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="order.estado_pedido_id == 4">
+                        <ion-col size="12" no-padding>
+                            <ion-button size="small" (click)="requestAgain(order)" expand="block" class="button-again">
+                                Pedir de nuevo
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-item>
+        </ion-virtual-scroll>
+        <h3 padding style="text-align: center !important" *ngIf="!myOrders || myOrders.length == 0"> No hay pedidos anteriores.
+        </h3>
+    </ion-grid>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadInfiniteScroll($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

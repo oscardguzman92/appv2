@@ -1,0 +1,30 @@
+.messages {
+  ion-item {
+    --padding-bottom:5px;
+    margin-bottom:5px;
+  }
+  .bullet {
+    width: 10px;
+    height: 10px;
+    background: var(--ion-color-light);
+    border-radius: 50%;
+    margin-top: 6px;
+    &.to-read {
+      background: var(--ion-color-secondary);
+    }
+  }
+  ion-label {
+    font-family: 'montserrat_semiboldregular';
+    color:var(--ion-color-primary);
+    margin-bottom: 6px;
+    white-space: initial;
+    line-height: 1.3;
+    font-size: 15px;
+  }
+  small {
+    line-height: 1;
+    font-family: 'montserrat_mediumregular';
+    font-size: 10px;
+    color: var(--ion-color-medium);
+  }
+}

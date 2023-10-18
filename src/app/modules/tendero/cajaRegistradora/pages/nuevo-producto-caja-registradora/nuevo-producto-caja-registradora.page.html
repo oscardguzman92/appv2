@@ -1,0 +1,70 @@
+<app-cabecera
+  [title]="title"
+  [subtitle]="subtitle + product.ean"
+  [showTitle]="showTitle"
+  [showBackHomeButton]="showBackHomeButton"
+>
+</app-cabecera>
+<ion-content>
+  <div>
+    <ion-grid id="content-method">
+      <ion-row>
+        <form [formGroup]="dataProduct">
+          <ion-item class="input-form">
+            <ion-label position="floating">Nombre</ion-label>
+            <ion-input
+              formControlName="name"
+              [(ngModel)]="product.name"
+            ></ion-input>
+          </ion-item>
+          <ion-item class="input-form">
+            <ion-label position="floating">Precio</ion-label>
+            <ion-input
+              formControlName="price"
+              type="number"
+              [(ngModel)]="product.price"
+            ></ion-input>
+          </ion-item>
+        </form>
+        <div class="select-category">
+          <button
+            *ngFor="
+              let threadFilter of threadFilters;
+              let i = index;
+              let even = even;
+              let odd = odd
+            "
+            class="card-button"
+            (click)="selectCategory()"
+          >
+            <span>{{ threadFilter.name }}</span>
+            <i class="icon-arrow-right"></i>
+          </button>
+        </div>
+        <ion-col size="12" no-padding>
+          <img *ngIf="photoCamera" [src]="photoCamera" class="photo" alt="">
+        </ion-col>
+        <ion-col size="12" no-padding>
+          <ion-button (click)="makePhoto()" expand="block">
+            Tomar Foto
+            <ion-icon slot="end" name="camera"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+<ion-footer class="cash-register-footer">
+  <button class="even" (click)="cancel()">
+    <p>
+      Cancelar
+    </p>
+    <ion-icon class="icon-x"></ion-icon>
+  </button>
+  <button class="odd" (click)="confirm()">
+    <p>
+      Continuar
+    </p>
+    <ion-icon class="icon-check"></ion-icon>
+  </button>
+</ion-footer>

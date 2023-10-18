@@ -1,0 +1,16 @@
+::-webkit-scrollbar {
+  display: block;
+}
+#generate-scroll{
+  left: 0 !important;
+  right: 0 !important;
+  top: 20px !important;
+  bottom: 0 !important;
+  height:300px !important;
+  position: absolute !important;
+  display: block !important;
+  overflow-y: scroll !important;
+  pointer-events: auto !important;
+  --overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch !important;
+}

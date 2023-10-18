@@ -1,0 +1,46 @@
+@import "~src/theme/searchbox";
+
+.segments {
+  width: 85%;
+  &.openSearch {
+    width: 100%;
+  }
+}
+
+.searcher {
+  width: 15%;
+  text-align: center;
+  cursor: pointer;
+  &.openSearch {
+    display: none;
+  }
+  i {
+    font-size: 18px;
+    color: var(--ion-color-primary);
+    font-weight: bold;
+    z-index: 2;
+    background: #d3e5f0;
+    width: 36px;
+    height: 36px;
+    padding: 9px;
+    box-sizing: border-box;
+    border-radius: 50%;
+  }
+}
+.content-zone {
+  display: flex;
+  align-items: center;
+}
+
+.searchbox-content {
+  @extend .searchbox;
+  i {
+    cursor: pointer;
+    top: 3px !important;
+  }
+  .wrapper-search {
+    ion-input {
+      border-radius: 0;
+    }
+  }
+}

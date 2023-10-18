@@ -1,0 +1,79 @@
+<ion-grid>
+    <ion-row class="header-modal ion-align-items-center">
+        <ion-col size="auto">
+            <!-- Novedades --->
+            <ion-icon name="information-circle-outline" *ngIf="type == 'novedades' || type == 'success'"></ion-icon>
+
+            <!-- Cambio de orden --->
+            <ion-icon class="icon-edit" name="null" *ngIf="type == 'cambio-orden'"></ion-icon>
+        </ion-col>
+        <ion-col>
+            <!-- Novedades --->
+            <h5 *ngIf="type == 'novedades'">Novedades<span>Selecciona uno de los motivos</span></h5>
+
+            <!-- Cambio de orden --->
+            <h5 *ngIf="type == 'cambio-orden'">Cambiar Orden Ruta</h5>
+
+            <h5 *ngIf="type == 'success'">Novedades</h5>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="content-modal">
+        <ion-col no-padding *ngIf="type == 'novedades' && (reasons && reasons.length > 0)">
+            <!-- Botones Motivo -->
+            <div *ngIf="!reason">
+                <ion-button class="button-outline" size="small" *ngFor="let reason of reasons"
+                            (click)="selectedReason(reason)">
+                    {{reason.motivo}}
+                </ion-button>
+                <ion-button class="button-outline" size="small" (click)="selectedOther(reasonChild)">Otro</ion-button>
+            </div>
+
+            <!-- Selección Motivo y comentario ---------------------- -->
+            <div *ngIf="reason" class="ion-margin-top">
+                <h6><span>Motivo:</span> {{reason.motivo}}</h6>
+                <div *ngIf="reason.motivo_hijo && reason.motivo_hijo.length > 0">
+                    <ion-button class="button-outline" size="small" *ngFor="let reasonChild of reason.motivo_hijo"
+                                (click)="selectedReason(reasonChild)">
+                        {{reasonChild.motivo}}
+                    </ion-button>
+                    <ion-button class="button-outline" size="small" (click)="selectedOther(reasonChild)">Otro</ion-button>
+                </div>
+
+                <ion-item lines="none" *ngIf="!reason.motivo_hijo || (reason.motivo_hijo && reason.motivo_hijo.length == 0)">
+                    <ion-label color="primary" position="stacked">Escribe una observación</ion-label>
+                    <ion-textarea placeholder="Escribe aquí" [(ngModel)]="observation"></ion-textarea>
+                </ion-item>
+            </div>
+
+        </ion-col>
+        <ion-col no-padding *ngIf="type == 'cambio-orden'">
+            <!-- Espacio cambio de orden -->
+            <p no-margin>Ingresa un número para cambiar el orden de la ruta</p>
+            <ion-item class="input-field" lines="none">
+                <ion-label color="primary" position="stacked">Número de orden</ion-label>
+                <ion-input placeholder="Ej.: 1" [(ngModel)]="valueToChange"></ion-input>
+            </ion-item>
+        </ion-col>
+        <ion-col class="ion-no-padding" *ngIf="type == 'success'">
+            <p no-margin>La novedad fue reportada con éxito</p>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="footer-modal">
+        <ion-col size="6" *ngIf="type != 'success'">
+            <ion-button size="small" expand="block" (click)="closeModal()">Cancelar</ion-button>
+        </ion-col>
+        <ion-col size="12" *ngIf="type == 'success'">
+            <ion-button size="small" expand="block" (click)="closeModal()">Cerrar</ion-button>
+        </ion-col>
+        <ion-col size="6"  *ngIf="type != 'success'">
+            <ion-button size="small" expand="block"
+                        (click)="(type == 'cambio-orden' && changeOrder()) || (type == 'novedades' && setReason())"
+                [disabled]="(type == 'novedades' && !reason)">
+                Confirmar
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+

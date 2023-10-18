@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="cerrarModal()">
+                <ion-icon slot="icon-only" class="icon-x icon-orange-gradient"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" class="medium" no-padding>{{user.nombre_contacto}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="vertical-align-content" padding>
+    <ion-grid no-padding>
+        <ion-row justify-content-center>
+            <ion-col size="10" text-center no-padding>
+                <h5 class="sub-title">Complete sus datos</h5>
+                <p>Ingresa tu contraseña para poder realizar la recarga</p>
+            </ion-col>
+            <ion-col size="12" no-padding>
+                <form [formGroup]="passwordForm">
+                    <ion-item class="input-form">
+                        <ion-label position="floating">Contraseña</ion-label>
+                        <ion-input type="password" formControlName="password"></ion-input>
+                    </ion-item>
+                </form>
+            </ion-col>
+            <ion-col size="12" text-center>
+                <ion-button (click)="ingresar(passwordForm.value)" [disabled]="!passwordForm.valid">Ingresar</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

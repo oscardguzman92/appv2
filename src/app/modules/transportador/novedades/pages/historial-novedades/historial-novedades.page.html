@@ -1,0 +1,48 @@
+<app-cabecera titulo="Pedidos" subtitulo="{{user.nombre_contacto}}"
+              [showBackButton]="true" [isModal]="false" [user]="user" *ngIf="user"></app-cabecera>
+
+<ion-content class="ion-no-padding">
+    <ion-grid class="ion-no-padding">
+            <ion-virtual-scroll *ngIf="history && history.length > 0" [items]="history"
+                                class="listing-history" approxItemHeight="98px"
+                                approxHeaderHeight="60px" approxFooterHeight="70px">
+                <ion-item class="history" *virtualItem="let itemHistory" lines="full">
+                    <ion-grid no-padding>
+                        <ion-row *ngIf="itemHistory.motivo.motivo_padre">
+                            <span class="dist-value" style="margin-top: 3px;">
+                                Motivo principal:
+                                <span>
+                                    {{itemHistory.motivo.motivo_padre.motivo | titlecase}}
+                                </span>
+                            </span>
+                        </ion-row>
+                        <ion-row>
+                            <span class="dist-value" style="margin-top: 3px;">
+                                Motivo:
+                                <span>
+                                    {{itemHistory.motivo.motivo | titlecase}}
+                                </span>
+                            </span>
+                        </ion-row>
+                        <ion-row *ngIf="itemHistory.observacion">
+                            <span class="dist-value" style="margin-top: 3px;">
+                                Observación:
+                                <span>
+                                    {{itemHistory.observacion | titlecase}}
+                                </span>
+                            </span>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <div class="footer-data">
+                                    <span class="creation-date">Creado: {{itemHistory.created_at}}</span>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-item>
+            </ion-virtual-scroll>
+            <h3 padding style="text-align: center !important" *ngIf="!history || history.length == 0"> No hay novedades
+                anteriores.</h3>
+        </ion-grid>
+</ion-content>

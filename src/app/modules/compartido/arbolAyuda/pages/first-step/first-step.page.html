@@ -1,0 +1,42 @@
+<app-compartido-cabecera
+  [titulo]="titleHeader"
+  [showBackButton]="true"
+  [mostrarBotonAuxiliar]="false" 
+  [user]=user
+  [isRoot]=true
+>
+</app-compartido-cabecera
+>
+<app-help-tree-steps [activeStep]="activeStep"></app-help-tree-steps>  
+
+<ion-content class="ion-padding-horizontal">
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" text-center no-padding>
+        <p class="ion-no-margin ion-margin-bottom">
+          Selecciona el tema para ayudarte
+        </p>        
+      </ion-col>
+      <ion-col size="12" class="tags">
+          <app-help-tree-first-tag
+            *ngFor="
+              let helpTreeElement of helpTreeElements;
+              let i = index;
+              let even = even;
+              let odd = odd
+              "
+            [ngClass]="{ odd: odd, even: even }"
+            [helpTreeElement]=helpTreeElement
+          ></app-help-tree-first-tag>
+      </ion-col>
+      <ion-col size="12" class="ion-text-center">
+        <hr class="divider">
+        <p class="small">Si no encuentras la solución en nuestro árbol de ayuda escríbenos a nuestro centro de soporte</p>
+        <ion-button class="button-outline-orange" expand="block" (click)="openChat()"><ion-icon name="construct"></ion-icon>Soporte storeapp</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<app-help-tree-seeker (eventSearch)="search($event)" [inSearch]=inSearch></app-help-tree-seeker>

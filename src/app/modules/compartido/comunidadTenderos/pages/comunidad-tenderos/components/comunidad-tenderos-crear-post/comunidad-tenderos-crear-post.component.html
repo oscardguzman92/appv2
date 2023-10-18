@@ -1,0 +1,66 @@
+<!-- <app-compartido-cabecera titulo="Nombre Usuario" [mostrarBotonAuxiliar]="true"></app-compartido-cabecera>  -->
+
+<ion-content padding [formGroup]="formData">
+    <ion-grid no-padding>
+      <ion-row>
+        <ion-col class="sub-title" text-center>
+          Publicación
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" no-padding>
+          <ion-item class="input-form" no-padding>
+            <ion-label position="floating">Escribe tu Comentario</ion-label>
+            <ion-textarea rows="6" formControlName="text"></ion-textarea>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12" no-padding>
+          <div class="divider"></div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" no-padding>
+          <!-- <img *ngIf="photoCamera && photoCamera.filePath" [src]="photoCamera.filePath" class="photo" alt=""> -->
+          <img *ngIf="photoCamera" [src]="photoCamera" class="photo" alt="">
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12" no-padding>
+          <ion-button (click)="makePhoto()" expand="block">
+            Tomar Foto
+            <ion-icon slot="end" name="camera"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-row>
+        <ion-col size="12" no-padding>
+          <ion-button (click)="onClick()" expand="block">
+            <ion-icon slot="start" class="icon-image"></ion-icon>
+            Subir Imagen
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+          <ion-col size="12" no-padding>
+            <ion-button (click)="onClick()" expand="block">
+                <ion-icon slot="start" class="icon-video"></ion-icon>
+              Subir Video
+            </ion-button>
+          </ion-col>
+        </ion-row> -->
+    </ion-grid>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-button expand="block" (click) = "closeModal()">
+            Cancelar
+        </ion-button>
+
+        <ion-button expand="block" (click) = "crearPost()" [disabled]="!formData.valid">
+            Crear Publicación
+            <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>
+

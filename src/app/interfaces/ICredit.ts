@@ -1,0 +1,30 @@
+export interface ICredit {
+    _id: string;
+    credit_id: string;
+    mysql_shopkeeper_id: number;
+    mysql_entity_id: number;
+    name: string;
+    description: string;
+    quota: number;
+    debt: number;
+    terms: string;
+    entity: string;
+    is_company: true;
+    is_distributor: boolean;
+    annual_percentage_rate: number;
+    fee_months: number;
+    fee_day: number;
+    grace_days: number;
+    interest_free_days: number;
+    fee: number;
+    interest: number;
+    arrear: boolean;
+    fee_date: string;
+    interest_free_date: string;
+    grace_date: string;
+    updated_at: string;
+    created_at: string;
+    selectedPay: boolean;
+    amountPay: number;
+    feePay: number;
+}

@@ -1,0 +1,13 @@
+<ion-slides  *ngIf="offers && offers.length > 0"> 
+  <ion-slide   *ngFor="let offer of offers; let i = index" (click)="goToRedirect(offer)">
+    <ion-card class="promo-card">
+
+      <div class="img-wrapper" *ngIf="offer.tipo == 'banner'">
+          <img onerror="this.src='assets/images/product-without-image.jpg'"
+               [src]="offer.imagen">
+          <img *ngIf="!offer.imagen" src="assets/images/product-without-image.jpg">
+      </div>
+  </ion-card>
+  </ion-slide>
+</ion-slides>
+

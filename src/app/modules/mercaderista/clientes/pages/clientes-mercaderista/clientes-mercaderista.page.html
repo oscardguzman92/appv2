@@ -1,0 +1,85 @@
+<ion-header>
+	<ion-toolbar>
+		<div class="header-div">
+			<ion-buttons>
+				<ion-button (click)="toggleMenu()">
+					<i
+						slot="icon-only"
+						class="icon-menu icon-orange-gradient"
+					></i>
+				</ion-button>
+			</ion-buttons>
+			<ion-title *ngIf="user" color="primary" class="medium" no-padding>
+				{{user.nombre_contacto | titlecase}}
+			</ion-title>
+			<ion-buttons (click)="showFilter()">
+				<ion-button class="right-button-header">
+					<i class="icon-filter"></i>
+				</ion-button>
+			</ion-buttons>
+		</div>
+	</ion-toolbar>
+</ion-header>
+
+<div class="date-control">
+	<ion-row text-center>
+		<ion-col
+			*ngFor="let week of currentWeek; let i = index"
+			[class.active]="week.day == daySel.day"
+			(click)="selectDay(week.date);"
+		>
+			<small>{{week.nameDay}}</small>
+			<div class="day-number"><span>{{week.day}}</span></div>
+		</ion-col>
+	</ion-row>
+</div>
+<ion-row>
+	<ion-col size="12" class="date" text-center no-padding>
+		{{daySel.dateString}}
+	</ion-col>
+</ion-row>
+
+<ion-content class="with-searchbox" no-padding>
+	<ion-refresher slot="fixed" (ionRefresh)="refreshData()" #refreshElement>
+		<ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+
+	<ion-list class="listing-clients" *ngIf="shops.length > 0">
+		<ion-virtual-scroll [items]="shops" approxItemHeight="50px">
+			<ion-item
+				*virtualItem="let shop"
+				(click)="viewDetail(shop)"
+				lines="full"
+				[class.active]="shop.activo"
+			>
+				<!-- <div slot="start" class="bullet" *ngIf="shop.activo"></div> -->
+				<span class="icon-storeapp" slot="start"></span>
+				<ion-label text-wrap>
+					<p class="name">{{shop.nombre_tienda | titlecase}}</p>
+					<p class="number-contact">
+						{{shop.cedula}} - {{shop.nombre_contacto | titlecase}}
+					</p>
+					<p class="number-contact">
+						Dirección - {{shop.direccion | titlecase}}
+					</p>
+				</ion-label>
+			</ion-item>
+		</ion-virtual-scroll>
+	</ion-list>
+
+	<ion-title
+		*ngIf="shops.length == 0"
+		color="medium"
+		class="medium msg-empty"
+		text-center
+	>
+		No tiene clientes asociados
+	</ion-title>
+</ion-content>
+
+<ion-footer class="wrapper-search-scan">
+	<app-mis-clientes-buscador
+		#searchComp
+		(search)="searchClient($event)"
+	></app-mis-clientes-buscador>
+</ion-footer>

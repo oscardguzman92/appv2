@@ -1,0 +1,10 @@
+.divider{
+  min-height: 0;
+}
+
+div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;    
+}

@@ -1,0 +1,53 @@
+<ion-grid>
+    <ion-row>
+        <ion-col size="12">
+            <p class="ion-margin-bottom" no-margin>Puedes filtrar por operador:</p>
+        </ion-col>
+
+        <ion-row justify-content-between>
+            <ion-col size="3.5" *ngFor="let operador of operadores" class="operator" align-items-center
+                     justify-content-center margin-bottom [ngClass]="{'operator__active': operador.activeFilter}">
+                <div style="width: 90%">
+                    <img appImgLoadingLocalOrServer='../../../../../../../../assets/images/logos-operadores/logo-'
+                         routeServer=''
+                         [image]="operador.name + '.jpg'"
+                         (click)="filterPackagesByOperator(operador)">
+                </div>
+                <span class="click-shadow" (click)="filterPackagesByOperator(operador)"></span>
+            </ion-col>
+        </ion-row>
+    </ion-row>
+
+
+    <ion-row justify-content-between>
+        <ion-col size="12">
+            <p class="ion-margin-bottom" no-margin>Selecciona el paquete para realizar la recarga:</p>
+        </ion-col>
+    </ion-row>
+
+    <span *ngIf="packagesFilter.length === 0">
+        <ion-card class="company-card operator" *ngFor="let packageItem of packages">
+            <ion-row (click)="goDoCharge(packageItem)">
+                <ion-col size="3">
+                    <img src="../../../../../../../../assets/images/logos-operadores/logo-{{packageItem.operador}}.jpg">
+                </ion-col>
+                <ion-col padding align-self-center>
+                    <h6>{{packageItem.nombre}}</h6>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+    </span>
+
+    <span *ngIf="packagesFilter && packagesFilter.length > 0">
+        <ion-card class="company-card operator" *ngFor="let packageItem of packagesFilter">
+            <ion-row (click)="goDoCharge(packageItem)">
+                <ion-col size="3">
+                    <img src="../../../../../../../../assets/images/logos-operadores/logo-{{packageItem.operador}}.jpg">
+                </ion-col>
+                <ion-col padding align-self-center>
+                    <h6>{{packageItem.nombre}}</h6>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+    </span>
+</ion-grid>

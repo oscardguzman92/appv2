@@ -1,0 +1,10 @@
+      <div class="callout">
+        <img (click)="moreInfoModal()" [src]="insurance.slug === 'pyme' ? '../assets/images/seguro-negocio.png' : '../assets/images/seguro-vida.png'"> 
+        <h4 (click)="moreInfoModal()">{{ insurance.nombre }}</h4>
+        <h3 (click)="moreInfoModal()">{{insurance.prima | currency:"COP":'symbol-narrow':'3.0-0'}} al mes </h3>
+        <small (click)="moreInfoModal()" >+ Ver más información</small>
+        <p></p>
+        <ion-button *ngIf="!insurance.cliente_id" size="small" expand="block" (click)="moreInfoModal()">Beneficios</ion-button>
+        <!-- <ion-button *ngIf="insurance.cliente_id" size="small" expand="block" (click)="cancelInsurance(insurance)">Cancelar</ion-button> -->
+        <h5 *ngIf="insurance.cliente_id" size="small" expand="block">Activo</h5>
+      </div>

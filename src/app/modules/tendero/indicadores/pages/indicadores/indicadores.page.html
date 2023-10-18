@@ -1,0 +1,204 @@
+<app-compartido-cabecera [showBackButton]="true" titulo="Indicadores" [mostrarBotonAuxiliar]="false">
+</app-compartido-cabecera>
+<ion-content no-padding>
+  <ion-grid padding>
+    <ion-row>
+      <ion-col no-padding>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col no-padding>
+        <ion-card class="indicator-card" padding>
+          <ion-card-title>
+            Indicadores de la Tienda
+          </ion-card-title>
+          <ion-card-content>
+              <ion-row class="basic-indicators">
+                  <ion-col no-padding>
+                    <ion-row>
+                      <ion-col no-padding>
+                        <h6 class="sub-title">Pedido Promedio</h6>
+                        <p class="small" no-margin>
+                          <span>{{dropSize.cumplimiento_pedido_promedio}}%</span> vs mes anterior
+                        </p>
+                      </ion-col>
+                      <ion-col size="auto" class="value" no-padding>
+                        {{dropSize.pedido_promedio}}
+                        <i *ngIf="dropSize.cumplimiento_pedido_promedio != 100" [ngClass]="{
+                                                    'icon-arrow-down': dropSize.cumplimiento_pedido_promedio < 100,
+                                                    'icon-arrow-up': dropSize.cumplimiento_pedido_promedio > 100}"></i>
+                                                    <span *ngIf="dropSize.cumplimiento_pedido_promedio == 100">=</span>
+                      </ion-col>
+                    </ion-row>
+                    <div class="divider" no-margin></div>
+                    <ion-row>
+                      <ion-col no-padding>
+                        <h6 class="sub-title">Frecuencia De Pedidos</h6>
+                        <p class="small" no-margin>
+                          <span>{{dropSize.cumplimiento_frecuencia_pedido}}%</span> vs mes anterior
+                        </p>
+                      </ion-col>
+                      <ion-col size="auto" class="value" no-padding> {{dropSize.frecuencia_pedido | number:'0.0-0'}} 
+                        <i *ngIf="dropSize.cumplimiento_frecuencia_pedido != 100" [ngClass]="{
+                                                    'icon-arrow-down': dropSize.cumplimiento_frecuencia_pedido < 100,
+                                                    'icon-arrow-up': dropSize.cumplimiento_frecuencia_pedido > 100}"></i>
+                                                    <span *ngIf="dropSize.cumplimiento_frecuencia_pedido == 100">=</span>
+                      </ion-col>
+                    </ion-row>
+                    <div class="divider" no-margin></div>
+                    <ion-row>
+                      <ion-col no-padding>
+                        <h6 class="sub-title">Referencias Por Pedidos</h6>
+                        <p class="small" no-margin>
+                          <span>{{dropSize.cumplimiento_referencia_promedio}}%</span> vs mes anterior
+                        </p>
+                      </ion-col>
+                      <ion-col size="auto" class="value" no-padding> {{dropSize.referencia_promedio | number:'0.0-0'}}
+                        <i *ngIf="dropSize.cumplimiento_referencia_promedio != 100" [ngClass]="{
+                                                    'icon-arrow-down': dropSize.cumplimiento_referencia_promedio < 100,
+                                                    'icon-arrow-up': dropSize.cumplimiento_referencia_promedio > 100}"></i>
+                        <span *ngIf="dropSize.cumplimiento_referencia_promedio == 100">=</span>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+          </ion-card-content>
+            
+        </ion-card>
+      </ion-col>
+    </ion-row> 
+    <ion-row>
+      <ion-col no-padding>
+        <ion-card class="indicator-card btn-sales" padding>
+          <img src="../assets/images/sales-icon.svg">
+          <h2>¿Cómo Aumentar Mis Ventas?</h2>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="productosMasVendidosOtrasTiendas && productosMasVendidosOtrasTiendas.length > 0">
+      <!-- productos mas vendidos otras tiendas  -->
+      <ion-col no-padding>
+        <ion-card class="indicator-card" padding>
+          <ion-card-title>
+            <ion-icon class="icon-storeapp"></ion-icon>
+            Productos Más Vendidos en Tiendas
+          </ion-card-title>
+          <ion-card-content>
+            <p>Estos son los productos más vendidos a otras tiendas en el último trimestre</p>
+            
+            <ion-row class="first">
+              <ion-col size="4">
+                <img src="https://admin.storeapp.net/imagenes/productos/thumb/{{productosMasVendidosOtrasTiendas[0].imagenes[0].url}}">
+                <!-- <img src="https://admin.storeapp.net/imagenes/productos/thumb/{{product.imagenes[0].url}}"> -->
+              </ion-col>
+              <ion-col size="8">
+                <div class="label">1</div>
+                <span class="name-prod">
+                  {{getFulName(productosMasVendidosOtrasTiendas[0])}}
+                </span>
+                <!-- <p class="small">Más de <b>7680 Unidades</b> vendidas con una margen de ganancia de 32%.</p> -->
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col size="6" no-padding>
+                <ion-row>
+                  <ion-col size="6">
+                    <img src="https://admin.storeapp.net/imagenes/productos/thumb/{{productosMasVendidosOtrasTiendas[1].imagenes[0].url}}">
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="label">2</div>
+                  </ion-col>
+                  <ion-col size="12">
+                    <span class="name-prod">
+                    {{getFulName(productosMasVendidosOtrasTiendas[1])}}
+                    </span>
+                    <!-- <p class="small">Más de <b>7680 Unidades</b> vendidas con una margen de ganancia de 32%.</p> -->
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+              <ion-col size="6" no-padding>
+                <ion-row>
+                  <ion-col size="6">
+                    <img src="https://admin.storeapp.net/imagenes/productos/thumb/{{productosMasVendidosOtrasTiendas[2].imagenes[0].url}}">
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="label">3</div>
+                  </ion-col>
+                  <ion-col size="12">
+                    <span class="name-prod">
+                      {{getFulName(productosMasVendidosOtrasTiendas[2])}}
+                    </span>
+                    <!-- <p class="small">Más de <b>7680 Unidades</b> vendidas con una margen de ganancia de 32%.</p> -->
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- productos que mas puntos acu  ok -->
+    <ion-row>
+      <ion-col no-padding>
+        <ion-card class="indicator-card points" padding>
+          <ion-card-title>
+            <ion-icon class="icon-star"></ion-icon>
+            Productos que Más Puntos Acumulan
+          </ion-card-title>
+          <ion-card-content>
+            <p>Estos son los productos que otorgan más puntos.</p>
+            <ion-row *ngIf="productosMasPuntosSuman">
+              <ion-col size="6" no-padding  *ngFor="let product of productosMasPuntosSuman; let i = index">
+                <ion-row class="ion-padding-bottom">
+                  <ion-col size="12">
+                    <img src="https://admin.storeapp.net/imagenes/productos/thumb/{{product.imagenes[0].url}}">
+                  </ion-col>
+                  <ion-col size="12">
+                    <span class="name-prod">
+                      {{getFulName(product)}}
+                    </span>
+                    <span class="badge-points">{{ product.puntaje_asignar }} Puntos</span>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    
+    <!-- recargas -->
+    <ion-row>
+      <ion-col no-padding>
+        <ion-card class="indicator-card points" padding>
+          <ion-card-title>
+            <ion-icon class="icon-smartphone"></ion-icon>
+            Recargas  
+          </ion-card-title>
+          <ion-card-content>
+            <p>El promedio de recargas es : {{promedioRecargas}} y los paquetes mas populares son:</p>
+            <ion-row *ngIf="productosMasPuntosSuman">
+              <ion-col size="6" no-padding *ngFor="let paquete of paquetes; let i = index">
+                <ion-row class="ion-padding-bottom">
+                  <ion-col size="12">
+                    <img src="../assets/images/logos-operadores/logo-{{paquete.operador}}.jpg">
+                  </ion-col>
+                  <ion-col size="12">
+                    <span class="name-prod">
+                      {{getFulName(paquete)}}
+                    </span>
+                    <!-- <span class="badge-points"> Puntos</span> -->
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

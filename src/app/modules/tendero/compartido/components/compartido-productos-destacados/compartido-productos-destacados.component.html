@@ -1,0 +1,22 @@
+<ion-grid padding class="no-padding-top-bottom" *ngIf="products">
+    <ion-row>
+        <ion-col class="no-padding-top-bottom">
+            <div class="divider"></div>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col size="12" class="no-padding-top-bottom">
+            <h4 class="ion-float-left">Productos Destacados</h4>
+        </ion-col>
+        <ion-col size="12" class="no-padding-top-bottom">
+            <p class="small" no-margin>Aproveche pedir estos productos que tienen la mayor cantidad de puntos.</p>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+<ion-slides *ngIf="products" [options]="slideOpts" class="suggested-products" #slides padding>
+    <ion-slide *ngFor="let product of products">
+        <img *ngIf="product.imagen" [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagen">
+        <img *ngIf="!product.imagen" src="assets/images/product-without-image.jpg">
+        <div><span>10</span> Puntos</div>
+    </ion-slide>
+</ion-slides>

@@ -1,0 +1,98 @@
+.custom-progress-bar {
+  width: 300px;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0, 70, 124, 0.45);
+  padding: 10px 14px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 28px;
+  position: fixed;
+  z-index: 300000;
+  top: 24%;
+  left: 50%;
+  transform: translateX(-50%);
+  .bar {
+    width: 100%;
+    height: 12px;
+    border-radius: 25px;
+    background-color: #d7e8f1;
+    display: block;
+    .progress {
+      background-color: var(--ion-color-primary);
+      background-image: url("/assets/images/progress-bkg-pattern.png");
+      background-repeat: repeat-x;
+      height: 100%;
+      width: 0%;
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+      position: relative;
+      transition: width 0.5s ease-in-out;
+      .marker {
+        width: 40px;
+        height: 32px;
+        background-image: url("/assets/images/tiendita.png");
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: -35px;
+        margin-right: -20px;
+        right: 0;
+        p {
+          color: white;
+          font-family: 'montserrat_semiboldregular';
+          font-size: 11px;
+          text-align: center;
+          margin: 0;
+          margin-left: -3px;
+        }
+        &:before {
+          content: '';
+          width: 2px;
+          height: 22px;
+          background: var(--ion-color-primary);
+          position: absolute;
+          bottom: -19px;
+          right: 50%;
+        }
+      }
+    }
+  }
+  &:after {
+    content: "● Descargando ●";
+    color: var(--ion-color-primary);
+    font-size: 12px;
+    font-family: 'montserrat_mediumregular';
+    position: absolute;
+    bottom: -24px;
+    left: 50%;
+    margin-left: -40px;;
+    font-weight: bold;
+  }
+  &.progress-download {
+    &:after {
+      content: "";
+      width: 150px;
+      height: 19px;
+      background-image: url(/assets/images/cargando-archivo.gif);
+      background-size: 100%;
+      background-repeat: no-repeat;
+      font-size: 12px;
+      bottom: -27px;
+      left: 50%;
+      margin-left: -75px;
+    }
+  }
+}
+
+.content-progress {
+  background-color: rgba(255,255,255,0.7) !important;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 300000;
+  top: 0;
+  left: 0;
+  overflow:hidden;
+}

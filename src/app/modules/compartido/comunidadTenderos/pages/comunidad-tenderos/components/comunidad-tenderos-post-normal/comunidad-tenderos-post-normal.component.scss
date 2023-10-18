@@ -1,0 +1,30 @@
+
+.video{
+    width: 100%;
+}
+ion-item {
+    --inner-padding-end:0;
+    --inner-padding-start:0;
+    margin-bottom: 0;
+}
+.write-comment {
+    .write-comment-button {
+        --background: linear-gradient(135deg, rgba(255, 153, 0, 1) 0%, rgba(255, 207, 13, 1) 100%);
+    }
+    ion-item {
+        --min-height:50px;
+    }
+    ion-input {
+        font-size: 14px;
+        --padding-bottom:6px;
+        --padding-top:6px;
+    }
+}
+
+ion-avatar.img-company{
+    border: 1px #ececec solid;
+    img{
+        object-position: center;
+        object-fit: contain;
+    }
+}

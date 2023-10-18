@@ -1,0 +1,15 @@
+.scroll {
+    overflow: auto;
+}
+
+ion-slides.slider-companies ion-slide {
+    width: 100px !important;
+    padding: 0;
+    ion-img {
+        margin: 0;
+    }
+}
+
+.name-seller{
+    font-size: 11px;
+}

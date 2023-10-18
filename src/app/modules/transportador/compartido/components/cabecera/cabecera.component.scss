@@ -1,0 +1,17 @@
+div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+ion-header.header-md, ion-header.header-ios {
+  .right-button-header {
+    --box-shadow:none !important;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    height: 30px;
+  }
+  ion-toolbar:last-child {
+    --border-width: 0;
+  }
+}

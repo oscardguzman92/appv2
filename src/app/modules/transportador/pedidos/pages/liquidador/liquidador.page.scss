@@ -1,0 +1,33 @@
+.close-down {
+    font-size: 16px;
+    font-family: "montserrat_mediumregular";  
+    --background: #FAFAFA;
+    span {
+        font-size: 14px;
+        font-family: "montserratregular";
+    }
+    .return-icon {
+        margin-right: 6px;
+    }
+    .icon-chevron-right {
+        line-height: 1.2;
+        margin-left: 5px;
+    }
+    .blue {
+        color: var(--ion-color-primary);
+    }
+    .red {
+        color: var(--ion-color-danger);
+    }
+    .icon-chevron-right {
+        font-size: 16px;
+    }
+    .with-divider {
+        border-bottom: 1px solid #DDE1E9;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+    }
+    .quantity-cart-in-list {
+        margin-right: 8px;
+    }
+}

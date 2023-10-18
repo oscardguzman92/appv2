@@ -1,0 +1,526 @@
+ion-button {
+  --box-shadow: none;
+  --border-radius: 50px;
+  text-transform: initial;
+  font-family: "montserrat_semiboldregular";
+  --padding-start: 28px;
+  --padding-end: 28px;
+  letter-spacing: 0.02em;
+
+  @extend .blue-button;
+
+  &.blue-flat-button {
+    --background: var(--ion-color-primary);
+    background: var(--ion-color-primary);
+    --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    border: 2px sollid;
+  }
+  &.orange-flat-button {
+    --background: var(--ion-color-secondary);
+    background: var(--ion-color-secondary);
+    --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+  &.white-flat-button {
+    --background: white;
+    background: white;
+    color: var(--ion-color-primary);
+    border-radius: 50px;
+    --box-shadow: 0 2px 6px rgba(255, 255, 255, 0.12);
+  }
+  &.red-flat-button {
+    --background: red;
+    background: red;
+    color: var(--ion-color-primary);
+    border-radius: 50px;
+    --box-shadow: 0 2px 6px rgba(255, 255, 255, 0.12);
+  }
+  &.button-block {
+    ion-col {
+      --ion-grid-column-padding: 0;
+    }
+    &.with-text {
+      height: 50px;
+      span {
+        font-family: "montserrat_mediumregular";
+        font-size: 11px;
+      }
+    }
+  }
+  &.button-outline {
+    --background: transparent;
+    border-color: var(--ion-color-primary);
+    &.white {
+      --color: white;
+      --border-color: white;
+      .button-native {
+        color: white;
+        border-color: white;
+      }
+    }
+    &.red {
+      --color: var(--ion-color-danger);
+      --border-color: var(--ion-color-danger);
+    }
+    &.without-address {
+      ion-col {
+        display: flex;
+        justify-content: center;
+      }
+      span {
+        color: var(--ion-color-danger);
+      }
+      ion-icon {
+        color: var(--ion-color-danger);
+        margin-right: 5px;
+        font-size: 14px;
+      }
+    }
+  }
+  &.button-outline-orange {
+    --background: transparent;
+    border: 2px solid var(--ion-color-secondary);
+    border-radius: 50px;
+    color: var(--ion-color-primary);
+    --background-activated: var(--ion-color-secondary);
+    ion-icon {
+      margin-right: 10px;
+    }
+  }
+  &.button-outline-blue {
+    --background: transparent;
+    border: 2px solid var(--ion-color-primary);
+    border-radius: 50px;
+    color: var(--ion-color-secondary);
+  }
+  &.has-icon {
+    --padding-start: 12px;
+    --padding-end: 12px;
+  }
+
+  &.tiny-menu-button {
+    --background: #41b2e3;
+    color: white;
+    height: 35px;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+  &.cartera-button {
+    --background: var(--ion-color-primary);
+    --box-shadow: none;
+    height: 60px;
+    --border-radius: 8px;
+    --padding-start: 16px;
+    --padding-end: 12px;
+    ion-row {
+      width: 100%;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    .left-side {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 25px;
+        margin-right: 6px;
+      }
+    }
+    h3 {
+      font-size: 20px;
+    }
+    p {
+      font-size: 18px;
+      line-height: 1;
+    }
+    span {
+      color: var(--ion-color-secondary);
+      font-size: 12px;
+    }
+    ion-icon {
+      font-size: 24px;
+      font-weight: bold;
+      margin-left: 4px;
+      line-height: 1.2;
+    }
+  }
+  &.more-button {
+    --background: var(--ion-color-primary);
+    --box-shadow: none;
+    height: 27px;
+    --border-radius: 13px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-family: "montserratbold";
+    ion-icon {
+      line-height: 1.2;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+}
+.brand-button {
+  height: auto;
+  display: block;
+  border: 2px solid #1c89c7;
+  background-color: white;
+  border-radius: 50px;
+  text-align: left;
+  font-size: 15px;
+  font-family: "montserrat_semiboldregular";
+  color: #1c89c7;
+  padding: 0;
+  padding-right: 10px;
+  line-height: 1.2;
+  ion-img {
+    border-radius: 50px;
+    overflow: hidden;
+    width: 50px;
+    height: 50px;
+  }
+  ion-icon {
+    font-size: 24px;
+  }
+}
+/* Gradient buttons---------------------------- */
+.blue-button {
+  --background: rgba(10, 110, 203, 1);
+  --background: -moz-linear-gradient(
+    -45deg,
+    rgba(10, 110, 203, 1) 0%,
+    rgba(0, 177, 226, 1) 100%
+  );
+  --background: -webkit-gradient(
+    left top,
+    right bottom,
+    color-stop(0%, rgba(10, 110, 203, 1)),
+    color-stop(100%, rgba(0, 177, 226, 1))
+  );
+  --background: -webkit-linear-gradient(
+    -45deg,
+    rgba(10, 110, 203, 1) 0%,
+    rgba(0, 177, 226, 1) 100%
+  );
+  --background: -o-linear-gradient(
+    -45deg,
+    rgba(10, 110, 203, 1) 0%,
+    rgba(0, 177, 226, 1) 100%
+  );
+  --background: -ms-linear-gradient(
+    -45deg,
+    rgba(10, 110, 203, 1) 0%,
+    rgba(0, 177, 226, 1) 100%
+  );
+  --background: linear-gradient(
+    135deg,
+    rgba(10, 110, 203, 1) 0%,
+    rgba(0, 177, 226, 1) 100%
+  );
+}
+.orange-button {
+  --background: rgba(255, 153, 0, 1);
+  --background: -moz-linear-gradient(
+    -45deg,
+    rgba(255, 153, 0, 1) 0%,
+    rgba(255, 207, 13, 1) 100%
+  );
+  --background: -webkit-gradient(
+    left top,
+    right bottom,
+    color-stop(0%, rgba(255, 153, 0, 1)),
+    color-stop(100%, rgba(255, 207, 13, 1))
+  );
+  --background: -webkit-linear-gradient(
+    -45deg,
+    rgba(255, 153, 0, 1) 0%,
+    rgba(255, 207, 13, 1) 100%
+  );
+  --background: -o-linear-gradient(
+    -45deg,
+    rgba(255, 153, 0, 1) 0%,
+    rgba(255, 207, 13, 1) 100%
+  );
+  --background: -ms-linear-gradient(
+    -45deg,
+    rgba(255, 153, 0, 1) 0%,
+    rgba(255, 207, 13, 1) 100%
+  );
+  --background: linear-gradient(
+    135deg,
+    rgba(255, 153, 0, 1) 0%,
+    rgba(255, 207, 13, 1) 100%
+  );
+}
+/* End Gradient buttons-------------------------- */
+button {
+  &.blue-flat-button {
+    background: rgba(10, 110, 203, 1);
+  }
+  &.orange-flat-button {
+    background: rgba(255, 153, 0, 1);
+  }
+  &.white-flat-button {
+    background: white;
+    color: var(--ion-color-primary);
+  }
+  &.blue-button {
+    background: rgba(10, 110, 203, 1);
+    background: -moz-linear-gradient(
+      -45deg,
+      rgba(10, 110, 203, 1) 0%,
+      rgba(0, 177, 226, 1) 100%
+    );
+    background: -webkit-gradient(
+      left top,
+      right bottom,
+      color-stop(0%, rgba(10, 110, 203, 1)),
+      color-stop(100%, rgba(0, 177, 226, 1))
+    );
+    background: -webkit-linear-gradient(
+      -45deg,
+      rgba(10, 110, 203, 1) 0%,
+      rgba(0, 177, 226, 1) 100%
+    );
+    background: -o-linear-gradient(
+      -45deg,
+      rgba(10, 110, 203, 1) 0%,
+      rgba(0, 177, 226, 1) 100%
+    );
+    background: -ms-linear-gradient(
+      -45deg,
+      rgba(10, 110, 203, 1) 0%,
+      rgba(0, 177, 226, 1) 100%
+    );
+    background: linear-gradient(
+      135deg,
+      rgba(10, 110, 203, 1) 0%,
+      rgba(0, 177, 226, 1) 100%
+    );
+  }
+  &.orange-button {
+    background: rgba(255, 153, 0, 1);
+    background: -moz-linear-gradient(
+      -45deg,
+      rgba(255, 153, 0, 1) 0%,
+      rgba(255, 207, 13, 1) 100%
+    );
+    background: -webkit-gradient(
+      left top,
+      right bottom,
+      color-stop(0%, rgba(255, 153, 0, 1)),
+      color-stop(100%, rgba(255, 207, 13, 1))
+    );
+    background: -webkit-linear-gradient(
+      -45deg,
+      rgba(255, 153, 0, 1) 0%,
+      rgba(255, 207, 13, 1) 100%
+    );
+    background: -o-linear-gradient(
+      -45deg,
+      rgba(255, 153, 0, 1) 0%,
+      rgba(255, 207, 13, 1) 100%
+    );
+    background: -ms-linear-gradient(
+      -45deg,
+      rgba(255, 153, 0, 1) 0%,
+      rgba(255, 207, 13, 1) 100%
+    );
+    background: linear-gradient(
+      135deg,
+      rgba(255, 153, 0, 1) 0%,
+      rgba(255, 207, 13, 1) 100%
+    );
+  }
+  &.main-button {
+    border-radius: 8px;
+    -webkit-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    font-size: 20px;
+    width: 100%;
+    color: white;
+    font-family: "montserrat_semiboldregular";
+    text-align: left;
+    height: 128px;
+    position: relative;
+    span {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+    }
+    &.order-button {
+      overflow: hidden;
+      &:before {
+        content: "";
+        width: 90px;
+        height: 64px;
+        background-image: url("../src/assets/images/icon-order.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        display: block;
+        opacity: 0.35;
+        position: absolute;
+        top: 4px;
+        right: 0;
+      }
+      &.offline {
+        height: 74px;
+        span {
+          left: 20px;
+          bottom: 29px;
+        }
+      }
+    }
+    &.pending-order-button {
+      overflow: hidden;
+      position: relative;
+      border: 2px solid var(--ion-color-danger);
+      &:before {
+        content: "";
+        width: 96px;
+        height: 64px;
+        background: url("../src/assets/images/icon-cart.png") no-repeat;
+        display: block;
+        opacity: 0.35;
+        position: absolute;
+        top: 4px;
+        right: 2px;
+        background-size: 90%;
+      }
+      .badge {
+        width: 30px;
+        height: 30px;
+        background: var(--ion-color-danger);
+        display: flex;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
+      span {
+        left: 10px;
+        bottom: 10px;
+      }
+    }
+    &.cash-register-button {
+      overflow: hidden;
+      background: white;
+      border: 2px solid var(--ion-color-primary);
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      &:before {
+        content: "";
+        height: 100%;
+        background: url("../src/assets/images/cash-register.svg") no-repeat;
+        display: block;
+        position: absolute;
+        top: -26px;
+        left: -15px;
+        width: 150px;
+        height: 150px;
+        padding-right: 15px;
+      }
+      b {
+        color: var(--ion-color-primary);
+        font-weight: normal;
+        font-size: 17px;
+        padding-right: 3px;
+      }
+      p {
+        color: var(--ion-color-dark);
+        font-family: "montserratregular";
+        margin: 0;
+        margin-top: 0px;
+        font-size: 13px;
+        margin-top: 8px;
+        strong {
+          text-transform: uppercase;
+          color: var(--ion-color-secondary);
+        }
+      }
+    }
+    &.top_up-button, &.ward-button {
+      overflow: hidden;
+      &:before {
+        content: "";
+        width: 90px;
+        height: 68px;
+        background: url("../src/assets/images/icon-top_ups.png") no-repeat;
+        display: block;
+        opacity: 0.35;
+        position: absolute;
+        top: 0px;
+        right: -18px;
+      }
+    }
+
+    &.ward-button {
+      &:before {
+        background: url("../src/assets/images/icon-award.png") no-repeat;
+        width: 82px;
+        background-size: 80%;
+        top: 5px;
+      }
+    }
+  }
+  &.card-button {
+    border-radius: 8px;
+    -webkit-box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    background: white !important;
+    font-size: 14px;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    font-family: "montserrat_semiboldregular";
+    text-align: left;
+    color: var(--ion-color-primary);
+    outline: none;
+    position: relative;
+    ion-icon,
+    i {
+      font-size: 25px;
+      line-height: 1.1;
+      padding-right: 8px;
+    }
+    span {
+      display: block;
+    }
+    small {
+      display: block;
+    }
+    /* ion-row {
+            ion-col {
+                &:last-child {
+                    padding-left: 4px;
+                }                
+            }
+        } */
+    &:focus {
+      outline: none;
+    }
+  }
+  &:focus {
+    outline: none;
+  }
+}
+
+
+@media (max-width: 321px) {
+  button {
+    &.card-button {
+      font-size: 12px;
+    }
+  }
+  button {
+    &.main-button {
+    font-size: 17px;
+    }
+  }  
+}

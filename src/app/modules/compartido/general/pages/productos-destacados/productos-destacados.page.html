@@ -1,0 +1,99 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" class="medium" no-padding>
+            {{user.nombre_contacto}}
+            <span>{{user.cedula}}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid padding>
+        <virtual-scroller [items]="products" [scrollAnimationTime]="2000" [enableUnequalChildrenSizes]="true"
+                          [checkResizeInterval]="2000" #scroll>
+            <ion-row *ngFor="let product of productsFeatured">
+                <ion-col size="12" *ngIf="!product.type">
+                    <ion-card class="promo-card">
+                        <div class="img-wrapper">
+                            <img src="https://admin.storeapp.net/imagenes/productos/thumb/{{product.imagen}}">
+                        </div>
+                        <ion-card-content>
+                            <p>
+                                {{product.descripcion_adicional | titlecase}}
+                            </p>
+                            <div class="quantity-control">
+                                <ion-button
+                                        *ngIf="!productsBinding[product.id] && (!product.cantidad || product.cantidad == 0)"
+                                        size="small orange-button has-icon" (click)="addToCart(product)">
+                                    Agregar
+                                    <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+                                </ion-button>
+                                <div class="count-products-offer"
+                                     *ngIf="productsBinding[product.id] || (!productsBinding[product.id] && product.cantidad > 0)">
+                                    <ion-icon class="addToKart remove" (click)="rmToCart(product)"
+                                              name="remove-circle-outline"></ion-icon>
+                                    <p>
+                                        <!-- <ion-input [(ngModel)]="productsBinding[product.id]" (ngModelChange)="dataChanged($event,offer)" (ionBlur)="onBlur()" -->
+                                        <ion-input [(ngModel)]="product.cantidad"
+                                                   (keyup.enter)="changeCountProd($event, product, true)"
+                                                   (ionBlur)="changeCountProd($event, product)"
+                                                   (ionFocus)="onFocus()" class="addToKart input-count-prod"
+                                                   type="number"
+                                        ></ion-input>
+                                    </p>
+                                    <ion-icon class="addToKart add" (click)="addToCart(product)"
+                                              name="add-circle-outline">
+                                    </ion-icon>
+                                </div>
+                            </div>
+                            <span class="price">{{ +product.precio | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+                        </ion-card-content>
+                    </ion-card>
+                </ion-col>
+                <ion-col size="12" class="img-wrapper" *ngIf="product.type == 'banner'">
+                    <ion-card class="promo-card" (click)="goToRedirect(product)">
+                        <div class="img-wrapper">
+                            <img onerror="this.src='assets/images/product-without-image.jpg'"
+                                 [src]="product.imagen">
+                            <img *ngIf="!product.imagen" src="assets/images/product-without-image.jpg">
+                        </div>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+            <div class="wrapper-card-list" #container *ngIf="products.length > 1">
+                <app-general-producto
+                        *ngFor="let product of scroll.viewPortItems; let i = index;"
+                        [cardTypeOffer]="1"
+                        [product]="product"
+                        [offer]="true"
+                        [position]="i"
+                        [isOfflineActive]="isOfflineActive"
+                        [ngStyle]="{'order': i}">
+                </app-general-producto>
+            </div>
+        </virtual-scroller>
+    </ion-grid>
+    <ion-button [@jump]="thingState" class="cart-button" [ngClass]="{'show': nProducts > 0}" (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">{{orderValue | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{nProducts}}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+</ion-content>

@@ -1,0 +1,78 @@
+<ion-toolbar>
+    <ion-buttons slot="secondary">
+        <ion-button (click)="closeModal()">
+            <i class="icon-x"></i>
+        </ion-button>
+    </ion-buttons>
+    <ion-title color="primary" class="large">
+        <ion-icon name="cart" size="small"></ion-icon>
+        Calificar pedido
+    </ion-title>
+</ion-toolbar>
+
+<ion-content scrollable>
+    <ion-grid no-padding>
+        <ion-row class="ion-justify-content-center" padding>
+            <ion-col size="10" no-padding>
+                <h4 text-center class="initial-text">¿Cómo califica la actitud y servicio del entregador de {{company}}?</h4>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="10" no-padding>
+                <p class="small" no-margin text-center>Selecciona el número de estrellas donde una estrella es igual a deficiente y cinco excelente</p>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center" padding>
+            <ion-col size="10" no-padding>
+                <ion-row class="wrapper-stars ion-justify-content-center">
+                    <ion-col size="2">
+                        <ion-icon [name]="score[0].icon" (click)="setScore(1)"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2">
+                        <ion-icon [name]="score[1].icon" (click)="setScore(2)"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2">
+                        <ion-icon [name]="score[2].icon" (click)="setScore(3)"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2">
+                        <ion-icon [name]="score[3].icon" (click)="setScore(4)"></ion-icon>
+                    </ion-col>
+                    <ion-col size="2">
+                        <ion-icon [name]="score[4].icon" (click)="setScore(5)"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="10" no-padding text-center>
+                <h6>Selecciona un motivo</h6>
+            </ion-col>
+        </ion-row>
+        <!-- <ion-col size="12" no-padding> -->
+        <ion-row class="ion-justify-content-center" padding>
+            <ion-col class="check-wrapper" size="10">
+                <ion-item *ngFor="let entry of form" (click)="normalizeEntry(entry.val)" lines="none">
+                    <ion-label>{{entry.val}}</ion-label>
+                    <ion-checkbox slot="start" [(ngModel)]="entry.isChecked"></ion-checkbox>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center" padding>
+            <ion-col size="12" no-padding>
+                <ion-item class="input-form">
+                    <ion-textarea name="comentario" id="comentario" [(ngModel)]="comment" placeholder="Escribe tu Comentario"></ion-textarea>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <!-- </ion-col> -->
+
+    </ion-grid>
+
+</ion-content>
+<ion-footer>
+    <ion-row>
+        <ion-col size="12">
+            <ion-button expand="block" class="orange-button" (click)="sendScore()">Calificar</ion-button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

@@ -1,0 +1,35 @@
+.wrappet-cont {
+    padding-bottom:0 !important;
+}
+.wrapper-modal {
+    position: relative;
+    .icon-x-circle {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        font-size: 26px;
+        color: white;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        padding: 5px;
+    }
+}
+.wrapper-buttons {
+    margin-bottom: 10px !important;
+    padding: 6px 16px;
+    ion-button {
+        width: auto;
+        margin: unset !important;
+    }
+}
+ion-card {
+    &.product-card {
+        ion-card-content {
+            img {
+                width: 55% !important;
+                margin-bottom: 3px;
+                transition: width 0.35s ease-out;
+                margin: 0 auto;
+            }
+        }
+    }
+}

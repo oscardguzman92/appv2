@@ -1,0 +1,49 @@
+<div class="indicator-card">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" no-padding>
+          {{ detail.client.name }} - {{ detail.client.phone }}
+        </ion-col>
+        <ion-col size="4" no-padding>
+          {{ detail.sale.quantity }} Productos
+        </ion-col>          
+        <ion-col size="4" no-padding>
+          {{ detail.sale.total | currency: "COP":"symbol-narrow":"0.0-0" }} 
+        </ion-col>    
+        <ion-col size="4" no-padding>
+          {{ (detail.sale.paid_out) ? 'Pagado' : 'Sin Pagar'}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+</div>
+<div class="results">
+<ion-slides
+  class="cash-register-slides ion-color-medium"
+  ion-color-medium
+  pager="false"
+  [options]="slideOpts"
+>
+  <ng-container *ngIf="products && products.length > 0">
+    <ion-slide
+      *ngFor="
+        let product of products;
+        let i = index;
+        let even = even;
+        let odd = odd
+      "
+      [ngClass]="{ odd: odd, even: even }"
+    >
+      <app-tarjeta-producto
+        [product]="product"
+        [sync]="false"
+        [showQuantity]="showQuantity"
+        [position]="i"
+        [ngStyle]="{ order: i }"
+        [inSale]=null
+      >
+      </app-tarjeta-producto>
+    </ion-slide>
+  </ng-container>
+  <ng-container *ngIf="!products || products.length == 0"> </ng-container>
+</ion-slides>
+</div>

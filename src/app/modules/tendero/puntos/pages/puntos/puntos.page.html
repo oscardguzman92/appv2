@@ -1,0 +1,36 @@
+<app-compartido-cabecera [titulo]="'Mis Puntos'" [showBackButton]="false"
+                         [mostrarBotonAuxiliar]="true" [filtros]="true" (eventHandlerFilter)="recordPoints()" [listIcon]="true">
+</app-compartido-cabecera>
+<ion-content no-padding>
+    <!-- <ion-grid padding class="no-padding-bottom">
+        <ion-row>
+            <ion-col size="12">
+                <h4></h4>
+                <p></p>
+                <span style="font-size: 12px">*Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
+            </ion-col>
+            <ion-col size="12">
+                <div class="divider"></div>
+            </ion-col>
+        </ion-row>
+    </ion-grid> -->
+    <app-puntos-productos-aredimir *ngIf="points" [products]="exchangeProducts" [points]="points.puntaje_total"
+                                   [user]="user" [shop]="shop">
+    </app-puntos-productos-aredimir>
+    <!-- <app-puntos-productos-con-mas-puntos></app-puntos-productos-con-mas-puntos> -->
+    <app-compartido-productos-destacados></app-compartido-productos-destacados>
+</ion-content>
+<ion-footer class="common-footer">
+    <ion-toolbar>
+        <ion-grid *ngIf="points">
+            <ion-row>
+                <ion-col size="12">
+                    <p no-margin>
+                        <span>Total puntos acumulados:</span>
+                        <b class="ion-float-right">{{points.puntaje_total}}</b>
+                    </p>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

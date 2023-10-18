@@ -1,0 +1,34 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ]
+  },
+  "include": [
+    "src/app/app.module.ts",
+    "node_modules/ionic4-auto-complete/*.ts",
+    "node_modules/ionic4-auto-complete/**/*.ts",
+    "src/main.ts",
+    "src/polyfills.ts",
+    "src/app/modules/**/**/**/*.module.ts",
+    "src/app/modules/**/**/**/**/*.module.ts",
+    "src/app/home/home.module.ts",
+    "node_modules/cordova-plugin-x-socialsharing/types/index.d.ts"
+  ]
+}

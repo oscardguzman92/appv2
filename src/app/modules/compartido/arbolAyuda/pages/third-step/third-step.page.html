@@ -1,0 +1,36 @@
+<app-compartido-cabecera
+  [titulo]="titleHeader"
+  [showBackButton]="true"
+  [mostrarBotonAuxiliar]="false"    
+>
+</app-compartido-cabecera>
+<app-help-tree-steps [activeStep]="activeStep"></app-help-tree-steps>  
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+          <app-help-tree-third-tag
+            *ngFor="
+              let helpTreeElement of helpTreeElements;
+              let i = index;
+              let even = even;
+              let odd = odd
+              "
+            [ngClass]="{ odd: odd, even: even }"
+            [helpTreeElement]=helpTreeElement
+          ></app-help-tree-third-tag>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer (click)="goToFirstStep()">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button expand="block" size="medium">
+          ¿Tienes otra duda?
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

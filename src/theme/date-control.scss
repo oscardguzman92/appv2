@@ -1,0 +1,85 @@
+.date-control {
+    margin: 10px 10px 0 10px;
+    overflow: hidden;
+    overflow-x: scroll;
+    ion-row {
+        min-width: 340px;
+        ion-col {
+            display: flex;
+            flex-direction: column;
+            // opacity: 0.3;
+            font-family: 'montserrat_mediumregular';
+
+            small {
+                color:var(--ion-color-primary);
+            }
+            .day-number {
+                font-size: 15px;
+                width: 34px;
+                height: 34px;
+                background: transparent;
+                text-align: center;
+                // padding-top: 7px;
+                border-radius: 50%;
+                margin: 5px auto 0 ;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            &.active {
+                opacity: 1 !important;
+                .day-number {
+                    background: var(--ion-color-tertiary);
+                }
+                &.program-order {
+                    .day-number {
+                        background: var(--ion-color-tertiary);
+                        position: relative;
+                        &:before {
+                            content: '';
+                            width: 7px;
+                            height: 7px;
+                            background: var(--ion-color-primary);
+                            position: absolute;
+                            top: 2px;
+                            right: 2px;
+                            border-radius: 50%;
+                        }
+                    }
+                }
+            }
+            &.program-order {
+                // opacity: 0.5;
+                .day-number {
+                    background: var(--ion-color-light);
+                    position: relative;
+                    &:before {
+                        content: '';
+                        width: 7px;
+                        height: 7px;
+                        background: var(--ion-color-primary);
+                        position: absolute;
+                        top: 2px;
+                        right: 2px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+            &.without-clients {
+                opacity: 0.3;
+            }
+        }
+        &.with-scroll{
+            flex-wrap: nowrap;
+            overflow-x: scroll;
+            ion-col{
+                flex:0 0 auto;
+            }
+        }
+    }
+}
+.date {
+    font-size: 13px;
+    color:var(--ion-color-primary);
+    font-family: 'montserrat_mediumregular';
+}

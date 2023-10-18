@@ -1,0 +1,335 @@
+<div #top>
+    <ion-slides [options]="slideOpts" [pager]="true" class="register-slider" #slides>
+        <!-- Nombre de tienda y tendero -->
+        <ion-slide>
+            <form [formGroup]="namesForm">
+                <ion-row justify-content-center>
+                    <ion-col size="12" no-padding>
+                        <ion-item lines="none" class="input-form" no-padding>
+                            <ion-label position="floating">Nombre de la tienda</ion-label>
+                            <ion-input formControlName="shopName" type="text"></ion-input>
+                        </ion-item>
+                        <div class="error" *ngIf="shopName.invalid && shopName.touched">
+                            <span *ngIf="shopName.errors?.required">
+                                    El campo es obligatorio 
+                            </span>
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-item class="input-form" lines="none" no-padding>
+                            <ion-label position="floating">Nombre del tendero</ion-label>
+                            <ion-input formControlName="contactName" type="text"></ion-input>
+                        </ion-item>
+                        <div class="error" *ngIf="contactName.invalid && contactName.touched">
+                            <span *ngIf="contactName.errors?.required">
+                                    El campo es obligatorio 
+                                </span>
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-item class="input-form" lines="none" no-padding>
+                            <ion-label position="floating">Email del tendero</ion-label>
+                            <ion-input formControlName="contactEmail" type="text"></ion-input>
+                        </ion-item>
+                        <div class="error" *ngIf="contactEmail.invalid && contactEmail.touched">
+                            <span *ngIf="contactEmail.errors?.required">
+                                    El correo es obligatorio 
+                                </span>
+
+                            <span *ngIf="contactEmail.errors?.pattern">
+                                    Correo incorrecto
+                                </span>
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-item class="input-form select" lines="none">
+                            <ion-label position="floating">Día visita</ion-label>
+                            <div class="select-wrapper">
+                                <ion-select class="select-default" (ionChange)="onChangeDiaVisita($event)" interface="alert" placeholder="Selecciona día de visita" formControlName="visitDay" okText="Seleccionar" cancelText="Cancelar">
+                                    <ion-select-option [value]="dia.id" *ngFor="let dia of diasVisita; let i = index">
+                                        {{dia.nombre}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </div>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="6" text-center no-padding class="buttons-wrapper ion-padding-horizontal">
+                        <ion-button (click)="cancelCreate()">Atrás
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="6" text-center no-padding class="buttons-wrapper ion-padding-horizontal">
+                        <ion-button (click)="buildWithNames(namesForm.value)" [disabled]="!namesForm.valid">Siguiente
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </form>
+        </ion-slide>
+
+        <!-- Cédula y número de célular -->
+        <ion-slide>
+            <form [formGroup]="documentPhoneForm">
+                <ion-row justify-content-center>
+                    <ion-col size="12" no-padding>
+                        <ion-item lines="none" class="input-form" no-padding>
+                            <ion-label position="floating">Cédula</ion-label>
+                            <ion-input formControlName="document" type="tel"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-item class="input-form" lines="none" no-padding>
+                            <ion-label position="floating">Número célular</ion-label>
+                            <ion-input formControlName="cellphone" type="tel"></ion-input>
+                        </ion-item>
+                        <div class="error" *ngIf="cellphone.invalid && cellphone.touched" text-center>
+                            <p class="small" *ngIf="cellphone.errors?.required">
+                                El número celular es obligatorio
+                            </p>
+
+                            <p class="small" *ngIf="cellphone.errors?.pattern || cellphone.errors?.wrongNumber ||
+                                cellphone.errors?.minLength || cellphone.errors?.maxLength">
+                                Teléfono invalido
+                            </p>
+                        </div>
+                    </ion-col>
+
+                    <ion-col size="6" text-center no-padding class="buttons-wrapper ion-padding-horizontal">
+                        <ion-button (click)="prevSlide()">
+                            Atrás
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="6" text-center no-padding class="buttons-wrapper ion-padding-horizontal">
+                        <ion-button (click)="buildWithCell(documentPhoneForm.value)" [disabled]="!documentPhoneForm.valid">
+                            Siguiente
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </form>
+        </ion-slide>
+
+        <!-- Tipología de tienda -->
+        <ion-slide *ngIf="shopkeeper.tipologias && shopkeeper.tiendas[0]">
+            <ion-row justify-content-center>
+                <ion-col size="12" no-padding text-center class="ion-margin-bottom">
+                    <small>Selecciona el tipo que aplica para tu tienda:</small>
+                </ion-col>
+                <ion-col size="8" class="ion-margin-bottom" no-padding>
+                    <ion-item lines="none" class="input-form checkbox" *ngFor="let type of shopkeeper.tipologias">
+                        <ion-label>{{type.nombre}}</ion-label>
+                        <ion-checkbox [(ngModel)]="type.selected" name="typeShop-{{type.id}}" slot="start" [value]="type.id" (click)="changeSelected(type)">
+                        </ion-checkbox>
+                    </ion-item>
+                </ion-col>
+
+                <ion-col size="6" text-center no-padding>
+                    <ion-button (click)="prevSlide(true)" expand="block">
+                        Atrás
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" no-padding>
+                    <ion-button (click)="nextDocumentByTypeShop(typeShopValue[0].id)" expand="block" [disabled]="typeShopValue.length == 0">
+                        Siguiente
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-slide>
+
+        <!-- Foto de cédula -->
+        <ion-slide>
+            <ion-row justify-content-center>
+                <ion-col size="12" no-padding>
+                    <p>Ingresa la foto de la cédula del cliente (cara frontal)</p>
+                </ion-col>
+                <ion-col size="8" margin-bottom *ngIf="!photoDocument">
+                    <img src="/assets/images/id.svg">
+                </ion-col>
+                <ion-col size="12" no-padding>
+                    <img *ngIf="photoDocument" [src]="photoDocument" class="photo" alt="">
+                </ion-col>
+                <ion-col size="12" no-padding *ngIf="!photoDocument">
+                    <ion-button (click)="makePhotoDocument()" expand="block">
+                        <ion-icon slot="start" class="icon-camera" name="null"></ion-icon>
+                        Tomar Foto
+                    </ion-button>
+                </ion-col>
+                <ion-col size="12" text-center no-padding *ngIf="!photoDocument">
+                    <ion-button (click)="prevSlide()" expand="block">
+                        Atrás
+                    </ion-button>
+                </ion-col>
+
+                <ion-col size="12" no-padding *ngIf="photoDocument">
+                    <ion-button (click)="makePhotoDocument()" expand="block">
+                        <ion-icon slot="start" class="icon-camera" name="null"></ion-icon>
+                        Repetir foto
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" text-center no-padding *ngIf="photoDocument">
+                    <ion-button (click)="prevSlide(true)" expand="block">
+                        Atrás
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" text-center no-padding *ngIf="!photoDocument">
+                    <ion-button (click)="nextDocument()" expand="block">
+                        Omitir
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" no-padding *ngIf="photoDocument || true">
+                    <ion-button (click)="nextDocument()" expand="block">
+                        Siguiente
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-slide>
+
+        <!-- Segunda cara de la cedula -->
+        <ion-slide>
+            <ion-row justify-content-center>
+                <ion-col size="12" no-padding>
+                    <p>Ingresa la foto de la otra cara de la cédula del cliente (cara posterior)</p>
+                </ion-col>
+                <ion-col size="8" margin-bottom *ngIf="!photoDocument2">
+                    <img src="/assets/images/id.svg">
+                </ion-col>
+                <ion-col size="12" no-padding>
+                    <img *ngIf="photoDocument" [src]="photoDocument2" class="photo" alt="">
+                </ion-col>
+                <ion-col size="12" no-padding *ngIf="!photoDocument2">
+                    <ion-button (click)="makePhotoDocument(2)" expand="block">
+                        <ion-icon slot="start" class="icon-camera" name="null"></ion-icon>
+                        Tomar Foto
+                    </ion-button>
+                </ion-col>
+                <ion-col size="12" text-center no-padding *ngIf="!photoDocument2">
+                    <ion-button (click)="prevSlide()" expand="block">
+                        Atrás
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" no-padding *ngIf="!photoDocument2">
+                    <ion-button (click)="nextDocument()" expand="block">
+                        Omitir
+                    </ion-button>
+                </ion-col>
+
+                <ion-col size="12" no-padding *ngIf="photoDocument2">
+                    <ion-button (click)="makePhotoDocument(2)" expand="block">
+                        <ion-icon slot="start" class="icon-camera" name="null"></ion-icon>
+                        Repetir foto
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" text-center no-padding *ngIf="photoDocument2">
+                    <ion-button (click)="prevSlide(true)" expand="block">
+                        Atrás
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" no-padding *ngIf="photoDocument2 || true">
+                    <ion-button (click)="nextDocument()" expand="block">
+                        Siguiente
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-slide>
+
+        <!-- Foto de RUT -->
+        <ion-slide>
+            <ion-row justify-content-center>
+                <ion-col size="12" no-padding>
+                    <p text-center>Ingresa la foto del RUT de la tienda</p>
+                </ion-col>
+                <ion-col size="6" margin-bottom *ngIf="!photoRut">
+                    <img src="/assets/images/rut.svg">
+                </ion-col>
+                <ion-col size="12" no-padding>
+                    <img *ngIf="photoRut" [src]="photoRut" class="photo" alt="">
+                </ion-col>
+                <ion-col size="12" no-padding *ngIf="!photoRut">
+                    <ion-button (click)="makePhotoRut()" expand="block">
+                        <ion-icon slot="start" class="icon-camera" name="null"></ion-icon>
+                        Tomar Foto
+                    </ion-button>
+                </ion-col>
+                <ion-col size="12" *ngIf="!photoRut">
+                    <ion-button (click)="prevSlide()" expand="block">
+                        Atrás
+                    </ion-button>
+                </ion-col>
+                <ion-col size="12" no-padding *ngIf="photoRut">
+                    <ion-button (click)="makePhotoRut()" expand="block">
+                        <ion-icon slot="start" class="icon-camera" name="null"></ion-icon>
+                        Repetir foto
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" text-center no-padding *ngIf="photoRut">
+                    <ion-button (click)="prevSlide()" expand="block">
+                        Atrás
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" *ngIf="!photoRut">
+                    <ion-button (click)="nextDocument()" expand="block">
+                        Omitir
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" no-padding *ngIf="photoRut ">
+                    <ion-button (click)="nextDocument()" expand="block">
+                        Siguiente
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-slide>
+
+        <!-- Firma de cliente  -->
+        <ion-slide class="document">
+            <ion-row justify-content-center>
+                <ion-col size="10" no-padding>
+                    <p no-margin text-center><b>Firma</b></p>
+                    <p no-margin text-center>Desliza el dedo sobre el siguiente espacio para escribir tu firma</p>
+                </ion-col>
+                <ion-col size="12" text-center no-padding>
+                    <div class="border border-primary signature-pad--body">
+                        <signature-pad id="pad" [options]="signaturePadOptions" (onEndEvent)="saveSignature()"></signature-pad>
+                        <div class="slide-finger">
+                            <img src="/assets/images/tap.svg">
+                        </div>
+                    </div>
+                </ion-col>
+
+                <!--  <ion-col size="10" no-padding>
+                    <ion-button class="orange-button" (click)="saveSignature()" expand="block">
+                        Guardar Firma
+                    </ion-button>
+                </ion-col>-->
+                <ion-col size="10" no-padding>
+                    <p no-margin text-center>Habeas Data de </p>
+                    <p no-margin text-center><b>{{shopkeeper.nombre_contacto}} </b></p>
+                    <!--Distribuidor-->
+                </ion-col>
+                <ion-col size="10" text-center no-padding>
+                    <ion-button (click)="clearSignature()" expand="block">
+                        Limpiar
+                    </ion-button>
+                </ion-col>
+                <ion-col size="10" class="ion-padding-top">
+                    <div class="divider"></div>
+                </ion-col>
+                <ion-col size="10" text-center no-padding>
+                    <ion-row>
+                        <ion-col size="6">
+                            <ion-button (click)="prevSlide()" expand="block">
+                                Atrás
+                            </ion-button>
+                        </ion-col>
+                        <ion-col size="6" *ngIf="!imgSignature">
+                            <ion-button (click)="capturaUbicacion()" expand="block">
+                                Omitir
+                            </ion-button>
+                        </ion-col>
+                        <ion-col size="6" *ngIf="imgSignature">
+                            <ion-button (click)="capturaUbicacion()" expand="block">
+                                Siguiente
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+        </ion-slide>
+    </ion-slides>
+</div>

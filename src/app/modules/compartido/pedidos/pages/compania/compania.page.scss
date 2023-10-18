@@ -1,0 +1,10 @@
+ion-card {
+    &.promo-card {
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+}
+
+.no-scroll {
+    --overflow: hidden;
+}

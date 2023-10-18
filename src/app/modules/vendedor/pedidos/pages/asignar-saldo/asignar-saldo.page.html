@@ -1,0 +1,39 @@
+<app-compartido-cabecera [titulo]="user.nombre_contacto" [mostrarBotonAuxiliar]="false" [tituloBoton]=""
+                         [showBackButton]="true" [isModal]="false" [user]="user" *ngIf="user"></app-compartido-cabecera>
+
+<ion-content class="vertical-align-content" padding>
+    <ion-grid>
+        <ion-row *ngIf="shop && valueForm" class="ion-justify-content-center">
+            <ion-col size="10" text-center>
+                <h2 class="sub-title">{{shop.nombre_contacto}}</h2>
+                <p no-margin>{{shop.codigo_cliente}}</p>
+                <p><b>Ingresa el monto que quieres asignar al cliente.</b></p>
+                <p class="small ion-margin-top" no-margin>*Este proceso se realiza en línea, si estás en presencia del cliente, puedes actualizar el saldo en su aplicación y verás reflejada esta asignación.</p>
+            </ion-col>
+
+            <ion-col size="12">
+                <form [formGroup]="valueForm">
+                    <ion-item class="input-form">
+                        <ion-label position="floating">Monto de la asignación</ion-label>
+                        <ion-input formControlName="value" type="number"></ion-input>
+                    </ion-item>
+                </form>
+            </ion-col>
+            <ion-col size="12" text-center>
+                <ion-button (click)="assignBalance(valueForm.value)" [disabled]="!valueForm.valid">Enviar asignacion</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<ion-footer class="common-footer" *ngIf="account">
+    <ion-toolbar>
+        <ion-grid>
+            <ion-row>
+                <ion-col size="12" text-center>
+                    <p no-margin><span>Tu saldo actual es:</span> <b>{{account.saldo | currency:"COP":'symbol-narrow':'0.0-0'}}</b></p>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

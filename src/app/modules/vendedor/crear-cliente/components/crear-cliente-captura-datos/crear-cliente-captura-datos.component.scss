@@ -1,0 +1,50 @@
+.signature-pad--body {
+    padding-top: 16px;
+    position: relative;
+    #pad {
+        display: block;
+        width: fit-content;
+        border: 1px solid #e0e2e6;
+        height: 450px; //202px;
+        margin: 0 auto 10px;
+        margin-right: 15px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .slide-finger {
+        position: absolute;
+        right: 0;
+        bottom: -10px;
+        width: 35px;
+        transform: rotate(-45deg);
+    }
+}
+
+ion-item {
+    &.input-form {
+        --inner-padding-start: 0px;
+        --inner-padding-end: 0px;
+        &.checkbox {
+            ion-checkbox {
+                margin-right: 12px;
+            }
+            ion-label {
+                color: var(--ion-color-dark);
+            }
+        }
+    }
+}
+
+.document {
+    .divider {
+        margin-bottom: 0px;
+    }
+}
+
+select {
+    -webkit-appearance: none !important;
+}
+
+select::-ms-expand {
+    display: none !important;
+}

@@ -1,0 +1,303 @@
+.menu-app {
+  //--background: var(--ion-color-light);
+  @extend .blue-gradient-background;
+  color: white;
+  font-family: "montserrat_mediumregular";
+  --padding-top: 18px;
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --padding-bottom: 18px;
+
+  ion-toolbar {
+    --background: transparent;
+    --color: white;
+    --min-height: 36px;
+    margin-bottom: 14px;
+    ion-title {
+      padding: 0;
+      font-size: 16px;
+    }
+    ion-button {
+      font-size: 30px;
+      --padding-start: 0;
+      --padding-end: 0;
+      &.refresh-button {
+        background: #ffffff;
+        border-radius: 25px;
+        margin: 0 6px;
+        // border: 2px solid var(--ion-color-primary);
+        --padding-top: 11px;
+        --padding-bottom: 11px;
+        --padding-start: 11px;
+        --padding-end: 11px;
+        color: var(--ion-color-primary);
+        
+        i {
+          font-size: 18px;
+          margin-right: 8px;
+          font-weight: bold;
+        }
+        span {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  button.card-button {
+    box-shadow: none;
+    ion-icon {
+      padding-right: 0;
+    }
+  }
+  ion-button {
+    &.new-item-label {
+      position: relative;
+      color: var(--ion-color-primary-shade) !important;
+      --background: rgba(255, 255, 255, 0.65);
+      &:after {
+        content: '¡Nuevo!';
+        position: absolute;
+        top: 4px;
+        left: 50%;
+        color: var(--ion-color-danger);
+        font-size: 9px;
+        font-family: "montserrat_mediumregular";
+        margin-left: 68px;
+      }
+    }
+    &.new-client {
+      margin-bottom: 10px;
+      --ion-color-contrast:white !important;
+      &:after {
+        top: 9px;
+        right: 10px;
+        color: var(--ion-color-secondary);
+        font-size: 10px;
+        font-family: "montserrat_semiboldregular";
+        background: white;
+        border-radius: 20px;
+        padding: 2px 6px;
+        margin-left: auto;
+        left:auto;
+      }
+    }
+  }
+  .tiny-menu-button {
+    --background: rgba(255, 255, 255, 0.16);
+    color: white;
+    --box-shadow: 0 2px 6px rgba(0,0,0,.12);
+  }
+  small {
+    color: white;
+  }
+  p {
+    color: white;
+    font-family: "montserrat_mediumregular";
+  }
+  .section-menu {
+    padding-bottom: 10px;
+    ion-col {
+      a {
+        color: var(--ion-color-primary);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-radius: 10px;
+        background: white;
+        p {
+          font-family: "montserrat_semiboldregular";
+          font-size: 13px;
+          display: flex;
+          align-items: center;
+          margin: 0;
+          color: var(--ion-color-primary);;
+          ion-icon, i {
+            font-weight: normal;
+            margin-right: 5px;
+            font-size: 20px;
+            &.icon-qrcode {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+      &:nth-child(1) {
+        padding-left: 0;
+      }
+      &:nth-child(2) {
+        padding-right: 0;
+      }
+    }
+    &.btns-vendedor {
+      ion-col {
+        &:nth-child(1) {
+          padding-right: 0;
+        }
+      }
+    }
+  }
+  .offline-option {
+    display: flex;
+    align-items: center;
+    font-family: "montserrat_semiboldregular";
+    font-size: 16px;
+    color:white;
+
+    .icon-wifi-off {
+      font-size: 23px;
+      color: white;
+      margin-right: 10px;
+    }
+  }
+
+  .messages {
+    .messages-top {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      ion-icon, i {
+        font-size: 20px;
+        margin-right: 8px;
+      }
+      p {
+        display: flex;
+        font-size: 16px;
+        line-height: 1.2;
+        font-family: "montserrat_semiboldregular";
+      }
+      span {
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+      }
+    }
+    .last-message {
+      background-color: white;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 3px solid var(--ion-color-tertiary);
+      .date {
+        font-size: 13px;
+        display: block;
+        line-height: 1;
+        margin-bottom: 3px;
+        color: var(--ion-color-medium);
+      }
+      .title-message {
+        line-height: 1.3;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 4px;
+        font-family: "montserrat_semiboldregular";
+        color: var(--ion-color-dark);
+      }
+      p {
+        line-height: 1.3;
+        margin: 0;
+        height: 32px;
+        overflow: hidden;
+        font-size: 13px;
+        color: var(--ion-color-medium);
+        position: relative;
+        text-align: justify;
+        padding-right: 1em;
+      }
+      p:before {
+        content: '...';
+        position: absolute;
+        right: 3px;
+        bottom: 0;
+      }
+      p:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        width: 1em;
+        height: 1em;
+        margin-top: 0.2em;
+        background: white;
+      }
+    }
+  }
+  .legal {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 16px;
+    text-align: center;
+    width: 100%;
+    display: block;
+    text-decoration: none;
+  }
+  ion-list {
+    background: transparent;
+    padding: 0;
+    ion-item {
+      --background: transparent;
+      --padding-end: 0;
+      --padding-start: 0;
+      --padding-top: 0;
+      --inner-padding-end: 0;
+      --inner-padding-start: 0;
+      --color: white;
+      --min-height: auto;
+      ion-label {
+        font-family: "montserrat_semiboldregular";
+      }
+    }
+  }
+  .divider-white {
+    margin-bottom: 10px;
+    &.no-margin-bottom {
+      margin-bottom: 0;
+    }
+  }
+  .ion-margin-bottom {
+    --margin-bottom: 10px !important;
+    margin-bottom: 10px !important;
+  }
+  .points {
+    .card-button {
+      display: flex;
+      align-items: center;
+      padding: 8px;
+      .icon-wrapper {
+        display: flex;
+        background: var(--ion-color-tertiary);
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 5px;
+        ion-icon {
+          font-size: 14px !important;
+          color: var(--ion-color-primary);
+          font-weight: bold;
+        }
+      }
+      span {
+        margin-left: 5px;
+      }
+    }
+  }
+}
+@media (max-width: 321px) {
+  .menu-app{
+    --padding-start: 10px;
+    --padding-end: 10px;
+    .section-menu {
+      ion-col {
+        a{
+
+          p {
+            font-size: 12px;
+          }
+        }
+
+        }
+      }  
+  }
+}

@@ -1,0 +1,81 @@
+<div class="inner-content ion-no-padding">
+    <div class="content--modal-body">
+        <ion-toolbar class="ion-margin-bottom ion-no-padding">
+            <div class="container-title">
+                <ion-title class="large" *ngIf="exitosos">
+                    <p class="main">Envio Pedidos</p>
+                    <p class="sub"><b>{{exitosos.length}}</b> - Pedidos Enviados</p>
+                </ion-title>
+                <ion-buttons slot="secondary">
+                    <ion-button (click)="closeModal()">
+                        <i class="icon-x"></i>
+                    </ion-button>
+                </ion-buttons>
+            </div>
+        </ion-toolbar>
+
+        <div class="content">
+            <div class="content--main" *ngIf="enConflicto && enConflicto.length > 0">
+                <div class="content--item"
+                     (click)="openPedidosNoEnviado = false; openPedidosNoEnviadoMonto = false; openPedidosEnConflicto = !openPedidosEnConflicto">
+                    <div class="content--title">
+                        <span class="conflicto">{{enConflicto.length}}</span>
+                        <p>Pedidos por confirmar</p>
+                    </div>
+                    <i [class.icon-chevron-right]="!openPedidosEnConflicto"
+                       [class.icon-chevron-down]="openPedidosEnConflicto"
+                       class="orange"></i>
+                </div>
+                <div *ngIf="openPedidosEnConflicto">
+                    <ul class="content--orders">
+                        <li class="content--order" *ngFor="let order of enConflicto">
+                            <b>{{order.shop.codigo_cliente}}</b> - {{order.shop.nombre_contacto}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content--main">
+                <div class="content--item"
+                     (click)="openPedidosEnConflicto = false; openPedidosNoEnviadoMonto = false; openPedidosNoEnviado = !openPedidosNoEnviado"
+                     *ngIf="noEnviados && noEnviados.length > 0">
+                    <div class="content--title">
+                        <span class="no-enviados">{{noEnviados.length}}</span>
+                        <p>Pedidos por confirmar</p>
+                    </div>
+                    <i [class.icon-chevron-right]="!openPedidosNoEnviado"
+                       [class.icon-chevron-down]="openPedidosNoEnviado"
+                       class="red"></i>
+                </div>
+                <div *ngIf="openPedidosNoEnviado">
+                    <ul class="content--orders" >
+                        <li class="content--order" *ngFor="let order of noEnviados">
+                            <b>{{order.shop.codigo_cliente}}</b> - {{order.shop.nombre_contacto}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content--main">
+                <div class="content--item"
+                     (click)="openPedidosEnConflicto = false; openPedidosNoEnviado = false; openPedidosNoEnviadoMonto = !openPedidosNoEnviadoMonto"
+                     *ngIf="noEnviadosMonto && noEnviadosMonto.length > 0">
+                    <div class="content--title">
+                        <span class="no-enviados">{{noEnviadosMonto.length}}</span>
+                        <p>Pedidos por confirmar (Monto minimo)</p>
+                    </div>
+                    <i [class.icon-chevron-right]="!openPedidosNoEnviadoMonto"
+                       [class.icon-chevron-down]="openPedidosNoEnviadoMonto"
+                       class="red"></i>
+                </div>
+                <div *ngIf="openPedidosNoEnviadoMonto">
+                    <ul class="content--orders" >
+                        <li class="content--order" *ngFor="let order of noEnviadosMonto">
+                            <b>{{order.shop.codigo_cliente}}</b> - {{order.shop.nombre_contacto}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

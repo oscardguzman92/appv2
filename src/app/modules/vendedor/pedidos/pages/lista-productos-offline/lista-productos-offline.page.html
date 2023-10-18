@@ -1,0 +1,80 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" no-padding *ngIf="shopData"
+        >{{ shopData.nombre_tienda | titlecase }}
+            <span>Cod. {{ shopData.codigo_cliente }}</span> <span *ngIf="!offlineDynamic"> Sin conexión <i class="icon-wifi-off"></i></span>
+        </ion-title
+        >
+    </ion-toolbar>
+</ion-header>
+<ion-content class="vertical-align-content" *ngIf="!products || products.length == 0">
+    <ion-grid>
+        <ion-row class="help-text ion-align-items-center">
+            <ion-col size="2">
+                <i class="icon-search"></i>
+            </ion-col>
+            <ion-col size="10">
+                <p>Busca y agrega los productos que quieres en el pedido</p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-content  class="with-searchbox" *ngIf="products && products.length > 0">
+    <virtual-scroller #scroll [items]="products"
+                    *ngIf="products" [scrollAnimationTime]="2000"
+                    [enableUnequalChildrenSizes]="true" [checkResizeInterval]="2000">
+        <div class="wrapper-card-list" #container [ngClass]="{'more-products': products.length > 4}">
+            <app-general-producto
+                    *ngFor="let product of scroll.viewPortItems; let i = index;"
+                    [cardTypeOffer]="0"
+                    [product]="product"
+                    [offer]="true"
+                    [position]="i"
+                    [isOfflineActive]="!offlineDynamic"
+                    [ngStyle]="{'order': i}"
+                    [container]="container">
+            </app-general-producto>
+        </div>
+    </virtual-scroller>
+</ion-content>
+
+<ion-footer class="wrapper-search-scan">
+    <app-pedidos-buscador
+            (search)="searchProducts($event)"
+            #pedidosBuscador
+            [nProducts]="nProducts"
+            activeKeyUp="false"
+            (focusEvent)="focusEvent()"
+            [hasKeyup]="true"
+            (blurEvent)="blurEvent()"
+            (keyup)="keyup($event.target.value)"
+            [offlineDynamic]="offlineDynamic">
+    </app-pedidos-buscador>
+    <ion-button [@jump]="thingState" class="cart-button"
+            [ngClass]="{show: nProducts > 0,'small-button': !pedidosBuscador.inputExpand && !pedidosBuscador.small}"
+            (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">
+                    {{ orderValue | currency: "COP":"symbol-narrow":"0.0-0" }}
+                </p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{ nProducts }}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+</ion-footer>

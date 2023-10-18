@@ -1,0 +1,41 @@
+<app-compartido-cabecera [showBackButton]="false" [titulo]='user.nombre_contacto'
+                         [mostrarBotonAuxiliar]="false"></app-compartido-cabecera>
+
+
+<ion-content padding>
+
+    <ion-refresher slot="fixed" (ionRefresh)="refreshData()" #refreshContentElement>
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <!-- <app-comunidad-tenderos-post-oferta></app-comunidad-tenderos-post-oferta> -->
+    <ng-container *ngFor="let survey of listSurveys">
+        <app-comunidad-tenderos-post-encuesta
+            [survey]="survey"
+            [user]="user">
+        </app-comunidad-tenderos-post-encuesta>
+    </ng-container>
+    <ng-container *ngFor="let postNormal of listPostsNormal ; let i = index; ">
+        <app-comunidad-tenderos-post-normal
+            *ngIf="listPostsNormal.length > 0"
+            [post]="postNormal"
+            [user]="user">
+        </app-comunidad-tenderos-post-normal>
+    </ng-container>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadInfiniteScroll($event)">
+        <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-button expand="block" (click)="abrirModalCrearPost()">
+            Crear Publicación
+            <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>
+

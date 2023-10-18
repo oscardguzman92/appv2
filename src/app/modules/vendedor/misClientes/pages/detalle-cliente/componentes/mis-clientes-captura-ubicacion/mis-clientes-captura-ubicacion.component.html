@@ -1,0 +1,148 @@
+<ion-content class="location" no-padding>
+    <!-- Mapa -->
+    <div class="map-wrapper" [hidden]="!statusInfoAddress">
+        <div id="map_center">
+            <img src="../../assets/images/center_marker.svg"/>
+        </div>
+        <div #map id="map"></div>
+        <ion-icon class="icon-arrow-up-left"></ion-icon>
+        <ion-icon class="icon-arrow-up-right"></ion-icon>
+        <ion-icon class="icon-arrow-down-left"></ion-icon>
+        <ion-icon class="icon-arrow-down-right"></ion-icon>
+    </div>
+
+    <!-- Buscador de Direcciones -->
+    <div class="search-address" [class.open-animate]="statusSearchAddress==1"
+         [class.close-animate]="statusSearchAddress==2" [formGroup]="formData">
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-icon class="icon-x" (click)="closeSearchAddres()" float-right></ion-icon>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col [size]="canTypeSearch ? 12: 11" no-padding *ngIf="statusSearchAddress==1">
+                    <ion-searchbar
+                            placeholder="Busca tu dirección"
+                            #inputSearchAddress
+                            (ionInput)="changeAddress($event)"
+                            [debounce]="250"
+                    ></ion-searchbar>
+                </ion-col>
+                <ion-col no-padding no-margin text-center size="1" *ngIf="!canTypeSearch"
+                         class="ion-align-items-center ion-justify-content-center">
+                    <ion-spinner class="spinner-search-address" name="bubbles"></ion-spinner>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-row class="ion-padding-horizontal">
+            <ion-col size="12" no-padding>
+                <small>Resultados de busqueda</small>
+            </ion-col>
+        </ion-row>
+
+        <ion-list>
+            <ion-item *ngFor="let autocompleteItem of autocompleteItems"
+                      (click)="selectAutocompleteAddress(autocompleteItem)">
+                <ion-label text-wrap>
+                    <ion-text color="primary">
+                        <h3>
+                            <ion-icon slot="start" class="icon-map-pin ion-margin-end"></ion-icon>
+                            {{autocompleteItem.formatted_address | titlecase}}
+                        </h3>
+                    </ion-text>
+                </ion-label>
+            </ion-item>
+
+            <ion-item *ngIf="lastSearch && showLastSearch" (click)="searchByAddress(lastSearch)">
+                <ion-label text-wrap>
+                    <ion-text color="primary">
+                        <h3>
+                            <ion-icon slot="start" class="icon-map-pin ion-margin-end"></ion-icon>
+                            {{lastSearch | titlecase}}
+                        </h3>
+                    </ion-text>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+        <!-- Botón ubicación actual -->
+        <ion-row class="ion-padding-horizontal">
+            <ion-col no-padding>
+                <ion-button expand="block" (click)="currentLocation()">
+                    <ion-icon class="icon-my_location" slot="start"></ion-icon>
+                    Usar ubicación actual
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </div>
+</ion-content>
+
+<ion-footer no-padding>
+    <!-- Contenedor información Dirección -->
+    <ion-toolbar [hidden]="!statusInfoAddress" no-padding>
+        <ion-grid fixed padding>
+            <ion-row align-items-center class="ion-justify-content-center">
+                <ion-col class="text-instruction" size="12" no-padding>
+                    <ion-icon class="icon-finger-swipe"></ion-icon>
+                    <p class="small" no-margin>Puedes arrastrar el mapa para ajustar y marcar correctamente la ubicación
+                        de tu tienda.</p>
+                </ion-col>
+                <ion-col [size]="(addressObj?.editableAddress && addressObj.editableAddress.length > 0) ? 8 : 12"
+                         *ngIf="!isEdit">
+                    <p no-margin>{{formData.value.address}}</p>
+                </ion-col>
+                <ion-col size="8" *ngIf="isEdit">
+                    <ion-row align-items-center>
+                        <p no-margin>
+                            {{addressObj.route}} # {{addressObj.editableAddress[0]}} -
+                        </p>
+                        <input  class="input-element-ubicacion" type="text" size="small" [(ngModel)]="editable" #myInput>
+                    </ion-row>
+                </ion-col>
+                <ion-col size="4"
+                         *ngIf="(addressObj?.editableAddress && addressObj.editableAddress.length > 0) && !isEdit">
+                    <ion-button size="small" (click)="editAddress();">
+                        Editar
+                    </ion-button>
+                </ion-col>
+                <ion-col size="4" *ngIf="isEdit">
+                    <ion-button size="small" (click)="editAddress();" [disabled]="isEdit && editable == ''">
+                        Guardar
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row align-items-center class="ion-justify-content-center">
+                <ion-col size="12" *ngIf="isEdit && editable == ''">
+                    <p no-margin>
+                        <small>Debes completar la dirección</small>
+                    </p>
+                </ion-col>
+            </ion-row>
+            <ion-row align-items-center class="ion-justify-content-center">
+                <ion-col size="12">
+                    <ion-button expand="block" (click)="openSearchAddres()">
+                        Buscar nueva dirección
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="12">
+                    <p text-center no-margin>
+                        <small>Adicionar un comentario/ Indicaciones de llegada</small>
+                    </p>
+                </ion-col>
+                <ion-col size="12">
+                    <ion-item class="input-form" lines="none" [formGroup]="formData">
+                        <ion-input type="text"
+                                   formControlName="descriptionAdrress"
+                                   placeholder="Local, Manzana, etc">
+                        </ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-button (click)="finish()" expand="block" [disabled]="isEdit && editable == ''">
+                Finalizar
+            </ion-button>
+        </ion-grid>
+    </ion-toolbar>
+</ion-footer>

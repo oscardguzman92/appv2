@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" no-padding *ngIf="shop">
+            {{shop.nombre | titlecase}}
+            <span>{{shop.direccion}}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <h1 text-center padding class="sub-title no-padding-bottom">Tu código es:</h1>
+        <div class="icon-wrapper">
+            <ion-icon class="icon-user" name="null"></ion-icon>
+        </div>
+        <ngx-qrcode *ngIf="dataQr" [qrc-value]="dataQr"></ngx-qrcode>
+    </ion-card>
+</ion-content>

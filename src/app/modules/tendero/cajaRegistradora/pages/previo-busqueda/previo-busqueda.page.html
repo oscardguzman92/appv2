@@ -1,0 +1,178 @@
+<app-cabecera
+  [total]="total | number"
+  [showBackButton]="showBackButton"
+  [products]="quantity"
+  [title]="title"
+  [subtitle]="subtitle"
+  [showTitle]="showTitle"
+  [showDataSale]="inSale">
+</app-cabecera>
+<ion-content padding>
+  <div class="prev">
+    <p>Escribe el nombre o código del producto que quieres adicionar</p>
+    <app-auto-completar (submitEvent)="autoAction($event)" #childRef></app-auto-completar>
+   <!-- <app-buscador (search)="searchProducts($event)" activeKeyUp="false"></app-buscador> -->
+    <div class="divider"></div>
+    <p>Los productos más vendidos</p>
+    <ion-slides
+      #SearchSlides
+      class="cash-register-slides ion-color-medium"
+      pager="true"
+      slidesPerColumn="4"
+      [options]="searchSlides"
+    >
+
+    <ion-slide
+    *ngFor="
+      let product of products;
+      let i = index;
+      let even = even;
+      let odd = odd
+    "
+    [ngClass]="{ odd: odd, even: even }"
+  >
+    <app-postal-producto
+      [product]="product"
+      [position]="i"
+      [ngStyle]="{ order: i }"
+    >
+    </app-postal-producto>
+  </ion-slide>
+  <ion-slide
+  *ngFor="
+    let product of products;
+    let i = index;
+    let even = even;
+    let odd = odd
+  "
+  [ngClass]="{ odd: odd, even: even }"
+>
+  <app-postal-producto
+    [product]="product"
+    [position]="i"
+    [ngStyle]="{ order: i }"
+  >
+  </app-postal-producto>
+</ion-slide>    
+<ion-slide
+*ngFor="
+  let product of products;
+  let i = index;
+  let even = even;
+  let odd = odd
+"
+[ngClass]="{ odd: odd, even: even }"
+>
+<app-postal-producto
+  [product]="product"
+  [position]="i"
+  [ngStyle]="{ order: i }"
+>
+</app-postal-producto>
+</ion-slide>    
+<ion-slide
+*ngFor="
+  let product of products;
+  let i = index;
+  let even = even;
+  let odd = odd
+"
+[ngClass]="{ odd: odd, even: even }"
+>
+<app-postal-producto
+  [product]="product"
+  [position]="i"
+  [ngStyle]="{ order: i }"
+>
+</app-postal-producto>
+</ion-slide>    
+<ion-slide
+*ngFor="
+  let product of products;
+  let i = index;
+  let even = even;
+  let odd = odd
+"
+[ngClass]="{ odd: odd, even: even }"
+>
+<app-postal-producto
+  [product]="product"
+  [position]="i"
+  [ngStyle]="{ order: i }"
+>
+</app-postal-producto>
+</ion-slide>    
+<ion-slide
+*ngFor="
+  let product of products;
+  let i = index;
+  let even = even;
+  let odd = odd
+"
+[ngClass]="{ odd: odd, even: even }"
+>
+<app-postal-producto
+  [product]="product"
+  [position]="i"
+  [ngStyle]="{ order: i }"
+>
+</app-postal-producto>
+</ion-slide>    
+<ion-slide
+*ngFor="
+  let product of products;
+  let i = index;
+  let even = even;
+  let odd = odd
+"
+[ngClass]="{ odd: odd, even: even }"
+>
+<app-postal-producto
+  [product]="product"
+  [position]="i"
+  [ngStyle]="{ order: i }"
+>
+</app-postal-producto>
+</ion-slide>    
+<ion-slide
+*ngFor="
+  let product of products;
+  let i = index;
+  let even = even;
+  let odd = odd
+"
+[ngClass]="{ odd: odd, even: even }"
+>
+<app-postal-producto
+  [product]="product"
+  [position]="i"
+  [ngStyle]="{ order: i }"
+>
+</app-postal-producto>
+</ion-slide>          
+                                       
+    </ion-slides>    
+    <div class="options">
+      <button (click)="goToNewProduct()">
+        <i class="icon-plus"></i>
+        <span>
+          Registra sin <br>
+          Código
+        </span>
+      </button>
+      <button (click)="goToSearch()">
+        <i class="icon-list"></i>
+        <span>
+          Lista de <br>
+          Categorías
+        </span>
+      </button>
+      <button (click)="scanNewProduct()">
+        <i class="icon-camera"></i>
+        <span>
+          Escaner producto
+        </span>
+      </button>    
+    </div>
+  </div>
+</ion-content>

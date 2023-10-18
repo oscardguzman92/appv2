@@ -1,0 +1,59 @@
+.data-client {
+  background: var(--ion-color-primary);
+  border-bottom: 1px dotted var(--ion-color-primary);
+}
+.divider {
+  margin: 0;
+}
+.client-storeapp {
+  ion-item {
+    --border-width:1px;
+    --border-style:solid;
+    --border-color: var(--ion-color-medium);
+    --padding-top:10px;
+    --padding-bottom:10px;
+    --padding-start:10px;
+    --padding-bottom:10px;
+    --border-radius:8px;
+    --background: var(--ion-color-light);
+    div {
+      margin-bottom: 8px;
+    }
+    ion-checkbox {
+      --size:25px;
+      --background-checked: var(--ion-color-secondary);
+      --border-color-checked: var(--ion-color-secondary);
+      margin: 0 24px 0 8px;
+    }
+  }
+}
+.list {
+  width: 100%;
+}
+.error--asignar_cliente {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.error--asignar_cliente-modal {
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+}
+
+.error2 {
+    color: rgb(255, 44, 14) !important;
+    font-family: "montserrat_mediumregular" !important;
+    font-size: 15px !important;
+    margin-bottom: 7px !important;
+    margin-top: -5px !important;
+}
+
+.label-diferente-ciudad {
+  margin-top: 20px;
+}
+
+.title-white {
+  color: white;
+}

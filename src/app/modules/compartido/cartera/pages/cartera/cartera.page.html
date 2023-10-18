@@ -1,0 +1,201 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="justBack()">
+        <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary" no-padding *ngIf="shop">
+      {{ shop.nombre_tienda | titlecase }}
+      <span>Cod. {{ shop.codigo_cliente }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content class="credit">
+  <ion-grid class="ion-padding-top top-credit">
+    <ion-row>
+      <ion-col text-center>
+        <h3 class="sub-title">Crédito</h3>
+      </ion-col>
+    </ion-row>
+    <ion-row class="text-values">
+      <ion-col text-center>
+        <span>Saldo por Pagar</span>
+        {{ getMora() | currency:"COP":'symbol-narrow':'0.0-0' }}
+      </ion-col>
+      <ion-col text-center>
+        <span>Disponible</span>
+        {{ getSaldo() | currency:"COP":'symbol-narrow':'0.0-0' }}
+      </ion-col>
+      <ion-col size="12" text-center>
+        <p>Cupo Total: {{ getCupo() | currency:"COP":'symbol-narrow':'0.0-0' }}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="detail" padding>
+    <ion-row>
+      <ion-col text-center>
+        <h5 class="ion-margin-bottom">Detalle</h5>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-row class="table">
+          <ion-col class="header-table ion-padding-vertical">
+            Plazo de pago
+          </ion-col>
+          <ion-col class="ion-padding-vertical">
+            <i class="icon-calendar"></i>
+            {{shop.plazo_pago}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-row class="table">
+          <ion-col size="12" class="header-table ion-padding-vertical">
+            Última Factura
+          </ion-col>
+          <ion-col size="12" class="ion-padding-vertical">
+            <i class="icon-clipboard"></i>
+            {{ shop.valor_ultima_factura | currency:"COP":'symbol-narrow':'0.0-0' }}
+          </ion-col>
+          <ion-col class="divider-wrapper" no-padding>
+            <div class="divider"></div>
+          </ion-col>
+          <ion-col size="12" class="ion-padding-vertical">
+            <i class="icon-calendar"></i>
+            {{shop.fecha_ultima_factura}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col>
+        <ion-row class="table">
+          <ion-col size="12" class="header-table ion-padding-vertical">
+            Último Pago
+          </ion-col>
+          <ion-col size="12" class="ion-padding-vertical">
+            <i class="icon-clipboard"></i>
+            {{ shop.valor_ultimo_pago | currency:"COP":'symbol-narrow':'0.0-0' }}
+          </ion-col>
+          <ion-col class="divider-wrapper" no-padding>
+            <div class="divider"></div>
+          </ion-col>
+          <ion-col size="12" class="ion-padding-vertical">
+            <i class="icon-calendar"></i>
+            {{shop.fecha_ultimo_pago}}
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content> -->
+
+<ion-content>
+  <ion-grid no-padding>
+    <ion-row *ngIf="role=='cliente'" class="ion-padding-horizontal">
+      <ion-col size="12" class="no-padding-bottom">
+        <p text-center>Puedes filtrar con una de estás opciones</p>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item class="input-form select" lines="none" text-center align-self-center no-margin>
+          <div class="select-wrapper">
+            <select class="select-default" [ngModel]="distribuidor" (ngModelChange)="onChangeDistri($event)">
+              <option default disabled selected>Distribuidor</option>
+              <option *ngFor="let i of distribuidor" [ngValue]="i.id">{{i.nombre}}</option>
+            </select>
+            <ion-icon class="icon-chevron-down"></ion-icon>
+          </div>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item class="input-form select" lines="none" text-center align-self-center>
+          <div class="select-wrapper">
+            <select class="select-default" [ngModel]="shops" (ngModelChange)="onChangeShop($event)">
+              <option  default disabled selected>Tienda</option>
+              <option *ngFor="let i of shops" default [ngValue]="i.id">{{i.nombre}}</option>
+            </select>
+            <ion-icon class="icon-chevron-down"></ion-icon>
+          </div>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-padding-horizontal">
+        <ion-card class="data-credit">
+          <ion-row padding>
+            <ion-col class="dist-name" size="9" no-padding>
+              Crédito {{getDistriActive().nombre}}
+              <span>Cupo Total: {{ getCupo() | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+            <ion-col *ngIf="role=='cliente'" size="3" no-padding>
+              <img src="{{distriImage}}">
+            </ion-col>
+          </ion-row>
+          <ion-row class="data" padding>
+            <ion-col size="7" no-padding>
+              Saldo a pagar
+              <span>Plazo de pago a {{(shop.plazo_pago)?shop.plazo_pago: ""}} días</span>
+            </ion-col>
+            <ion-col class="number" size="5" no-padding text-right> 
+              {{ getSaldo() | currency:"COP":'symbol-narrow':'0.0-0' }}
+            </ion-col>
+            <ion-col size="7" no-padding>
+              Saldo vencido
+            </ion-col>
+            <ion-col class="number" size="5" no-padding text-right>
+              {{ getMora() | currency:"COP":'symbol-narrow':'0.0-0' }}
+            </ion-col>
+          </ion-row>
+          <div class="divider"></div>
+          <ion-row class="data" padding>
+            <ion-col size="7" no-padding>
+              Cupo disponible
+            </ion-col>
+            <ion-col class="number" size="5" no-padding text-right> 
+             {{ getSaldoDisponible() | currency:"COP":'symbol-narrow':'0.0-0' }}
+            </ion-col>
+          </ion-row>
+          <div class="transactions">
+            <ion-row class="header">
+              <ion-col>
+                <i class="icon-file-text"></i>
+                Movimientos
+              </ion-col>
+            </ion-row>
+            <ion-row class="data" padding>
+              <ion-col size="7" no-padding>
+                Última factura
+                <span>{{shop.fecha_ultima_factura}}</span>
+              </ion-col>
+              <ion-col class="number" size="5" no-padding text-right> 
+                {{ shop.valor_ultima_factura | currency:"COP":'symbol-narrow':'0.0-0' }}
+              </ion-col>
+            </ion-row>
+            <div class="divider"></div>
+            <ion-row class="data" padding>
+              <ion-col size="7" no-padding>
+                Último pago                
+                <span>{{shop.fecha_ultimo_pago}}</span>
+              </ion-col>
+              <ion-col class="number" size="5" no-padding text-right> 
+                {{ shop.valor_ultimo_pago | currency:"COP":'symbol-narrow':'0.0-0' }}  
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<!-- <ion-footer>
+  <ion-row>
+    <ion-col>
+      <ion-button class="orange-button" expand="block">
+        Realizar Pago
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer> -->

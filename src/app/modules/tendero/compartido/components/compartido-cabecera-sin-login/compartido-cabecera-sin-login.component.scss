@@ -1,0 +1,13 @@
+.registro {
+  &__cabecera{
+    min-height: 14vh;
+    position: relative;
+    padding: 2rem 0;
+    ion-icon {
+      position: absolute;
+      top: -35px;
+      left: 0;
+      font-size: 30px;
+    }
+  }
+}

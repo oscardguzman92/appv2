@@ -1,0 +1,252 @@
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-button fill="solid" color="primary" (click)="toogleZoom()">
+      <ion-icon name="null" class="icon-search"></ion-icon>
+      <span class="icon-plus" *ngIf="!zoom"></span>
+      <span class="icon-minus" *ngIf="zoom"></span>
+    </ion-button>
+  </ion-buttons>
+  <ion-title *ngIf="zoom">
+    <ion-label>
+      <ion-icon name="resize"></ion-icon><p>Puedes agrandar la imagen</p>
+    </ion-label>
+  </ion-title>
+  <ion-buttons slot="end">
+    <ion-button (click)="closeModal()">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+<ion-grid 
+  class="detail-product" 
+  [ngClass]="{
+    expand: item == position,
+    'featured-product': (product.valor_meta && product.color) || product.oferta_distribuidor,
+    'with-offer': product.oferta_distribuidor,
+    'featured-product-red':
+      product.valor_meta &&
+      product.color &&
+      product.color == colorOfertSegment.red,
+    'featured-product-yellow':
+      product.valor_meta &&
+      product.color &&
+      product.color == colorOfertSegment.yellow,
+    'featured-product-green':
+      product.valor_meta &&
+      product.color &&
+      product.color == colorOfertSegment.green,
+    'card-modal': (cardModal)
+  }">
+  <div [hidden]="zoom">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="5" no-padding>
+        <ng-container *ngIf="user.role == roles.shopkeeper">
+          <img *ngIf="product.imagenes && product.imagenes.length > 0"
+            onerror="this.src='assets/images/product-without-image.jpg'"
+            [src]="'https://admin.storeapp.net/imagenes/productos/thumb/' + product.imagenes[0].url" />
+          <img *ngIf="!product.imagenes || product.imagenes.length == 0" src="assets/images/product-without-image.jpg" />
+        </ng-container>
+        <ng-container *ngIf="user.role == roles.seller">
+          <ion-img *ngIf="product.imagenes.length > 0"
+            [src]="'https://admin.storeapp.net/imagenes/productos/thumb/' + product.imagenes[0].url"
+            (ionImgDidLoad)="loadImg($event)"></ion-img>
+          <img *ngIf="product.imagenes.length == 0" src="assets/images/product-without-image.jpg" />
+        </ng-container>
+        <div class="offer-tag">
+          OFERTA
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="(product.puntaje_asignar == undefined || product.puntaje_asignar == null || product.puntaje_asignar == '0')
+    && (puntos && puntos.puntaje_asignar > 0)">
+      <ion-col size="10">
+            <div class="points-per-product">
+              <div class="icon-points">
+                <ion-icon name="star"></ion-icon>
+              </div>
+              <!-- <p><small>x</small>{{calcularPts(product)}}<span>Puntos</span></p> -->
+              <p><span>{{puntos.puntaje_asignar}} Pts.<small>x</small></span>
+                {{+puntos.valor_compra | currency: "COP":"symbol-narrow":"0.0-0"}}</p>
+            </div>
+          </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+        <ion-col size="10" text-center>
+          <ng-container *ngIf="user.role == roles.seller">
+            <h5>
+                {{ product.nombre | titlecase }}
+            </h5>
+          </ng-container>
+          <ng-container *ngIf="user.role != roles.seller">
+            <h5 *ngIf="(!product.ofertas) || (product.ofertas && product.ofertas[0] && !product.ofertas[0].descripcion_oferta)">
+              {{ getFullProductName() | titlecase }}
+            </h5>
+            <h5 *ngIf="product.ofertas && product.ofertas[0] && product.ofertas[0].descripcion_oferta">
+              {{ product.ofertas[0].descripcion_oferta | titlecase }}
+            </h5>
+          </ng-container>
+        </ion-col>
+        <ion-col size="12" text-center no-padding *ngIf="user.role == roles.seller">
+            <p class="units">{{ product.unidad_medida | titlecase }}</p>
+        </ion-col>
+        <ion-col size="12" class="data-product" text-center no-padding>
+            <p>Codigo: <b>{{ product.codigo_disti }}</b></p>
+            <p 
+              *ngIf="((product.inventario >= 0) && ((!product.valida_stock && product.inventario > 10) || (product.valida_stock))) || (this.user.role == 'vendedor')">
+              Inventario: <b>{{ product.inventario }}</b>
+            </p>
+            <p *ngIf="product.multiplo_pedido > 1">Multiplo: <b>{{ product.multiplo_pedido }}</b></p>
+            <p *ngIf="product.pedido_maximo > 0 || product.pedido_minimo > 0">Cantidad: 
+              <b *ngIf="product.pedido_maximo > 0">máx:{{ product.pedido_maximo }}</b>
+              <b *ngIf="product.pedido_maximo > 0 && product.pedido_minimo > 0">&nbsp;/&nbsp;</b>
+              <b *ngIf="product.pedido_minimo > 0">mín:{{ product.pedido_minimo }}</b>
+            </p>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="product.descripcion">
+      <ion-col size="11" class="callout">
+        <h6>Descripción</h6>
+        <div *ngIf="product.descripcion" [innerHTML]="transform(product.descripcion)"></div>
+        <!-- <p *ngIf="product.descripcion_adicional" [innerHTML]="product.descripcion_adicional"></p> -->
+      </ion-col>
+      <ion-col text-center *ngIf="product.ofertas && product.ofertas.length > 0 && product.ofertas[0].fecha_fin">
+        <p class="small" no-margin><b>Disponible hasta: </b> {{product.ofertas[0].fecha_fin}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center" *ngIf="product.valor_ganancia && product.precio_de_venta_sugerido">
+        <ion-col size="11">
+            <div class="table-profit">
+                <ion-row>
+                    <ion-col>
+                        <p><b>Valor de venta sugerido</b></p>
+                    </ion-col>
+                    <ion-col size="4" text-center>
+                        <p>{{ +product.precio_de_venta_sugerido | currency: "COP":"symbol-narrow":"0.0-0" }}</p>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <p><b>Ganancia:</b></p>
+                    </ion-col>
+                    <ion-col size="4" text-center>
+                        <p class="profit">{{ +product.valor_ganancia | currency: "COP":"symbol-narrow":"0.0-0" }}</p>
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col class="sale-due" size="11" no-padding
+        *ngIf="product.valor_meta && +product.valor_meta > 0 && product.color">
+        <ion-row *ngIf="product.tipo_meta == 'pr'">
+          <ion-col text-left>Deberías pedir:</ion-col>
+          <ion-col size="auto">
+            {{ +product.valor_meta | currency: "COP":"symbol-narrow":"0.0-0" }}</ion-col>
+        </ion-row>
+        <ion-row *ngIf="product.tipo_meta != 'pr'">
+          <ion-col text-left>Deberías pedir:</ion-col>
+          <ion-col size="auto">{{ product.valor_meta }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="no-padding-top" text-left><small>Has pedido:</small></ion-col>
+          <ion-col class="no-padding-top" size="auto">
+            <small
+              *ngIf="product.tipo_meta == 'pr'">{{ (+this.product.valor_meta_actual * product.precio) | currency: "COP":"symbol-narrow":"0.0-0" }}</small>
+            <small *ngIf="product.tipo_meta != 'pr'">{{ product.valor_meta_actual || 0}}</small>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="(product.valor_meta - product.valor_meta_actual) > product.cantidad">
+          <ion-col no-padding>
+            <div class="small-btn addToKart" (click)="addProductsOferSegment();$event.stopPropagation()">
+              Pedir Todos
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ion-slides pager="false" [options]="slideZoomOpts" [hidden]="!zoom && !classHideZoom" [class.hideZooomInit]="classHideZoom">
+    <ion-slide>
+      <img *ngIf="product.imagenes && product.imagenes.length > 0"
+					onerror="this.src='assets/images/product-without-image.jpg'"
+					[src]="'https://admin.storeapp.net/imagenes/productos/' + product.imagenes[0].url" />
+        
+        <img *ngIf="!product?.imagenes || (product?.imagenes && product?.imagenes.length == 0)"
+					src="assets/images/product-without-image.jpg" />
+    </ion-slide>
+  </ion-slides>
+  <div class="bottom-modal">
+    <ion-row class="cost ion-justify-content-center ion-align-items-end">
+      <ion-col size="auto">
+        <p class="price-card">
+          {{
+            +product.precio
+              | currency: "COP":"symbol-narrow":"0.0-0"
+          }}
+        </p>
+      </ion-col>
+      <ion-col class="no-padding-vertical" size="auto" *ngIf="product.ofertas && product.ofertas.length > 0">
+        <p class="price-card before" *ngIf="product.ofertas[0]?.precio_habitual > 0">
+          {{ product.ofertas[0].precio_habitual | currency: "COP":"symbol-narrow":"0.0-0" }}
+        </p>
+      </ion-col>
+    </ion-row>
+    <ion-row class="weight-buttons" *ngIf="(statusInputCountProd || (!statusInputCountProd && product.cantidad > 0) && product.factor != null) && control_visible_unidad_medida">
+			<ion-col [ngClass]="{'active' : mesures.unidad}"  (click)="changeActiveMesure('unidad');$event.stopPropagation()" size="6">
+				Unidad
+			</ion-col>
+			<ion-col [ngClass]="{'active' :  mesures.peso}" (click)="changeActiveMesure('peso');$event.stopPropagation()" size="6">
+				Peso
+			</ion-col>
+		</ion-row>
+    <div class="quantity-control" [hidden]="disabledProduct">
+      <ion-button *ngIf="!statusInputCountProd && (!product.cantidad || product.cantidad == 0)"
+        (click)="addToCart();$event.stopPropagation()" size="small" expand="full" class="addToKart" color="primary">
+        Agregar
+      </ion-button>
+      <ion-button *ngIf="!statusInputCountProd && (!product.cantidad || product.cantidad == 0)"
+        (click)="addToCart();$event.stopPropagation()" size="small" expand="full" class="addToKart button-with-offer"
+        color="secondary">
+        Agregar
+      </ion-button>
+      <ion-button *ngIf="!statusInputCountProd && (!product.cantidad || product.cantidad == 0)"
+        (click)="addToCart();$event.stopPropagation()" size="small" expand="full"
+        class="addToKart featured-product-red-button" color="danger">
+        Agregar
+      </ion-button>
+      <ion-button *ngIf="!statusInputCountProd && (!product.cantidad || product.cantidad == 0)"
+        (click)="addToCart();$event.stopPropagation()" size="small" expand="full"
+        class="addToKart featured-product-yellow-button" color="tertiary">
+        Agregar
+      </ion-button>
+      <ion-button *ngIf="!statusInputCountProd && (!product.cantidad || product.cantidad == 0)"
+        (click)="addToCart();$event.stopPropagation()" size="small" expand="full"
+        class="addToKart featured-product-green-button" color="success">
+        Agregar
+      </ion-button>
+      <div *ngIf="statusInputCountProd || (!statusInputCountProd && product.cantidad > 0)">
+        <div class="button-quantity">
+          <ion-icon class="addToKart remove icon-blue-gradient" name="remove"
+            (click)="rmToCart();$event.stopPropagation()">
+          </ion-icon>
+        </div>
+        <p>
+          <ion-input [(ngModel)]="product.cantidad" (keyup.enter)="changeCountProd($event, true)"
+            (ionBlur)="changeCountProd($event)" (ionFocus)="onFocus($event);$event.stopPropagation();"
+            class="addToKart input-count-prod" type="number">
+          </ion-input>
+          <small *ngIf="product.factor">{{mesure_choosen}}</small>
+        </p>
+        <div class="button-quantity">
+          <ion-icon class="addToKart add icon-blue-gradient" name="add" (click)="addToCart();$event.stopPropagation()">
+          </ion-icon>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="disabledProduct">
+      <span text-center class="txt-disabled-product">
+        El producto no está disponible.
+      </span>
+    </div>
+  </div>
+</ion-grid>

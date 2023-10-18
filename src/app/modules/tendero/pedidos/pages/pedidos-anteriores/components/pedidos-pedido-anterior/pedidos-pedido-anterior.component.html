@@ -1,0 +1,33 @@
+<ion-grid padding>
+    <ion-row class="ion-align-items-center">
+        <ion-col size="6" no-padding>
+            <span class="day">Sugerencia {{item + 1}}</span>
+        </ion-col>
+        <ion-col size="6" text-end no-padding>
+            <span class="sub-title">{{favoriteOrder.valor_pedido | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col size="12">
+            <ion-slides [options]="slideOpts" class="cart-products ion-padding-horizontal" #slides>
+                <ion-slide *ngFor="let product of favoriteOrder.productos">
+                    <img *ngIf="product.imagenes.length > 0"
+                         [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagenes[0].url">
+                    <img *ngIf="product.imagenes.length == 0" src="assets/images/product-without-image.jpg">
+                    <div><span>{{product.cantidad}}</span></div>
+                </ion-slide>
+            </ion-slides>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-align-items-center">
+        <ion-col size="5" no-padding>
+            <span>{{favoriteOrder.productos.length}} producto(s)</span>
+        </ion-col>
+        <ion-col size="7" no-padding text-right>
+            <ion-button size="small" no-margin (click)="requestOrder(favoriteOrder)">Pedir de nuevo</ion-button>
+        </ion-col>
+        <ion-col size="12" class="ion-padding-top" no-padding>
+            <div class="divider" no-margin></div>
+        </ion-col>
+    </ion-row>
+</ion-grid>

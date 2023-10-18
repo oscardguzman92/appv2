@@ -1,0 +1,42 @@
+.listing-history {
+  ion-item {
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    --padding-right: 0px;
+    overflow: visible;
+  }
+  span {
+    font-family: "montserrat_mediumregular";
+    color: var(--ion-color-dark);
+    &.dist-value {
+      font-size: 16px;
+      color: var(--ion-color-primary);
+      font-family: "montserrat_semiboldregular";
+      margin-bottom: 4px;
+      display: inline-block;
+    }
+  }
+
+  .creation-date {
+    font-size: 11px;
+    font-family: "montserrat_mediumregular";
+    color: var(--ion-color-success);
+    &:before {
+      content: "";
+      background: var(--ion-color-success);
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
+  }
+
+  .footer-data {
+    position: relative;
+    left: initial;
+    bottom: initial;
+    right: initial;
+  }
+
+}

@@ -1,0 +1,29 @@
+<ion-list class="listing-clients">
+    <ion-item *ngFor="let egreso of egresos" lines="full">
+        <ion-row class="ion-align-items-center">
+            <ion-col size="12" no-padding>
+                <ion-row class="ion-padding-vertical">
+                    <ion-col size="4" no-padding>
+                        <h6 class="color-success">{{egreso.monto | currency:"COP":'symbol-narrow':'0.0-0'}}</h6>
+                    </ion-col>
+                    <ion-col size="8" class="ion-align-self-center" no-padding>
+                        <p class="name" no-margin text-right>
+                            <span class="icon-smartphone"></span>
+                            {{egreso.cliente}}
+                        </p>
+                    </ion-col>
+                    <ion-col size="6" no-padding>
+                        <p class="small" no-margin><i class="icon-calendar"></i> {{egreso.fecha}}</p>
+                        <!--<p no-margin>Saldo nuevo: $257,500</p>-->
+                    </ion-col>
+                    <ion-col size="6" no-padding>
+                        <p class="small" text-right no-margin>Saldo ant.: {{egreso.saldo_anterior | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+                        <p class="small" text-right no-margin>Saldo nuevo.:
+                            {{egreso.saldo_anterior | historialAsignaciones: egreso.operacion: egreso.monto}}
+                        </p>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+</ion-list>

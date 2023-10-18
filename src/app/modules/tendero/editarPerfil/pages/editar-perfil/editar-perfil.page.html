@@ -1,0 +1,95 @@
+<app-compartido-cabecera [titulo]="'Editar datos'" [showBackButton]="false"
+                         [mostrarBotonAuxiliar]="false"></app-compartido-cabecera>
+
+<ion-content no-padding>
+    <ion-grid class="ion-justify-content-between" padding>
+        <ion-row justify-content-center>
+            <ion-col size="12">
+                <ion-list>
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Nombre de contacto:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{user.nombre_contacto}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(0)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 0" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="user.nombre_contacto"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1"
+                                            [disabled]="!user.nombre_contacto">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Email:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{user.email}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(1)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 1" no-padding>
+                                <form [formGroup]="emailForm">
+                                    <ion-item class="input-form">
+                                        <ion-input type="email" [(ngModel)]="user.email" formControlName="email">
+                                        </ion-input>
+                                    </ion-item>
+                                    <ion-button expand="block" (click)="editable = -1"
+                                                [disabled]="!user.email">
+                                        Guardar
+                                    </ion-button>
+                                </form>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <p class="error" *ngIf="!user.email">Debes completar el email</p>
+                    <p class="error" *ngIf="controls.email.errors?.email">Email incorrecto</p>
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Cédula:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center">
+                                <p no-margin>{{user.cedula}}</p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Teléfono de contacto:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center">
+                                <p no-margin>{{user.telefono_contacto}}</p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+
+            <ion-col size="12">
+                <ion-button expand="block" (click)="edit()" [disabled]="!validateFinish">
+                    Finalizar
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

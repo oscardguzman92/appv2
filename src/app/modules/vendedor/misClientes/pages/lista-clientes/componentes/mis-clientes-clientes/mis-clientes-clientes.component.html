@@ -1,0 +1,46 @@
+<div class="content-progress" *ngIf="percentage >= 0"></div>
+
+<div class="custom-progress-bar" *ngIf="percentage >= 0" [class.progress-download]="percentage==0">
+    <div class="bar">
+        <div class="progress" [style.width]="percentage + '%'">
+            <div class="marker">
+                <p>{{percentage}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ion-list class="listing-clients" *ngIf="shops.length > 0">
+    <virtual-scroller [items]="shops" [scrollAnimationTime]="2000" [enableUnequalChildrenSizes]="true"
+                      [checkResizeInterval]="2000" #scroll>
+        <ion-item *ngFor="let shop of scroll.viewPortItems; let i = index" (click)="viewDetail(shop,$event)" lines="full" [class.active]="shop.activo">
+            <!-- <span class="icon-storeapp" slot="start">{{(i+1)}}</span> -->
+            <span class="number-list" slot="start">{{ (shop.preferencia_orden == null || shop.preferencia_orden == "" ) ? "?" : shop.preferencia_orden}}</span>
+            <ion-label class="ion-text-wrap">
+                <p class="name">{{shop.nombre_tienda | titlecase}}</p>
+                <p class="number-contact">{{shop.codigo_cliente}} - {{shop.nombre_contacto | titlecase}}</p>
+                <p class="address">{{shop.direccion | titlecase}}</p>
+                <p class="number-contact" *ngIf="userSellerService.searchAllDays">{{shop.dia | titlecase}}</p>
+                <p *ngIf="checkFounds(shop)" class="funds"><i class="icon-alert-triangle"></i>Tienda sin saldo</p>
+                <p *ngIf="!checkFounds(shop) && checkPayment(shop)" class="funds"><i class="icon-alert-triangle"></i>Hace mucho no abona
+                </p>
+            </ion-label>
+            <span class="icon-conflict icon-at-last actionSheet" (click)="openModalConflict(shop);$event.stopPropagation()" *ngIf="shop.status_en_conflicto"><ion-icon name="shuffle"></ion-icon>
+            </span>
+            <span class="icon-check icon-at-last"
+                  *ngIf="(shop.pedido && !shop.status_productos_pendientes &&  !shop.status_en_conflicto) && shop.devolucion == 0"
+                  slot="end"></span>
+            <span class="icon-shopping-cart icon-at-last" *ngIf="!shop.status_en_conflicto && shop.status_productos_pendientes"
+                  slot="end"></span>
+            <span class="icon-shopping-cart icon-at-last actionSheet"
+                  *ngIf="shop.status_productos_pendientes && (!isOfflineActive && !offlineDynamic) && !shop.status_en_conflicto"
+                  (click)="presentActionSheet(shop);$event.stopPropagation()" slot="end"></span>
+            <span class="icon-no-order icon-at-last" *ngIf="shop.no_pedido !== null && !shop.pedido" slot="end"></span>
+            <span class="icon-back-product icon-at-last" slot="end" *ngIf="(shop.pedido && shop.devolucion > 0)"></span>
+        </ion-item>
+    </virtual-scroller>
+</ion-list>
+
+<ion-title *ngIf="shops.length == 0" color="medium" class="medium msg-empty" text-center>
+    No tiene clientes para este día de visita
+</ion-title>

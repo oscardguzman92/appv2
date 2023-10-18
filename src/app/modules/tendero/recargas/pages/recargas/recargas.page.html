@@ -1,0 +1,20 @@
+<app-compartido-cabecera [showBackButton]="true" [titulo]="user.nombre_contacto"
+                         [mostrarBotonAuxiliar]="true" [filtros]="true" [listIcon]="true"
+                         (eventHandlerFilter)="showRecord()"></app-compartido-cabecera>
+<ion-segment class="segment-general" (ionChange)="cambiarSegmento($event)">
+    <ion-segment-button value="operadores" checked>
+        <ion-label>Operadores</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="paquetes">
+        <ion-label>Paquetes</ion-label>
+    </ion-segment-button>
+</ion-segment>
+<ion-content padding>
+    <ion-grid no-padding>
+        <app-recargas-operadores [operadores]="operators" *ngIf="segmento=='operadores'"
+                                 [user]="user"></app-recargas-operadores>
+        <app-recargas-paquetes [packages]="packages" *ngIf="segmento=='paquetes'" [user]="user"></app-recargas-paquetes>
+    </ion-grid>
+</ion-content>
+<app-recargas-buscador *ngIf="segmento=='paquetes'" (search)="search($event)" margin></app-recargas-buscador>
+<app-recargas-solicitar-saldos [user]="user"></app-recargas-solicitar-saldos>

@@ -1,0 +1,36 @@
+.information-title {
+  color: var(--ion-color-dark);
+  font-size: 88%;
+  font-weight: bold;
+}
+
+.information-description {
+  color: var(--ion-color-secondary) !important;
+  font-weight: bold;
+  font-size: 88%;
+}
+
+.offer-description {
+  color: var(--ion-color-primary);
+}
+ion-card.promo-card .img-wrapper, ion-card.prize-card .img-wrapper {
+  max-height: 148px;
+}
+ion-card.promo-card ion-card-content {
+  min-height: 95px;
+}
+.slider-normal {
+  ion-card.promo-card ion-card-content {
+    min-height: initial;
+  } 
+}
+.banner-ofertas {
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 16px;
+}
+.swiper-pagination-bullets {
+  bottom: 0 !important;
+}

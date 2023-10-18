@@ -1,0 +1,42 @@
+<ion-grid class="no-padding-bottom" padding>
+    <ion-row justify-content-center>
+        <ion-col size="12">
+            <h4>Sencillo: selecciona y redime</h4>
+            <p>Cuando tengas los puntos suficientes para un premio, el botón se habilita para que lo redimas fácilmente.
+            </p>
+            <p>Tómate tu tiempo, elige el premio que deseas y ¡acumula puntos!</p>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+<ion-row class="ion-padding-horizontal">
+    <ion-col size="12" class="no-vertical-padding" *ngFor="let product of products">
+        <ion-card class="prize-card" (click)="changePoints(product)">
+            <div class="img-wrapper">
+                <img src="https://admin.storeapp.net/imagenes/productos/{{product.imagen}}">
+            </div>
+            <ion-card-header>
+                <ion-card-title>{{product.nombre | lowercase}}</ion-card-title>
+                <ion-button size="small orange-button has-icon">{{product.puntaje_requerido}} Puntos</ion-button>
+            </ion-card-header>
+            <ion-card-content>
+                {{product.detalle | lowercase}}
+            </ion-card-content>
+            <span *ngIf="points || points === 0">
+                <div class="footer-card" *ngIf="product.puntaje_requerido > points">
+                    <ion-progress-bar color="secondary" [value]="points / product.puntaje_requerido"></ion-progress-bar>
+                    <p>Le faltan <span>{{product.puntaje_requerido - points}} Puntos</span> para este premio</p>
+                </div>
+            </span>
+            <div class="footer-card" *ngIf="product.puntaje_requerido <= points">
+                <ion-row>
+                    <ion-col no-padding>
+                        <ion-button expand="block" size="small">
+                            Redimir este premio
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </div>
+        </ion-card>
+    </ion-col>
+</ion-row>

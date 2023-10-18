@@ -1,0 +1,102 @@
+<app-cabecera titulo="Liquidador" subtitulo=" Jueves, 05 de marzo " [showBackButton]="true" [isModal]="false"
+              [mostrarBotonAuxiliar]="false">
+</app-cabecera>
+<ion-content class="close-down">
+    <ion-grid padding>
+        <ion-row class="with-divider" *ngIf="liq">
+            <ion-col size="8">
+                <h4>Inventario Pedidos</h4>
+            </ion-col>
+            <ion-col size="4" text-right>
+                <div class="quantity-cart-in-list">
+                    <ion-icon class="icon-shopping-cart" name="null"></ion-icon>
+                    <span>{{liq.numberOrders}}</span>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center with-divider" *ngIf="liq">
+            <ion-col size="8">
+                Pendiente por entrega
+            </ion-col>
+            <ion-col class="blue" size="4" text-right>
+                {{liq.ordersPending}}
+                <ion-icon class="icon-chevron-right" name="null"></ion-icon>
+            </ion-col>
+            <ion-col class="no-padding-top" size="8" *ngIf="false">
+                <span><ion-icon class="return-icon" name="return-right"></ion-icon> Pendiente por entrega</span>
+            </ion-col>
+            <ion-col class="no-padding-top" size="4" text-right *ngIf="false">
+                <span>2<ion-icon class="icon-chevron-right" name="null"></ion-icon></span>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center with-divider" *ngIf="liq">
+            <ion-col size="8">
+                Entregados
+            </ion-col>
+            <ion-col class="blue" size="4" text-right>
+                {{liq.ordersDelivered}}
+                <ion-icon class="icon-chevron-right" name="null"></ion-icon>
+            </ion-col>
+            <ion-col class="no-padding-top blue" size="8">
+                <span><ion-icon class="return-icon" name="return-right"></ion-icon> Con devolución producto</span>
+            </ion-col>
+            <ion-col class="no-padding-top blue" size="4" text-right>
+                <span>{{liq.ordersDeliveredWithReturn}}<ion-icon class="icon-chevron-right" name="null"></ion-icon></span>
+            </ion-col>
+            <ion-col class="no-padding-top red" size="8" *ngIf="false">
+                <span><ion-icon class="return-icon" name="return-right"></ion-icon> Por cobrar</span>
+            </ion-col>
+            <ion-col class="no-padding-top red" size="4" text-right *ngIf="false">
+                <span>0<ion-icon class="icon-chevron-right" name="null"></ion-icon></span>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center with-divider" *ngIf="false">
+            <ion-col size="8">
+                Rechazados
+            </ion-col>
+            <ion-col class="blue" size="4" text-right>1
+                <ion-icon class="icon-chevron-right" name="null"></ion-icon>
+            </ion-col>
+            <ion-col class="no-padding-top" size="8">
+                <span><ion-icon class="return-icon" name="return-right"></ion-icon> No tiene dinero</span>
+            </ion-col>
+            <ion-col class="no-padding-top" size="4" text-right>
+                <span>2<ion-icon class="icon-chevron-right" name="null"></ion-icon></span>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<ion-footer class="footer-delivery">
+    <ion-row class="resume ion-margin-bottom" *ngIf="methods">
+        <ion-col class="no-padding-top-bottom" size="6" *ngIf="methods.cash > 0">Efectivo</ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right *ngIf="methods.cash > 0">
+            {{methods.cash | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" *ngIf="methods.storeapp > 0">Digitales</ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right *ngIf="methods.storeapp > 0">
+            {{methods.storeapp | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" *ngIf="methods.credits > 0">Créditos</ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right *ngIf="methods.credits > 0">
+            {{methods.credits | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </ion-col>
+        <ion-col class="no-padding-top-bottom" size="6"><b>Total entregado</b></ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right><b>
+            {{total | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </b></ion-col>
+
+        <ion-col class="no-padding-top-bottom" size="6" *ngIf="liq"><b>Total devoluciones</b></ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right *ngIf="liq"><b>
+            {{liq.valueOrdersDeliveredWithReturn | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </b></ion-col>
+
+        <ion-col class="no-padding-top-bottom" size="6" *ngIf="liq"><b>Total sin entregar</b></ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right *ngIf="liq"><b>
+            {{liq.valueOrdersWithoutDelivered | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </b></ion-col>
+    </ion-row>
+    <ion-button expand="block" (click)="closeDay()" *ngIf="user && user.rutas && !user.rutas[0].close">
+        Cerrar Día
+    </ion-button>
+</ion-footer>

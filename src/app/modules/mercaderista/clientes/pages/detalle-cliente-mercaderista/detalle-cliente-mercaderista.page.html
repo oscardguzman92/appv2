@@ -1,0 +1,64 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-button (click)="justBack()">
+				<i
+					slot="icon-only"
+					class="icon-arrow-left icon-orange-gradient"
+				></i>
+			</ion-button>
+		</ion-buttons>
+		<ion-title color="primary" no-padding *ngIf="shop">
+			{{ shop.nombre | titlecase }}
+		</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="with-searchbox" no-padding>
+	<ion-grid class="data-client" padding>
+		<app-mis-clientes-datos-cliente
+			*ngIf="shop"
+			direction="{{shop.direccion | titlecase}}"
+			cellphone="{{shop.telefono_contacto}}"
+			visitDay="{{shop.dia}}"
+			[name]="shop.nombre_contacto"
+			[document]="shop.cedula"
+			[shopId]="shop.id"
+		>
+		</app-mis-clientes-datos-cliente>
+		<app-mis-clientes-mapa
+			[shop]="shop"
+		></app-mis-clientes-mapa>
+	</ion-grid>
+
+	<ion-grid padding>
+        <ion-row>
+            <ion-col size="12">
+                <ion-button expand="block" no-margin (click)="setBalance()">
+                    Asignar saldo
+                </ion-button>
+			</ion-col>
+			<ion-col size="12">
+                <ion-button expand="block" (click)="goRecord()" no-margin>
+                    Historial de Pedidos
+                </ion-button>
+			</ion-col>
+			<ion-col size="12">
+                <ion-button expand="block" no-margin (click)="goSurveys()">
+                    Ver concursos
+                </ion-button>
+			</ion-col>
+        </ion-row>
+    </ion-grid>
+
+	<!-- <ng-container *ngFor="let survey of listSurveys; let i = index">
+		<app-comunidad-tenderos-post-encuesta
+            [survey]="survey"
+            [user]="user"
+            [notResponseValidation]="true"
+            [position]="i"
+            [shop_id]="shop.id">
+		</app-comunidad-tenderos-post-encuesta>
+		
+	</ng-container> -->
+</ion-content>

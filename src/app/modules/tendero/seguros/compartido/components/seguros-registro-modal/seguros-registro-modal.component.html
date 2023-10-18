@@ -1,0 +1,7 @@
+<div class="confirmation-wrapper">
+    <h4 *ngIf='insu.slug === "pyme"'><img src="../assets/images/seguro-negocio.png">Cubre tu Negocio</h4>
+    <h4 *ngIf='insu.slug !== "pyme"'><img src="../assets/images/seguro-vida.png">Seguro de Vida</h4>
+    <hr class="divider">
+    <p>{{message}}</p>
+    <ion-button size="small" (click)="goToInsuranceRegister()">Aceptar</ion-button>
+</div>

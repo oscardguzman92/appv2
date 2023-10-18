@@ -1,0 +1,52 @@
+<app-compartido-cabecera
+        *ngIf="user"
+        [titulo]="user.nombre_contacto"
+        [mostrarBotonAuxiliar]="false"
+        [showBackButton]="true"
+        [filtros]="false"
+        [user]="user" [direccionTienda]="user.tiendas[0].direccion">
+</app-compartido-cabecera>
+
+<ion-content class="credit-list">
+    <ion-grid padding>
+        <ion-row>
+            <ion-col *ngIf="credits && credits.length > 0">
+                <ion-card class="promo-card card-credit" padding *ngFor="let credit of credits">
+                    <ion-row class="ion-align-items-center" (click)="goCreditHist(credit)">
+                        <ion-col>
+                            <div class="credit-name">Crédito <strong>{{credit.entity}}</strong></div>
+                        </ion-col>
+                        <ion-col size="auto" text-right>
+                            <i class="icon-chevron-right"></i>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="6">Total Disponible</ion-col>
+                        <ion-col size="6" text-right>{{credit.quota | currency: 'COP': 'symbol': '1.0'}}</ion-col>
+                        <ion-col size="6">Total Cupo</ion-col>
+                        <ion-col size="6" text-right>{{getAmount(credit) | currency: 'COP': 'symbol': '1.0'}}</ion-col>
+                        <ion-col size="6">Por Pagar</ion-col>
+                        <ion-col size="6" text-right>{{credit.debt | currency: 'COP': 'symbol': '1.0'}}</ion-col>
+                        <ion-col size="12">
+                            <hr class="divider">
+                        </ion-col>
+                        <ion-col class="data-credit" size="7">Términos del crédito
+                            <small>{{credit.terms}}</small>
+                        </ion-col>
+                        <ion-col class="data-credit" size="5">Tasa de Interés
+                            <small>{{credit.annual_percentage_rate}}% tasa efectiva mensual</small>
+                        </ion-col>
+                    </ion-row>
+                    <!--<ion-row class="ion-align-items-center">
+                        <ion-col>
+                            <img src="https://via.placeholder.com/100x80">
+                        </ion-col>
+                        <ion-col>
+                            <ion-button size="small">$ Utilizar mi cupo</ion-button>
+                        </ion-col>
+                    </ion-row>-->
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

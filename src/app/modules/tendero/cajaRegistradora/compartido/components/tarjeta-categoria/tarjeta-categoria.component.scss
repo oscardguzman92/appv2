@@ -1,0 +1,137 @@
+ion-card {
+  -webkit-margin-start: 0px;
+  margin-inline-start: 0px;
+  -webkit-margin-end: 0px;
+  margin-inline-end: 0px;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  --background: white;
+  p {
+    text-align: center;
+    font-family: "montserrat_semiboldregular";
+    font-size: 15px;
+    // letter-spacing: -1px;
+    color: var(--ion-color-dark);
+    line-height: 18px;
+    padding: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    width: 82%;
+  }
+ &::before{
+        content: "";
+        position: absolute;
+        width: 1.5em;
+        height: .25em;
+        background: radial-gradient(circle at center, blue 50%,transparent 51%) 0 -4px/11px 21px no-repeat, 
+                    radial-gradient(circle at center, orange 50%,transparent 51%) .3em -4px/11px 21px no-repeat,
+                    radial-gradient(circle at center, brown 50%,transparent 51%) .6em -4px/11px 21px no-repeat,
+                    radial-gradient(circle at center, pink 50%,transparent 51%) .9em -4px/11px 21px no-repeat,
+                    radial-gradient(circle at center, green 50%,transparent 51%) 1.2em -4px/11px 21px no-repeat;
+        bottom: 0;
+        left: 50%;
+        margin-bottom: -.5em;
+        transform: translateX(-50%);        
+    }
+  &.color-one::before {
+    background-color: #0100d8;
+    --background-color: #0100d8;
+  }
+  &.color-two::before {
+    background-color: #ffce0d;
+    --background-color: #ffce0d;
+  }
+  &.color-three::before {
+    background-color: #074c8b;
+    --background-color: #074c8b;
+  }
+  &.color-four::before {
+    background-color: #bf7200;
+    --background-color: #bf7200;
+  }
+  &.color-five::before {
+    background-color: #003be2;
+    --background-color: #003be2;
+  }
+  &.color-six::before {
+    background-color: #e8a50c;
+    --background-color: #e8a50c;
+  }
+  &.color-seven::before {
+    background-color: #04294b;
+    --background-color: #04294b;
+  }
+  &.color-eight::before {
+    background-color: #7f4c00;
+    --background-color: #7f4c00;
+  }
+  &.color-nine::before {
+    background-color: #0a6fcb;
+    --background-color: #0a6fcb;
+  }
+  &.color-ten::before {
+    background-color: #ff9800;
+    --background-color: #ff9800;
+  }
+  &.color-eleven::before {
+    background-color: #0a6fcb;
+    --background-color: #0a6fcb;
+  }
+  &.color-twelve::before {
+    background-color: #ff9800;
+    --background-color: #ff9800;
+  }
+  &.color-thirteen::before {
+    background-color: #00b2e2;
+    --background-color: #00b2e2;
+  }
+  &.color-fourteen::before {
+    background-color: #e8700c;
+    --background-color: #e8700c;
+  }
+  &.color-fifteen::before {
+    background-color: #0b76d8;
+    --background-color: #0b76d8;
+  }
+  &.color-sixteen::before {
+    background-color: #402600;
+    --background-color: #402600;
+  }
+  &.color-seventeen::before {
+    background-color: #00d8cc;
+    --background-color: #00d8cc;
+  }
+  &.color-eighteen::before {
+    background-color: #ff580d;
+    --background-color: #ff580d;
+  }
+  &.color-nineteen::before {
+    background-color: #0961b1;
+    --background-color: #0961b1;
+  }
+  &.color-twenty::before {
+    background-color: #e58900;
+    --background-color: #e58900;
+  }
+}
+
+ion-card.overriding {
+  --background: var(--ion-color-primary);
+  // box-shadow: 0 4px 16px rgba(10, 111, 203, 0.53) ;
+  p {
+    color: white;
+  }
+}
+ion-card.outstanding {
+  --background: var(--ion-color-secondary);
+  // box-shadow: 0 4px 16px rgba(255, 152, 0, 0.53);
+  p {
+    color: white;
+  }
+}

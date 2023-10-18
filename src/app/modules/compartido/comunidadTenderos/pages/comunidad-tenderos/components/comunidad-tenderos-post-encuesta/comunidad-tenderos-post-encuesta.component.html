@@ -1,0 +1,267 @@
+<ion-card class="post" [ngClass]="{
+    'response-validation': notResponseValidation,
+    'compress-survey': !survey.opened,
+    'ion-padding-bottom': (notResponseValidation && response && !fanny)
+    }">
+    <ion-card-header (click)="(notResponseValidation || fanny) && openOrCloseCard()">
+        <ion-card-subtitle>
+            ENCUESTA {{survey.nombre | uppercase}}
+        </ion-card-subtitle>
+        <i class="icon-plus header-icon" *ngIf="(notResponseValidation || fanny) && !survey.opened"></i>
+        <i class="icon-minus header-icon" *ngIf="(notResponseValidation || fanny) && survey.opened"></i>
+    </ion-card-header>
+    <ion-card-content no-padding [formGroup]="formData">
+        <ion-row>
+            <ion-col class="ion-padding-horizontal">
+                <div class="points-per-product" *ngIf="(notResponseValidation || fanny) && survey.puntos > 0">
+                    <div class="icon-points">
+                        <ion-icon name="star-outline"></ion-icon>
+                    </div>
+                    <p>{{survey.puntos}} Pts.</p>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ng-container *ngIf="survey.preguntas.length > 0 && !fanny || (fanny && survey.opened)" formArrayName="respuestas">
+            <div *ngFor="let ask of survey.preguntas; let indexAsk = index" [formGroupName]="indexAsk" [ngClass]="{'num-type': (ask.tipo_encuesta.slug == typeSurveys.numeric)}" class="content-survey">
+                <h3 class="ion-padding-horizontal ion-padding-top" *ngIf="((((notResponseValidation && indexAsk == 0) || !notResponseValidation) || survey.opened) && ask.tipo_encuesta.slug != typeSurveys.cities)">
+                    {{ask.pregunta}}
+                </h3>
+                <img *ngIf="ask.imagen && ask.imagen !== '' && ask.imagen !== null " width="400px" src="{{ask.imagen}}" />
+                <iframe *ngIf="ask.video && ask.video !== '' && ask.video !== null " class="video" [src]="ask.video | safeHtml" frameborder="0" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen"
+                    webkitallowfullscreen="webkitallowfullscreen"></iframe>
+
+                <!-- Tipo respuesta  (texto largo) -->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.openAnswer) && survey.opened">
+                    <ion-item class="input-form ion-padding-horizontal" no-padding lines="none" *ngIf="!notResponseValidation || (notResponseValidation && !response)">
+                        <!-- <ion-label position="stacked">{{ask.pregunta}}</ion-label> -->
+                        <ion-textarea rows="2" formControlName="respuesta_abierta" placeholder="Respuesta"></ion-textarea>
+                    </ion-item>
+                    <p class="ion-padding-horizontal" *ngIf="(notResponseValidation && response) && respuesta_abierta">{{respuesta_abierta}}</p>
+                </ng-container>
+
+                <!-- Tipo respuesta abierta (texto corto)-->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.textSmall) && survey.opened">
+                    <ion-item class="input-form" no-padding lines="none" *ngIf="!notResponseValidation || (notResponseValidation && !response)">
+                        <!-- <ion-label position="stacked">{{ask.pregunta}}</ion-label> -->
+                        <ion-input formControlName="res_texto_corto"></ion-input>
+                    </ion-item>
+                    <p class="ion-padding-horizontal" *ngIf="(notResponseValidation && response) && respuesta_texto_corto">{{respuesta_texto_corto}}</p>
+                </ng-container>
+
+                <!-- Tipo respuesta imagen -->
+                <ng-container *ngIf="ask.tipo_encuesta.slug == typeSurveys.imageAnswer">
+                    <ion-row class="ion-padding-horizontal">
+                        <ion-col size="12" *ngIf="ask.photoCamera" no-padding>
+                            <img *ngIf="ask.photoCamera && survey.opened" [src]="ask.photoCamera" class="photo" alt="" margin-bottom margin-top>
+                        </ion-col>
+                        <ion-col size="12" no-padding>
+                            <ion-button (click)="makePhoto(ask, indexAsk)" expand="block" class="only-margin-vertical" margin-top margin-bottom *ngIf="(survey.opened && ask.isImage)">
+                                <span *ngIf="!ask.photoCamera">Tomar Foto</span>
+                                <span *ngIf="ask.photoCamera">Repetir Foto</span>
+                                <ion-icon slot="end" name="camera"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ng-container>
+
+                <!-- Tipo respuesta multiple -->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.multipleAnswer) && survey.opened">
+                    <ion-item lines="none" *ngFor="let answer of ask.respuestas; let i = index;">
+                        <ion-checkbox slot="start" (ionChange)="changeAnswerMultiple($event, indexAsk, answer.id)" [checked]="(notResponseValidation && response) && checked(ask, answer.id) && !responseRepeatStatus" [disabled]="notResponseValidation && response"></ion-checkbox>
+                        <ion-label>{{answer.titulo}}</ion-label>
+                    </ion-item>
+                </ng-container>
+
+                <!-- Tipo respuesta única -->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.uniqueAnswer) && survey.opened">
+                    <ion-list>
+                        <ion-radio-group formControlName="respuesta">
+                            <ion-item lines="none" *ngFor="let answer of ask.respuestas">
+                                <ion-label>{{answer.titulo}}</ion-label>
+                                <ion-radio [value]="answer.id" [disabled]="notResponseValidation && response"></ion-radio>
+                            </ion-item>
+                        </ion-radio-group>
+                    </ion-list>
+                </ng-container>
+
+                <!-- Tipo respuesta geolocalización -->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.geoAnswer) && survey.opened">
+                    <ion-row padding>
+                        <ion-col no-padding *ngIf="(responseRepeatStatus || !response) && survey.preguntas.length == 1">
+                            <ion-button expand="block" class="orange-button" (click)="sendGeo(ask)">
+                                Capturar ubicación
+                            </ion-button>
+                        </ion-col>
+
+                        <ion-col no-padding *ngIf="(responseRepeatStatus || !response) && survey.preguntas.length > 1">
+                            <div *ngIf="lat" class="geo-data">
+                                <p>
+                                    <ion-icon name="pin"></ion-icon>
+                                    Latitud: {{lat}}
+                                </p>
+                                <p>
+                                    <ion-icon name="pin"></ion-icon>
+                                    Longitud: {{long}}
+                                </p>
+                            </div>
+
+                            <ion-button expand="block" (click)="getDataGeo(indexAsk)">
+                                <span *ngIf="!lat || !long">Capturar ubicación</span>
+                                <span *ngIf="lat || long">Repetir ubicación</span>
+                            </ion-button>
+                        </ion-col>
+
+
+                        <ion-col no-padding *ngIf="response  && !responseRepeatStatus">
+                            <p>Ya se obtuvieron coordenadas</p>
+                        </ion-col>
+                    </ion-row>
+                </ng-container>
+
+                <!-- Tipo respuesta código qr -->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.codeQR) && survey.opened">
+                    <ion-row padding>
+                        <ion-col no-padding>
+                            <div *ngIf="getQR(indexAsk)" class="qr-data">
+                                <ion-icon name="qr-scanner"></ion-icon>
+                                <ion-icon color="success" name="checkmark"></ion-icon>
+                            </div>
+                            <ion-button expand="block" (click)="readQR(indexAsk)">
+                                <ng-container *ngIf="!getQR(indexAsk)">
+                                    Asociar QR
+                                </ng-container>
+                                <ng-container *ngIf="getQR(indexAsk)">
+                                    Asociar nuevo QR
+                                </ng-container>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ng-container>
+
+                <!-- Tipo respuesta ciudades -->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.cities) && survey.opened">
+                    <h3 class="ion-padding-horizontal ion-padding-top">
+                        Departamento
+                    </h3>
+                    <ion-item class="input-form select" lines="none">
+                        <!-- <ion-label position="floating">Departamento</ion-label> -->
+                        <div class="select-wrapper">
+                            <ion-select class="select-default" (ionChange)="onChangeDepartaments($event.detail.value)" interface="alert" placeholder="Selecciona departamento" okText="Seleccionar" cancelText="Cancelar">
+                                <ion-select-option *ngFor="let departament of departaments; let i = index" [value]="departament.id">
+                                    {{departament.nombre}}
+                                </ion-select-option>
+                            </ion-select>
+                        </div>
+                    </ion-item>
+                    <h3 class="ion-padding-horizontal ion-padding-top" *ngIf="cities && cities.length > 0">
+                        Ciudad
+                    </h3>
+                    <ion-item class="input-form select" lines="none" *ngIf="cities && cities.length > 0">
+                        <!-- <ion-label position="floating">Ciudad</ion-label> -->
+                        <div class="select-wrapper">
+                            <ion-select class="select-default" (ionChange)="onChangeCity(indexAsk, $event.detail.value)" interface="alert" placeholder="Selecciona ciudad" okText="Seleccionar" cancelText="Cancelar">
+                                <ion-select-option *ngFor="let city of cities; let i = index" [value]="city">
+                                    {{city.nombre}}
+                                </ion-select-option>
+                            </ion-select>
+                        </div>
+                    </ion-item>
+                    <p class="ion-padding-horizontal" *ngIf="(notResponseValidation && response) && respuesta_abierta">{{respuesta_abierta}}</p>
+                </ng-container>
+
+
+                <!-- Tipo respuesta firma -->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.firm) && survey.opened">
+                    <ion-row justify-content-center>
+                        <ion-col size="10" no-padding>
+                            <p no-margin text-center><b>Firma</b></p>
+                            <p no-margin text-center>Desliza el dedo sobre el siguiente espacio para escribir tu firma</p>
+                        </ion-col>
+                        <ion-col size="12" text-center>
+                            <div class="border border-primary signature-pad--body">
+                                <signature-pad id="pad" [options]="signaturePadOptions" (onEndEvent)="saveSignature(indexAsk)"></signature-pad>
+                                <div class="slide-finger">
+                                    <img src="/assets/images/tap.svg">
+                                </div>
+                            </div>
+                        </ion-col>
+
+                        <ion-col size="10" no-padding>
+                            <p no-margin text-center>Habeas Data </p>
+                        </ion-col>
+                        <ion-col size="10" text-center>
+                            <ion-button (click)="clearSignature(indexAsk)" expand="block">
+                                Limpiar
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ng-container>
+
+                <!-- Tipo respuesta numérica -->
+                <ng-container *ngIf="(ask.tipo_encuesta.slug == typeSurveys.numeric) && survey.opened">
+                    <ion-item class="input-form" no-padding lines="none" *ngIf="!notResponseValidation || (notResponseValidation && !response)">
+                        <!-- <ion-label position="stacked">{{ask.pregunta}}</ion-label> -->
+                        <ion-input type="tel" pattern="[0-9]*" formControlName="res_numerica"></ion-input>
+                    </ion-item>
+                    <p class="ion-padding-horizontal" *ngIf="(notResponseValidation && response) && respuesta_numerica">{{respuesta_numerica}}</p>
+                </ng-container>
+
+                <ion-row padding *ngIf="!survey.finalizada && (notResponseValidation && response) &&
+                    ((survey.preguntas.length == 1 && indexAsk == 0)
+                    || (survey.preguntas.length > 1 && (indexAsk == survey.preguntas.length - 1)))">
+                    <ion-col size="12" no-padding>
+                        <div class="complete">
+                            Ya participaste
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-button expand="block" class="orange-button" (click)="responseRepeat()">
+                            Participar de nuevo
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+
+                <hr class="divider ion-margin-horizontal" *ngIf="((!notResponseValidation && !survey.opened) || ((notResponseValidation && !response) && (indexAsk == 0 && !survey.opened)))" [ngClass]="{'ion-padding-top': !survey.opened}">
+
+                <ion-row padding *ngIf="((!notResponseValidation || ((notResponseValidation && !response) && survey.opened)) && !ask.isImage) && ((survey.preguntas.length - 1) == indexAsk)
+                                && (ask.tipo_encuesta.slug != typeSurveys.geoAnswer)">
+                    <ion-col no-padding>
+                        <ion-button expand="block" class="orange-button" (click)="sendResoponse()" [disabled]="!formData.valid">
+                            Responder
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row padding *ngIf="((!notResponseValidation || ((notResponseValidation && !response) && survey.opened)) && !ask.isImage) && ((survey.preguntas.length - 1) == indexAsk)
+                                && ((ask.tipo_encuesta.slug == typeSurveys.geoAnswer && survey.preguntas.length > 1))">
+                    <ion-col no-padding>
+                        <ion-button expand="block" class="orange-button" (click)="sendResoponse()" [disabled]="!formData.valid">
+                            Responder
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+
+
+                <ion-row padding *ngIf="((!notResponseValidation || ((notResponseValidation && !response) && survey.opened)) && ask.isImage) && ((survey.preguntas.length - 1) == indexAsk)">
+                    <ion-col no-padding>
+                        <ion-button expand="block" class="orange-button" (click)="sendResoponse()" [disabled]="!formData.valid">
+                            Responder
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+                <ion-row padding *ngIf="(notResponseValidation && !response) && (!survey.opened && indexAsk == 0)">
+                    <ion-col no-padding>
+                        <ion-button expand="block" class="orange-button" (click)="openOrCloseCard()">
+                            Participar
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+
+                <hr class="divider ion-margin-horizontal divider-margin-bottom" *ngIf="(survey.opened && survey.preguntas.length > 1) && (indexAsk <= (survey.preguntas.length - 2))">
+            </div>
+            <div class="ion-padding-bottom ion-text-center" *ngIf="survey.fecha_fin">
+                <p class="color-danger ion-no-padding">Fecha de finalización: {{survey.fecha_fin}}</p>
+            </div>
+        </ng-container>
+    </ion-card-content>
+</ion-card>

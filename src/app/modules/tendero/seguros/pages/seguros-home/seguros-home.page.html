@@ -1,0 +1,82 @@
+<app-seguros-cabecera
+        [showMenuButton]="showMenuButton"
+        [title]="title"
+        [subtitle]="subtitle"
+        [showTitle]="showTitle"
+>
+</app-seguros-cabecera
+>
+<ion-content>
+    <ion-grid class="insurance">
+        <ion-row class="ion-align-items-center ion-padding-horizontal">
+            <ion-col size="3" no-padding><img src="../assets/images/seguros.svg" alt=""></ion-col>
+            <ion-col class="ion-padding-start" no-padding><h5>Protégete fácilmente desde tu celular con HDI Seguros</h5>
+            </ion-col>
+            <ion-col size="12">
+                <p>HDI Seguros es una empresa del Grupo Talanx con más de 100 años de experiencia en el sector asegurador, activo en 150 países en el mundo.</p>
+                <p>Ahora protege a tu familia y negocio en tres simples pasos:</p>
+            </ion-col>
+            <ion-col size="12" class="ion-no-padding">
+                <ion-row class="steps">
+                    <ion-col size="12"><span>1</span><p>Selecciona tu proteccion favorita.</p></ion-col>
+                    <ion-col size="12"><span>2</span><p>Llena completamente el formulario de datos.</p></ion-col>
+                    <ion-col size="12"><span>3</span><p>Paga desde tu saldo <b>storeapp</b> y ¡Listo!</p></ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-padding-horizontal">
+            <ion-col *ngFor="let insurance of insurances; let i = index; let even = even; let odd = odd"
+                    [ngClass]="{ odd: odd, even: even }"
+                    size="6">
+                <app-tarjeta-seguro
+                        [insurance]="insurance"
+                        [user]="user"
+                        [position]="i"
+                        [ngStyle]="{ order: i }">
+                </app-tarjeta-seguro>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center ion-padding-horizontal">
+            <ion-col size="12" class="ion-no-padding">
+                <ion-row class="below-text ion-padding-horizontal">
+                    <ion-col size="12">
+                        <p><b>1.</b>Mes a mes se descontará automáticamente de tu saldo <b>storeapp</b></p>
+                    </ion-col>
+                    <ion-col size="12">
+                        <p><b>2.</b>Seguro de vinculación y desvinculación voluntario.</p>
+                    </ion-col>        
+                </ion-row>
+            </ion-col>
+            <ion-col size="12">
+                <div class="mensajeSeguros" [innerHTML]="mensaje">
+                </div>
+            </ion-col>
+            <ion-col size="12" no-padding>
+                <ion-row class=" cancel-insurance ion-justify-content-center" *ngIf="showCancelVida || showCancelPyme" >
+                    <ion-col size="12" *ngIf="showCancelVida">
+                        <ion-button expand="block" (click)="cancelInsurance('vida_voluntario')">
+                            <ion-row>
+                                <ion-col size="12">Tienes Activo Protege a tu Familia</ion-col>
+                                <ion-col size="12">
+                                    <small>Si deseas cancelarlo haz clic aquí</small>
+                                </ion-col>
+                            </ion-row>
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="12" *ngIf="showCancelPyme">
+                        <ion-button expand="block" (click)="cancelInsurance('pyme')">
+                            <ion-row>
+                                <ion-col size="12">Tienes Activo Protege tu Negocio</ion-col>
+                                <ion-col size="12">
+                                    <small>Si deseas cancelarlo haz clic aquí</small>
+                                </ion-col>
+                            </ion-row>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<app-recargas-solicitar-saldos *ngIf="user" [user]="user"></app-recargas-solicitar-saldos>

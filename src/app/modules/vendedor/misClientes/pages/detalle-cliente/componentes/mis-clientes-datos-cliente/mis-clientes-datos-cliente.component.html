@@ -1,0 +1,75 @@
+<ion-row class="ion-padding-bottom">
+    <ion-col size="12">
+        <small>
+            <i class="icon-user"></i>Nombre de contacto
+        </small>
+        <p no-margin>{{name}}</p>
+    </ion-col>
+    <ion-col size="12">
+        <hr class="divider">
+    </ion-col>
+    <ion-col size="4" class="border-right">
+        <small>
+            <i class="icon-info"></i>No. Cédula
+        </small>
+        <p no-margin>{{document}}</p>
+    </ion-col>
+    <ion-col size="4" class="border-right">
+        <a href="tel:{{cellphone}}" class="button button-positive">
+            <small>
+                <i class="icon-phone"></i>Teléfono
+            </small>
+            <p no-margin>{{cellphone}}</p>
+        </a>
+    </ion-col>
+    <ion-col size="4">
+        <small>
+            <i class="icon-calendar"></i>Día visita
+        </small>
+        <p no-margin>{{visitDay}}</p>
+    </ion-col>
+    <ion-col size="12">
+        <hr class="divider">
+    </ion-col>
+    <ion-col size="12">
+        <small>
+            <i class="icon-map-pin"></i>Dirección
+        </small>
+        <p no-margin>{{direction}}</p>
+    </ion-col>
+    <ion-col size="12" *ngIf="orden != undefined">
+        <hr class="divider">
+    </ion-col>
+    <ion-col size="12" *ngIf="orden != undefined">
+        <ion-row class="ion-align-items-center">
+            <!-- <ion-col size="8">
+                <ion-input class="button-outline white" maxlength="4" type="number" no-margin  [(ngModel)]="todo.value.valor" ></ion-input>     
+            </ion-col> -->
+            <ion-col size="auto">
+                <small align-items-center>
+                    <i class="icon-list"></i>Orden
+                </small>
+            </ion-col>
+            <ion-col text-center>
+                <p *ngIf="!isEdit" no-margin>
+                    {{todo.value.valor}}
+                </p>
+                <input class="input-element-ubicacion" *ngIf="isEdit" type="text" size="small" type="number" [(ngModel)]="todo.value.valor" #myInput>
+            </ion-col>
+            <ion-col size="auto" text-right no-padding>
+                <!-- <ion-button class="button-outline white" expand="block" (click)="saveOrder()" no-margin> -->
+                <ion-button size="small" *ngIf="!isEdit && !superSellerService.idSuperSeller" class="button-outline white" expand="block"
+                    (click)="activeInput()" no-margin>
+                    <i class="icon-save"></i>Editar orden
+                </ion-button>
+                <ion-button size="small" *ngIf="isEdit" class="button-outline white" expand="block"
+                    (click)="saveOrder()" no-margin>
+                    <i class="icon-save"></i>Guardar orden
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-col>
+    <ion-col size="12">
+        <hr class="divider">
+    </ion-col>
+</ion-row>

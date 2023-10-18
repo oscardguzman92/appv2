@@ -1,0 +1,111 @@
+ion-alert {
+  font-family: "montserrat_mediumregular";
+  .alert-head {
+    &.sc-ion-alert-md {
+      padding-bottom: 10px;
+    }
+  }
+  .alert-radio-group.sc-ion-alert-md {
+    border-top: none;
+    border-bottom: none;
+  }
+  .alert-radio-label.sc-ion-alert-md {
+    -webkit-padding-start: 38px;
+    padding-inline-start: 38px;
+    font-family: "montserrat_mediumregular";
+    color: var(--ion-color-dark);
+  }
+  .alert-title {
+    font-size: 20px !important;
+  }
+  .alert-sub-title {
+    font-size: 15px !important;
+  }
+  .alert-message {
+    font-size: 14px !important;
+    // padding-bottom: 0;
+    font-family: "montserrat_mediumregular";
+  }
+  .alert-button-group {
+    background: var(--ion-color-light) !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-inline-start: 12px;
+    padding-inline-end: 12px;
+  }
+  .alert-button {
+    @extend .blue-gradient-background;
+    color: white !important;
+    font-family: "montserrat_semiboldregular";
+    text-transform: initial !important;
+    font-size: 14px;
+    border-radius: 60px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    padding-inline-start: 16px !important;
+    padding-inline-end: 16px !important;
+    text-align: initial;
+    margin: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    margin-left: 8px;
+  }
+  .alert-message {
+    padding-bottom: 18px !important;
+    font-size: 16px !important;
+  }
+  &.info-alert {
+    .alert-title {
+      color: var(--ion-color-primary) !important;
+      display: flex;
+      align-items: center;
+      &:before {
+        content: "\e982";
+        font-family: "iconfont";
+        font-weight: bold;
+        margin-right: 10px;
+        font-size: 26px;
+      }
+    }
+  }
+  &.attention-alert {
+    .alert-title {
+      color: var(--ion-color-secondary) !important;
+      display: flex;
+      align-items: center;
+      font-size: 20px;
+      line-height: 1;
+      &:before {
+        content: "\e911";
+        font-family: "iconfont";
+        font-weight: bold;
+        margin-right: 10px;
+        font-size: 26px;
+      }
+    }
+    .alert-button {
+      @extend .orange-gradient-background;
+    }
+    .three-button-alert {
+      margin: 5px 0;
+    }
+    
+    .three-button-alert span {
+      justify-content: center;
+    }
+    &.exit-offline {
+      span {
+        justify-content: center;
+        text-align: center;
+      }
+      .secondary {
+        width: 100%;
+        margin-top: 12px;
+      }
+    }
+  }
+}
+.column-buttons {
+  .alert-button-group {
+    flex-direction: column;
+  }
+}

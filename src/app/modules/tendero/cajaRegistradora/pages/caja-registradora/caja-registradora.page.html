@@ -1,0 +1,139 @@
+<app-cabecera [total]="total | number" [showMenuButton]="showMenuButton" [products]="quantity" [title]="title" [subtitle]="subtitle" [showTitle]="showTitle" [showDataSale]="inSale">
+</app-cabecera>
+<ion-content>
+  <ion-slides pager="false" [options]="cashRegisterSlides" #CashRegisterSlide>
+    <ion-slide id="slide-add" *ngIf="!inSale">
+      <ion-grid id="add">
+        <ion-row>
+          <ion-col align-items-center justify-content-center>
+            <div (click)="goToSearch()">
+              <object></object>
+              <div class="add-sale">
+                <button class="blue-button" (click)="goToSearch()">
+                  <i class="icon-plus"></i>
+                </button>
+                <ion-button
+                  size="small"
+                  expand="block"
+                  class="button-outline-orange"
+                  (click)="goToSearch()"
+                >
+                  Registra tu venta
+                </ion-button>
+              </div>
+              <div class="kpi">
+                <strong>Ventas</strong>
+                <p>
+                  <span>Hoy</span>
+                  <b>{{kpi.day}}</b>
+                </p>
+                <p>
+                  <span>Noviembre</span>
+                  <b>{{kpi.month}}</b>
+                </p>
+                <p>
+                  <span>2019</span>
+                  <b>{{kpi.year}}</b>
+                </p>
+                <div class="divider"></div>
+                <p>
+                  <strong>Fiado</strong>
+                  <b>{{kpi.trustworthy}}</b>
+                </p>                                                
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div id="to-options" (click)="goToOptions()">
+        <i class="icon-arrow-down icon-orange-gradient"></i>
+        <small>Desliza hacia abajo para ver más opciones</small>
+      </div>
+    </ion-slide>
+    <ion-slide id="slide-sale" *ngIf="inSale">
+      <ion-content>
+        <ion-grid no-padding>
+          <app-lista-producto
+            [inSale]="true"
+            [sync]="sync"
+            showQuantity="true"
+            [product]="product"
+            *ngFor="
+              let product of products;
+              let i = index;
+              let even = even;
+              let odd = odd
+            "
+            [ngClass]="{ odd: odd, even: even }"
+          >
+          </app-lista-producto>
+        </ion-grid>
+      </ion-content>
+      <ion-footer class="cash-register-footer">
+        <button class="even" (click)="cancel()">
+          <p>
+            Cancelar
+          </p>
+          <ion-icon class="icon-x"></ion-icon>
+        </button>
+        <button class="add blue-button" (click)="goToSearch()">
+          <i class="icon-plus"></i>
+        </button>
+        <button class="odd" (click)="confirm()">
+          <p>
+            Terminar
+          </p>
+          <ion-icon class="icon-check"></ion-icon>
+        </button>
+      </ion-footer>
+    </ion-slide>
+    <ion-slide id="slide-options" no-padding>
+      <div id="to-new-sale" (click)="goToNewSale()">
+        <i class="icon-arrow-up icon-orange-gradient"></i>
+      </div>
+      <ion-grid padding>
+        <ion-row>
+          <ion-col size="12">
+            <ion-card class="promo-card sales-card" (click)="goToSales()">
+              <ion-card-content>
+                <ion-row>
+                  <ion-col size="6" no-padding></ion-col>
+                  <ion-col size="6" no-padding>
+                    <strong>Ventas</strong>
+                    <p>
+                        Lleva un registro detallado de tus ventas y quiénes 
+                        tienen una cuenta pendiente en tu negocio (a quién le has fiado).
+                    </p>
+                    <ion-button (click)="goToSales()" size="small" expand="block" class="orange-button">
+                      Mis Ventas
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+
+          <ion-col size="12">
+            <ion-card class="promo-card catalog-card" (click)="goToCatalogue()">
+              <ion-card-content>
+                  <ion-row>
+                    <ion-col size="6" no-padding></ion-col>
+                    <ion-col size="6" no-padding>
+                      <strong>Catálogo</strong>
+                      <p>
+                          Revisa todos los productos creados por ti, los que más
+                          vendes y aquellos que has marcado como destacados.
+                      </p>
+                      <ion-button (click)="goToCatalogue()" size="small" expand="block">
+                        Mis Productos
+                      </ion-button>
+                    </ion-col>
+                  </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

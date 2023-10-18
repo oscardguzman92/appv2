@@ -1,0 +1,12 @@
+<div class="searchbox cash-register">
+    <div class="wrapper-search">
+        <ion-input 
+        placeholder="Buscar"
+        (keyup.enter)="hideSearch($event)"
+        [(ngModel)]="searchValue"
+        name="searchValue"
+        ngDefaultControl
+        ></ion-input>
+        <i class="icon-search" (click)="searchIcon()"></i>
+    </div>
+</div>

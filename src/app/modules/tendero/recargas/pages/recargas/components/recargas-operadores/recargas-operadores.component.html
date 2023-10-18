@@ -1,0 +1,16 @@
+<ion-row justify-content-between>
+    <ion-col size="12">
+        <p class="ion-margin-bottom" no-margin>Selecciona el operador para realizar la recarga:</p>
+    </ion-col>
+</ion-row>
+
+<ion-row justify-content-between>
+    <ion-col size="4" *ngFor="let operador of operadores" class="operator">
+        <div>
+            <img appImgLoadingLocalOrServer='../assets/images/logos-operadores/logo-'
+                 routeServer=''
+                 [image]="operador.operador + '.jpg'"
+                 (click)="goDoCharge(operador)">
+        </div>
+    </ion-col>
+</ion-row>

@@ -1,0 +1,166 @@
+/* .ubicacion{
+  min-height: 100vh;
+  background-color: #bdd9ff;
+} */
+
+
+.spinner-search-address{
+  height: 100%;
+  display: block;
+  vertical-align: middle;
+}
+
+.location {
+  --background: url("../../../../../../../../assets/images/dummy-map.png");
+  position: relative;
+  
+  .back-on-map {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-size: 30px;
+    z-index: 2;
+  }
+}
+
+#map_canvas {
+  width: 90%;
+  height: 80%;
+  border: 1px solid red;
+}
+
+#address {
+  padding: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#map {
+  width: 100%;
+  height: calc(100vh - (186px));
+}
+
+.map-wrapper {
+  position: relative;
+  ion-icon {
+    position: absolute;
+    z-index: 10;
+    color: white;
+    font-size: 34px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.35);
+    pointer-events: none;
+    &.icon-arrow-up-left {
+      top: 16px;
+      left: 16px;
+    }
+    &.icon-arrow-up-right {
+      top: 16px;
+      right: 16px;
+    }
+    &.icon-arrow-down-left {
+      bottom: 16px;
+      left: 16px;
+    }
+    &.icon-arrow-down-right {
+      bottom: 16px;
+      right: 16px;
+    }
+  }
+  #map_center {
+    position: absolute;
+    z-index: 10;
+    width: 50px;
+    height: 60px;
+    top: 50%;
+    left: 50%;
+    margin-left: -25px;
+    margin-top: -45px;
+  }
+}
+.search-address {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 11;
+  background: white;
+  top: 1000px;
+  ion-grid {
+    background: var(--ion-color-light);
+  }
+  ion-label {
+    font-family: "montserrat_mediumregular";
+    font-size: 15px;
+    color: var(--ion-color-dark);
+  }
+}
+
+.open-animate {
+  -webkit-animation: open-animate 1s forwards;
+}
+
+@-webkit-keyframes open-animate {
+  0% {
+    top: 1000px;
+  }
+  100% {
+    top: 0px;
+  }
+}
+
+.close-animate {
+  -webkit-animation: close-animate 1s forwards;
+}
+
+@-webkit-keyframes close-animate {
+  0% {
+    top: 0px;
+  }
+  100% {
+    top: 1000px;
+  }
+}
+
+.icon-x {
+  color: var(--ion-color-dark);
+  font-size: 20px;
+}
+
+ion-footer {
+  ion-item {
+    --padding-start:0;
+    --padding-end:0;
+    --inner-padding-start:0;
+    --inner-padding-end:0;
+  }
+  .text-instruction {
+    display: flex;
+    p.small {
+      height: 36px;
+      font-family: "montserrat_mediumregular";
+      line-height: 1.3;
+    }
+    .icon-finger-swipe {
+      font-size: 30px;
+      width: 60px;
+    }
+  }
+}
+ion-chip {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 50px;
+  --background: var(--ion-color-tertiary);
+  height: auto;
+  ion-icon {
+    color: var(--ion-color-dark);
+    height: 25px;
+    font-size: 23px;
+    margin-right: 5px;
+  }
+  p {
+    font-family: "montserrat_semiboldregular";
+    font-size: 13px;
+    line-height: 1.1;
+  }
+}
+

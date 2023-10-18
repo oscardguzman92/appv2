@@ -1,0 +1,30 @@
+<app-compartido-cabecera [showBackButton]="true" [titulo]="'Mis Mensajes'"
+                         [mostrarBotonAuxiliar]="false"></app-compartido-cabecera>
+<ion-content class="messages with-searchbox" no-padding>
+    <ion-grid no-padding>
+        <ion-list *ngIf="messages">
+            <ion-item lines="full" (click)="openMessage(message)" *ngFor="let message of messages">
+                <ion-row>
+                    <ion-col size="1">
+                        <div class="bullet" [ngClass]="{'to-read':message.estado_lectura == 0}"></div>
+                    </ion-col>
+                    <ion-col size="11">
+                        <ion-label>{{message.titulo}}</ion-label>
+                        <p no-margin >{{message.mensaje | slice:0:120}}</p>
+                        <small>{{message.fecha}}</small>
+                    </ion-col>
+                </ion-row>
+            </ion-item>
+            <ion-infinite-scroll threshold="100px" (ionInfinite)="loadInfiniteScroll($event)">
+                <ion-infinite-scroll-content
+                        loadingSpinner="bubbles"
+                        loadingText="Loading more data...">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </ion-list>
+    </ion-grid>
+</ion-content>
+<ion-footer class="wrapper-search-scan">
+    <app-mis-mensajes-buscador (eventSearch)="search($event)"></app-mis-mensajes-buscador>
+</ion-footer>
+

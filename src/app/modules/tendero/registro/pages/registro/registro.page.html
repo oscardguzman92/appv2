@@ -1,0 +1,152 @@
+<ion-content no-padding>
+    <ion-grid class="ion-justify-content-between" padding>
+        <app-compartido-cabecera-sin-login (onBack)="onBack()" [mostrarBotonRegresar]="true"></app-compartido-cabecera-sin-login>
+
+        <ion-row justify-content-center>
+            <ion-col size="10" text-center>
+                <h5 class="sub-title" *ngIf="!isUpdateClient">Registra tus datos</h5>
+                <h5 class="sub-title" *ngIf="isUpdateClient">Actualiza tus datos</h5>
+                <p>Completa todos tus datos, para acceder a la aplicación y llevar tu tienda a otro nivel.</p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-slides [options]="slideOpts" [pager]="true" class="register-slider" #slides>
+        <ion-slide>
+            <form [formGroup]="namesForm">
+                <ion-row justify-content-center>
+                    <ion-col size="11" no-padding>
+                        <ion-item lines="none" class="input-form" no-padding>
+                            <ion-label position="floating">Nombre de tu tienda</ion-label>
+                            <ion-input formControlName="shopName" type="text"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="11" no-padding>
+                        <ion-item class="input-form" lines="none" no-padding>
+                            <ion-label position="floating">Tu nombre</ion-label>
+                            <ion-input formControlName="contactName" type="text"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="11" no-padding>
+                        <ion-item class="input-form" lines="none" no-padding>
+                            <ion-label position="floating">Tu correo electronico</ion-label>
+                            <ion-input formControlName="contactEmail" type="text"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="11" text-center no-padding class="buttons-wrapper ion-padding-horizontal">
+                        <ion-button (click)="buildWithNames(namesForm.value)" [disabled]="!namesForm.valid">Siguiente
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </form>
+        </ion-slide>
+
+        <ion-slide>
+            <form [formGroup]="membershipForm">
+                <ion-row justify-content-center>
+                    <ion-col size="11" no-padding>
+                        <ion-item lines="none" class="input-form">
+                            <ion-label position="floating">Número de membresia</ion-label>
+                            <ion-input formControlName="membership" type="text" value="GR4715"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="9" no-padding>
+                        <p class="small ion-padding-bottom" text-center no-margin>*Si un asesor te está ayudando, te indicará el código de membresía.</p>
+                    </ion-col>
+                    <ion-col size="11" no-padding class="buttons-wrapper ion-padding-horizontal">
+                        <ion-button (click)="previousSlide()" class="ion-float-left">Atrás</ion-button>
+                        <ion-button (click)="buildWithMembership(membershipForm.value)" class="ion-float-right"
+                            [disabled]="!membershipForm.valid">Siguiente
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </form>
+        </ion-slide>
+
+        <!-- <ion-slide>
+            <form [formGroup]="phoneForm">
+                <ion-row justify-content-center>
+
+                    <ion-col size="11" no-padding>
+                        <ion-item lines="none" class="input-form">
+                            <ion-label position="floating">Número de teléfono</ion-label>
+                            <ion-input formControlName="phone" type="text"></ion-input>
+                        </ion-item>
+                    </ion-col>
+
+                    <ion-col size="11" no-padding class="buttons-wrapper ion-padding-horizontal">
+                        <ion-button (click)="previousSlide()" class="ion-float-left">Atrás</ion-button>
+                        <ion-button (click)="buildWithPhone(phoneForm.value)" class="ion-float-right"
+                                    [disabled]="!phoneForm.valid">Siguiente
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </form>
+        </ion-slide> -->
+
+        <!-- <ion-slide>
+            <ion-row justify-content-center>
+                <ion-col size="11" no-padding>
+                    <app-general-codigo-sms [withOutFocus]="true" (acceptedCode)="acceptedCode()" [hideSend]="hideSendCodeSms">
+                    </app-general-codigo-sms>
+                </ion-col>
+                <ion-col size="11" no-padding class="buttons-wrapper ion-padding-horizontal">
+                    <ion-button (click)="previousSlide()" class="ion-float-left">Atrás</ion-button>
+                    <ion-button [disabled]="disableSms" (click)="registerSms()" class="ion-float-right">Validar
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-slide> -->
+
+        <ion-slide>
+            <ion-row justify-content-center>
+                <ion-col size="10" no-padding text-center>
+                    <h6 class="ion-margin-bottom">Estrato</h6>
+                </ion-col>
+                <ion-col size="10" no-padding>
+                    <form [formGroup]="stratumForm">
+                        <ion-radio-group formControlName="stratum">
+                            <ion-row class="radio-group">
+                                <ion-col size="4" *ngFor="let stratum of strata">
+                                    <ion-item lines="none">
+                                        <div class="wrapper-radio">
+                                            <ion-radio slot="start" [value]="stratum"></ion-radio>
+                                            <ion-label>{{stratum}}</ion-label>
+                                        </div>
+                                    </ion-item>
+                                </ion-col>
+                            </ion-row>
+                        </ion-radio-group>
+                    </form>
+                </ion-col>
+                <ion-col size="10" class="buttons-wrapper" no-padding>
+                    <ion-button (click)="previousSlide()" class="ion-float-left">Atrás</ion-button>
+                    <ion-button (click)="buildWithStratum(stratumForm.value)" class="ion-float-right"
+                        [disabled]="!stratumForm.valid">
+                        Siguiente
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-slide>
+
+        <ion-slide>
+            <form>
+                <ion-row justify-content-center *ngIf="typesShops">
+                    <ion-col size="8" class="ion-margin-bottom" no-padding>
+                        <ion-item lines="none" class="input-form checkbox" *ngFor="let type of typesShops">
+                            <ion-label>{{type.nombre}}</ion-label>
+                            <ion-checkbox [(ngModel)]="type.selected" name="typeShop-{{type.id}}" slot="start"
+                                [value]="type.id" (click)="changeSelected(type)">
+                            </ion-checkbox>
+                        </ion-item>
+                    </ion-col>
+                    <ion-col size="11" no-padding class="buttons-wrapper ion-padding-horizontal">
+                        <ion-button (click)="previousSlide()" class="ion-float-left">Atrás</ion-button>
+                        <ion-button (click)="capturaUbicacion(typeShopValue[0].id)"
+                            [disabled]="typeShopValue.length == 0" class="ion-float-right">Siguiente
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </form>
+        </ion-slide>
+    </ion-slides>
+</ion-content>

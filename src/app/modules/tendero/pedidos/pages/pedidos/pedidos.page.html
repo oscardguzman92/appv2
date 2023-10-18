@@ -1,0 +1,55 @@
+<app-pedidos-cabecera *ngIf="user" [tienda]="user.tiendas[0].nombre" [direccionTienda]="user.tiendas[0].direccion"
+    [tituloBoton]="titleButton" [mostrarBotonPedidosAnteriores]="false" [filtro]="false" [shop]="user.tiendas[0]"
+    [user]="user" [rutaRedirection]="'pedidos'" [listenerEventHeader]="user.tiendas.length > 0"
+    (eventHeader)="eventHeader()" (clickFilter)="eventPounts()">
+</app-pedidos-cabecera>
+<ion-content no-padding class="seleccion_tienda with-searchbox">
+    <!-- <span *ngIf="user && resComponent">
+        <app-general-ofertas [user]="user" [companies]="resComponent.companias"></app-general-ofertas>
+    </span> -->
+    <ion-grid padding class="no-padding-top-bottom">
+        <ion-row>
+            <ion-col class="no-padding-top-bottom">
+                <div class="divider"></div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12" class="no-padding-top-bottom">
+                <h4 class="ion-float-left">Proveedores</h4>
+            </ion-col>
+            <ion-col size="12" class="no-padding-top-bottom">
+                <p class="small" no-margin>¡Encuentra los mejores productos y surte tu tienda con la mejor calidad!</p>
+            </ion-col>
+        </ion-row>
+
+        <app-pedidos-companias *ngIf="(companies.length > 0 || portfolios.length > 0) && user" [portfolios]="portfolios"
+            [companies]="companies" [user]="user">
+        </app-pedidos-companias>
+    </ion-grid>
+</ion-content>
+<ion-footer class="wrapper-search-scan">
+    <app-general-boton-buscador-codigo-barras [showButton]="showButtonBarcode" [small]="nProducts > 0"
+        (search)="searchEvent($event)"></app-general-boton-buscador-codigo-barras>
+    <app-pedidos-buscador #pedidosBuscador [nProducts]="nProducts" activeKeyUp="false" (focusEvent)="focusEvent()"
+        (blurEvent)="blurEvent()" [companies]="companies" [portfolios]="portfolios"></app-pedidos-buscador>
+    <ion-button class="cart-button"
+        [ngClass]="{'show': nProducts > 0, 'small-button': !pedidosBuscador.inputExpand && !pedidosBuscador.small ,'edit-cart':hasEdit}"
+        (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">{{orderValue | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{nProducts}}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+</ion-footer>

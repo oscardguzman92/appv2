@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-toolbar>
+        <div>
+            <ion-buttons>
+                <ion-button (click)="toggleMenu()" *ngIf="!showBackButton">
+                    <i slot="icon-only" class="icon-menu icon-orange-gradient"></i>
+                </ion-button>
+                <ion-button (click)="justBack()" *ngIf="showBackButton">
+                    <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+                </ion-button>
+            </ion-buttons>
+            <ion-title color="primary" no-padding class="medium" style="margin-bottom: 8px">
+                {{ titulo | titlecase }} <span>Mercaderista</span>
+            </ion-title>
+            <ion-buttons *ngIf="mostrarBotonAuxiliar">
+                <ion-button class="right-button-header">
+                    {{ tituloBoton }}
+                </ion-button>
+            </ion-buttons>
+        </div>
+    </ion-toolbar>
+</ion-header>

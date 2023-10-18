@@ -1,0 +1,26 @@
+<ion-grid>
+    <ion-row class="header-modal ion-align-items-center">
+        <ion-col size="auto">
+            <ion-icon class="icon-phone" name="null"></ion-icon>
+        </ion-col>
+        <ion-col>
+            <h5>Contacto</h5>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="content-modal">
+        <ion-col no-padding>
+            <p no-margin>Selecciona como deseas contacar al cliente</p>
+        </ion-col>
+    </ion-row>
+
+    <ion-row class="footer-modal">
+        <ion-col size="6">
+            <ion-button size="small" expand="block" (click)="whatsapp()">WhatsApp</ion-button>
+        </ion-col>
+        <ion-col size="6">
+            <ion-button size="small" expand="block" (click)="call()">Llamar</ion-button>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+

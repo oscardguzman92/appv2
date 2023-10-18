@@ -1,0 +1,40 @@
+<app-cabecera
+  [title]="title"
+  [subtitle]="subtitle"
+  [showTitle]="showTitle"
+  [showBackHomeButton]="showBackHomeButton"
+  [showModalFilter]="showModalFilter"
+>
+</app-cabecera>
+<ion-content no-padding>
+  <ion-grid no-padding>
+    <app-lista-venta
+      *ngFor="let sale of sales; let i = index; let even = even; let odd = odd"
+      [ngClass]="{ odd: odd, even: even }"
+      [item]="sale"
+    ></app-lista-venta>
+  </ion-grid>
+</ion-content>
+<ion-footer class="common-footer">
+  <ion-toolbar text-center>
+    <button *ngIf="filterText !== null" no-margin class="filter-button" (click)="removeFilter()">
+      <small>{{ filterText }}</small>
+      <i class="icon-x"></i>
+    </button>
+    <ion-row>
+      <ion-col size="12"
+      [ngClass]="{
+        'filter-active': filterText !== null
+      }"
+      >
+        <small no-margin>
+          <b>{{ quantitySales | number }}</b> ventas
+        </small>
+        <strong>$ {{ quantityTotalSales | number }}</strong>
+        <p no-margin>
+          Te deben <b>$ {{ quantityTotalTrustworthy | number }}</b>
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,105 @@
+.state {
+  padding: 10px 0;
+  border-radius: 10px;
+  color: white;
+  font-family: "montserrat_semiboldregular";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  font-size: 11px;
+  margin: auto;
+  text-transform: uppercase;
+  float: right;
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  &.not-complete {
+    background: var(--ion-color-danger);
+  }
+  &.complete {
+    background: var(--ion-color-success);
+  }
+  i {
+    font-size: 1.2em;
+    position: absolute;
+    right: 12px;
+  }
+  span {
+    color: white;
+    line-height: 3px;
+  }
+}
+.header{
+    margin-bottom: 5px;
+}
+.data-price {
+  font-size: 1.5em;
+  color: var(--ion-color-primary);
+  font-family: "montserratbold";
+  font-weight: normal;
+}
+
+.data-sale,
+.data-client {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  p {
+    margin: 0;
+    b {
+      color: var(--ion-color-secondary);
+      font-size: 1.3em;
+    }
+    span {
+      color: var(--ion-color-primary);
+      font-size: 1em;
+    }
+    small {
+      color: var(--ion-color-dark);
+      display: block;
+      font-size: 0.8em;
+    }
+  }
+}
+
+.icon-arrow {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-end;    
+    ion-icon {
+      color: var(--ion-color-primary);
+      font-size: 1.5em;
+    }
+}
+
+ion-item{
+    padding: 5px 0;
+}
+
+.quantity{
+    display: flex;
+    height: 100%;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    span{
+        width: 20px;
+        height: 20px;
+        background: var(--ion-color-secondary);
+        color:white;
+        text-align: center;
+        border-radius: 100%;
+        font-family: montserrat_semiboldregular;
+        font-size: 13px;
+        line-height: 20px;
+        margin-bottom: 5px;
+    }
+    small{
+        color: var(--ion-color-secondary);
+        font-size: 10px;
+        text-transform: uppercase;
+        font-family: 'montserrat_semiboldregular';
+    }
+}

@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" no-padding *ngIf="shop">
+            {{ shop.nombre_tienda | titlecase }}
+            <span>Cod. {{ shop.codigo_cliente }}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="with-searchbox">
+    <span *ngIf="featuredProducts && featuredProducts.length > 0">
+        <app-general-ofertas [user]="user" [offers]="featuredProducts"
+                             [companies]="featuredProducts"></app-general-ofertas>
+    </span>
+    <div class="categories-buttons-wrapper" padding>
+        <ion-title class="sub-title" text-center>Selecciona una Marca</ion-title>
+        <ion-card class="promo-card brand" (click)="selectOffert()">
+            <p>OFERTAS</p>
+        </ion-card>
+
+        <ion-card
+                class="promo-card brand"
+                *ngFor="let brand of brands"
+                (click)="selectBrand(brand)"
+                [ngClass]="{'exclusive': brand.id == 99990 || brand.id == 99991}">
+            <p>{{ brand.nombre }}</p>
+        </ion-card>
+    </div>
+</ion-content>
+<ion-footer class="wrapper-search-scan">
+    <app-pedidos-buscador #pedidosBuscador [nProducts]="nProducts" activeKeyUp="false"
+                          [offlineDynamic]="offlineDynamic" [idShop]="shop.id"
+                          [allProductosOffline]="allProductsOffline"></app-pedidos-buscador>
+    <ion-button [@jump]="thingState" class="cart-button" [ngClass]="{
+            show: nProducts > 0, 'small-button':
+			!pedidosBuscador.inputExpand && !pedidosBuscador.small,'edit-cart':hasEdit}" (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">
+                    {{ orderValue | currency: "COP":"symbol-narrow":"0.0-0" }}
+                </p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{ nProducts }}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+</ion-footer>

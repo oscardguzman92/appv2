@@ -1,0 +1,12 @@
+.tags{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    app-help-tree-first-tag{
+        width: 48%;
+    }
+}
+:host(.button-support.button-outline.ion-color) .button-native {
+    color: red;
+}

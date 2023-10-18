@@ -1,0 +1,24 @@
+<div class="container-auto-complete-list" *ngIf="searchProductos?.length > 0">
+</div>
+<ul class="auto-complete-list" *ngIf="searchProductos?.length > 0">
+    <li *ngFor="let product of searchProductos" (click)="goToSearch(product.c_s)">
+        <div>
+            <p><b>Código:</b> {{product.c_s}}</p>
+            <p><b>Código auxiliar:</b> {{product.c_a}}</p>
+        </div>
+        <p class="block-with-text"><b>Nombre:</b> {{product.n_c}}</p>
+    </li>
+</ul>
+<div class="searchbox" [ngClass]="{'small-button': small, 'input-expand': inputExpand}"
+     (click)="statusSize && showSearch()" [class.visible-autocomplete]= "searchProductos?.length > 0">
+    <div class="wrapper-search">
+        <ion-input placeholder="Buscar" [(ngModel)]="txtSearch" (keyup.enter)="hideSearch(true)"
+                   (keyup)="keyup($event)"
+                   (ionBlur)="emitBlurEvent()" #search></ion-input>
+        <i class="icon-search" (click)="(!statusSize || !small) && hideSearchIcon(true)"></i>
+    </div>
+</div>
+<ion-button class="contact-us small" *ngIf="showContact" (click)="openChat()">
+    Contáctanos
+    <ion-icon class="icon-phone-forwarded" slot="end" name="call"></ion-icon>
+</ion-button>

@@ -1,0 +1,258 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" no-padding *ngIf="shop">
+            {{'Actualizar datos cliente' | titlecase }}
+            <span>Cod. {{ shop.codigo_cliente }}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content no-padding>
+    <ion-grid class="ion-justify-content-between" padding>
+        <ion-row justify-content-center>
+            <ion-col size="12">
+                <ion-list *ngIf="shop">
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Nombre tienda:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{shop.nombre_tienda}}</p>
+                            </ion-col>
+
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(0)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 0" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="shop.nombre_tienda"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1"
+                                            [disabled]="!shop.nombre_tienda">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Nombre de contacto:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{shop.nombre_contacto}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(1)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 1" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="shop.nombre_contacto"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1"
+                                            [disabled]="!shop.nombre_contacto">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Cédula:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{shop.cedula_distribuidor}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(2)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 2" no-padding>
+                                <form [formGroup]="formDocument">
+                                    <ion-item class="input-form">
+                                        <ion-input type="tel" [(ngModel)]="shop.cedula_distribuidor"
+                                                   formControlName="document"></ion-input>
+                                    </ion-item>
+                                    <div class="error" *ngIf="document.invalid && document.touched">
+                                        <span *ngIf="document.errors?.required">
+                                            La cédula es obligatoria
+                                        </span>
+
+                                        <span *ngIf="document.errors?.pattern">
+                                            Cédula invalida
+                                        </span>
+                                    </div>
+                                    <ion-button expand="block" (click)="editable = -1"
+                                                [disabled]="formDocument.invalid">
+                                        Guardar
+                                    </ion-button>
+                                </form>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Teléfono de contacto:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{shop.telefono_contacto}}</p>
+                            </ion-col>
+
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(3)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 3" no-padding>
+                                <form [formGroup]="formCell">
+                                    <ion-item class="input-form">
+                                        <ion-input [(ngModel)]="shop.telefono_contacto"
+                                                   formControlName="cellphone" type="tel"></ion-input>
+                                    </ion-item>
+                                    <div class="error" *ngIf="cellphone.invalid && cellphone.touched">
+                                        <span *ngIf="cellphone.errors?.required">
+                                            La teléfono es obligatorio
+                                        </span>
+
+                                        <span *ngIf="cellphone.errors?.pattern">
+                                            Teléfono invalido
+                                        </span>
+                                    </div>
+
+                                    <ion-button expand="block" (click)="editable = -1"
+                                                [disabled]="formCell.invalid">
+                                        Guardar
+                                    </ion-button>
+                                </form>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Dirección:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center">
+                                <p no-margin>{{shop.direccion}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToCapturaUbicacion()" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Barrio:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{shop.barrio}}</p>
+                            </ion-col>
+
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(4)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 4" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="shop.barrio"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1"
+                                            [disabled]="!shop.barrio">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Tipología:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{shop.tipologia}}</p>
+                            </ion-col>
+
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(5)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 5" no-padding>
+                                <ion-item>
+
+                                    <ion-row justify-content-center >
+                                    <ion-col  size="8"  class="ion-margin-bottom" no-padding>
+                                        <ion-item lines="none" class="input-form checkbox" *ngFor="let typology of typologies">
+                                            <ion-label style=" margin-left: 20px; " >{{typology.nombre}}</ion-label>
+                                            <ion-checkbox slot="start"  
+                                                [(ngModel)]="typology.selected"
+                                                (ionChange)="onChange(typology)"
+                                            >
+                                            </ion-checkbox>
+                                        </ion-item>
+                                    </ion-col>
+                                </ion-row>
+<!--
+                                    <ion-label class="ion-hide">Selecciona una tipología</ion-label>  
+                                                    
+                                 <ion-select 
+                                 (ionChange)="onChange($event)" 
+                                 interface="alert"
+                                 placeholder="{{ (shop.tipologia) ? shop.tipologia : 'Selecciona tipología' }}"
+                                 okText="Seleccionar" 
+                                 cancelText="Cancelar" >
+                
+                                        <ion-select-option
+                                            [value]="typology"
+                                            *ngFor="let typology of typologies; let i = index"
+                                        >
+                                            {{typology.nombre}}
+                                        </ion-select-option>
+                           
+                                      </ion-select>-->
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1"
+                                            [disabled]="!shop.tipologia">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+
+                </ion-list>
+            </ion-col>
+
+            <ion-col size="12">
+                <ion-button expand="block" (click)="edit()"
+                            [disabled]="!validateFinish || ((formDocument.touched && formDocument.invalid)) || (formCell.touched && formCell.invalid)">
+                    Actualizar
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

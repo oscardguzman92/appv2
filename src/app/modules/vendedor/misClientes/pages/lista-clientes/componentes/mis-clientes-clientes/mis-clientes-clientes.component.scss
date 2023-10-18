@@ -1,0 +1,69 @@
+.msg-empty {
+  margin-top: 40px;
+}
+.icon-shopping-cart{
+  z-index: 1;
+}
+.icon-check{
+  z-index: 2;
+}
+/*.no-funds {
+  --padding-bottom:21px;
+  &:after {
+    content: '\e913  Tienda sin Saldo';
+    background: var(--ion-color-tertiary);
+    color: var(--ion-color-dark);
+    font-size: 12px;
+    padding: 3px 27px 1px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: -webkit-fill-available;
+    height: 17px;
+    font-family: "iconfont", "montserrat_mediumregular";
+    display: block;
+  }
+}
+.not-payment {
+  --padding-bottom:21px;
+  &:after {
+    content: '\e25c  Hace mucho no abona';
+    background: var(--ion-color-tertiary);
+    color: var(--ion-color-dark);
+    font-size: 12px;
+    padding: 3px 27px 1px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 17px;
+    font-family: "iconfont", "montserrat_mediumregular";
+    display: block;
+  }
+}*/
+.no-funds {
+  .icon-storeapp {
+    background: var(--ion-color-tertiary);
+  }
+  .funds {
+    background: var(--ion-color-tertiary);
+    font-family: "iconfont", "montserrat_mediumregular";
+    font-size: 11px;
+    width: fit-content;
+    padding: 1px 12px;
+    color: var(--ion-color-dark);
+    margin-top: 9px;
+    border-radius: 15px;
+    letter-spacing: -0.02em;
+    i {
+      margin-right: 8px;
+    }
+  }
+}
+
+virtual-scroller {
+  height: 100vh;
+  flex-wrap: wrap;
+  overflow: scroll;
+}
+

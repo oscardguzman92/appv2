@@ -1,0 +1,100 @@
+<app-compartido-cabecera titulo="Historial Puntos" [mostrarBotonAuxiliar]="false"></app-compartido-cabecera>
+
+<ion-segment class="segment-general" (ionChange)="cambiarSegmento($event)">
+    <ion-segment-button value="ingresos" checked>
+        <ion-label>Asignaciones</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="egresos">
+        <ion-label>Redenciones</ion-label>
+    </ion-segment-button>
+</ion-segment>
+
+<ion-content class="ion-no-padding">
+    <ion-grid class="ion-no-padding" *ngIf="segmento=='ingresos'">
+        <ion-list>
+            <ion-item *ngFor="let ingreso of ingresos" lines="full">
+                <ion-row class="ion-align-items-center" *ngIf="ingreso.fecha_expiracion">
+                    <ion-col class="points ion-no-padding">
+                        <div>
+                            <ion-icon class="icon-star"></ion-icon>
+                        </div>
+                        <div>
+                            <p class="ion-no-margin">Puntos:</p>
+                            <p class="ion-no-margin"><span>{{ingreso.puntos}}</span></p>
+                        </div>
+                    </ion-col>
+                    <ion-col size="auto" class="ion-no-padding">
+                        <ion-row>
+                            <ion-col class="no-padding-horizontal">
+                                <p class="small ion-no-margin">
+                                    <i class="icon-calendar"></i> Entregado: {{ingreso.fecha | deleteHourDate}}
+                                </p>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col class="no-padding-horizontal">
+                                <p class="small ion-no-margin">
+                                    <i class="icon-calendar"></i> Vence: {{ingreso.fecha_expiracion | deleteHourDate}}
+                                </p>
+                            </ion-col>
+                        </ion-row>
+                    </ion-col>
+                    <ion-col size="12" class="ion-no-padding">
+                        <div class="info">
+                            {{ingreso.detalle}}
+                        </div>
+                    </ion-col>
+                    <ion-col size="12" class="ion-no-padding" *ngIf="ingreso.puntaje_actual == 0">
+                        <div class="info">
+                            <small class="error">
+                                Redimidos
+                            </small>
+                        </div>
+                    </ion-col>
+
+                    <ion-col size="12" class="ion-no-padding" *ngIf="ingreso.puntaje_actual > 0 && ingreso.puntaje_actual != ingreso.puntos">
+                        <div class="info">
+                            <small class="error">
+                                {{ingreso.puntos - ingreso.puntaje_actual}} Puntos Redimidos
+                            </small>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-item>
+        </ion-list>
+    </ion-grid>
+
+    <ion-grid class="ion-no-padding" *ngIf="segmento=='egresos'">
+        <ion-list>
+            <ion-item *ngFor="let egreso of egresos" lines="full">
+                <ion-row class="ion-align-items-center">
+                    <ion-col class="points ion-no-padding">
+                        <div>
+                            <ion-icon class="icon-star"></ion-icon>
+                        </div>
+                        <div>
+                            <p class="ion-no-margin">Puntos:</p>
+                            <p class="ion-no-margin"><span>{{egreso.puntos}}</span></p>
+                        </div>
+                    </ion-col>
+                    <ion-col size="auto" class="ion-no-padding">
+                        <p class="small ion-no-margin">
+                            <i class="icon-calendar"></i> Entregado: {{egreso.fecha | deleteHourDate}}
+                        </p>
+                    </ion-col>
+                    <ion-col size="12" class="ion-no-padding">
+                        <div class="info">
+                            {{egreso.detalle}}
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-item>
+        </ion-list>
+    </ion-grid>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadInfiniteScroll($event)">
+        <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>

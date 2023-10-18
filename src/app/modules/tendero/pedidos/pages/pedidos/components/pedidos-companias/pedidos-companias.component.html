@@ -1,0 +1,118 @@
+<ion-row *ngIf="companiesPorfolios.length > 0">
+    <ng-container *ngFor="let companyPorfolio of companiesPorfolios; let i = index;">
+        <!-- Portafolios -->
+        <ion-col size="12" no-padding *ngIf="companyPorfolio.type == 'p'">
+            <ion-card class="company-card has-portfolio">
+                <ion-row>
+                    <ion-col size="12" no-padding>
+                        <ion-row class="ion-align-items-center" (click)="goToCompaniesByDistributor(companyPorfolio.portfolio.distribuidor_id, companyPorfolio.portfolio.portafolio)">
+                            <ion-col size="auto" class="logo-wrapper" no-padding >
+                                <ion-img [appImgLoadingLocalOrServer]='companyPorfolio.portfolio.image'
+                                         [routeServer]="configUrl"
+                                         [image]="transformUrl(companyPorfolio.portfolio.nom_dist) + '.jpg'"
+                                         [localPathComplete]="true"></ion-img>
+                            </ion-col>
+                            <ion-col>
+                                <ul>
+                                    <li class="name-company-portfolio">
+                                        {{companyPorfolio.portfolio.nom_dist | titlecase}} <span *ngIf="portfolios.length > 1">- Portafolio # {{companyPorfolio.portfolio.index}}</span>
+                                    </li>
+                                    <li class="min-order" *ngIf="companyPorfolio.portfolio.companies[0].valor_minimo_compra > 0">
+                                        Pedido Min.
+                                        {{ companyPorfolio.portfolio.companies[0].valor_minimo_compra | currency:"COP":'symbol-narrow':'0.0-0'}}
+                                    </li>
+                                    <li *ngIf="companyPorfolio.portfolio && companyPorfolio.portfolio.vendedor" class="name-seller">
+                                        {{ companyPorfolio.portfolio.vendedor | titlecase }}
+                                    </li>
+                                </ul>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="delivery-date">
+                            <ion-col no-padding>
+                                <p no-margin>Entrega gratis: <span>{{companyPorfolio.portfolio.companies[0] | addHoursDate }}</span>
+                                </p>
+                                <div class="express-order" *ngIf="companyPorfolio.portfolio.companies[0].pedido_express">
+                                    <span>
+                                        <ion-icon class="icon-sort icon-flipped" name="null"></ion-icon>
+                                        <i class="icon-shopping-cart"></i>
+                                        Pedido Express:
+                                    </span>
+                                    
+                                    recíbelo {{calcularFechaEntregaExpress(companyPorfolio.portfolio.companies[0].pedido_express.hora_maxima)}} por {{ companyPorfolio.portfolio.companies[0].pedido_express.valor | currency:"COP":'symbol-narrow':'0.0-0'}}<b></b>
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-col>
+                    <ion-col size="12" class="portfolio-companies"
+                        *ngIf="companyPorfolio.portfolio.companies && companyPorfolio.portfolio.companies.length > 0">
+                        <ion-row nowrap class="scroll" scrollX="true">
+                            <ion-slides [options]="slideOpts" #slides class="slider-companies no-padding-top-bottom">
+                                <ion-slide *ngFor="let companiesRow of companyPorfolio.portfolio.companiesRows">
+                                    <ion-row>
+                                        <ion-col size="12" class="no-padding-horizontal" *ngFor="let company of companiesRow">
+                                            <div *ngIf="company.puntos && company.puntos.puntaje_asignar" class="points-bubble">
+                                                <small>x</small>{{company.puntos.puntaje_asignar}} <span>Pts.</span></div>
+                                                <ion-img [appImgLoadingLocalOrServer]='company.image'
+                                                        [routeServer]="configUrl" [image]="transformUrl(company.nombre) + '.jpg'"
+                                                        [localPathComplete]="true"
+                                                        (click)="goToCompaniesByDistributor(companyPorfolio.portfolio.distribuidor_id, companyPorfolio.portfolio.portafolio,company.nombre,company.id ,companyPorfolio.portfolio.companies)"></ion-img>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-slide>
+                            </ion-slides>
+                        </ion-row>
+                    </ion-col>
+                    <ion-col size="12" class="subtotal" *ngIf="companyPorfolio.portfolio.totalOrder && companyPorfolio.portfolio.totalOrder > 0">
+                        <ion-row>
+                            <ion-col>Valor pedido</ion-col>
+                            <ion-col text-right>{{companyPorfolio.portfolio.totalOrder | currency:"COP":'symbol-narrow':'0.0-0'}}</ion-col>
+                        </ion-row>
+                    </ion-col>
+                </ion-row>
+            </ion-card>
+        </ion-col>
+        <!-- Compañías -->
+        <ion-col size="12" no-padding *ngIf="companyPorfolio.type == 'c'">
+            <ion-card class="company-card" (click)="goToCompanies(companyPorfolio.company)">
+                <ion-row>
+                    <ion-col size="12" no-padding>
+                        <div *ngIf="companyPorfolio.company.puntos && companyPorfolio.company.puntos.puntaje_asignar" class="points-bubble">
+                            <small>x</small>{{companyPorfolio.company.puntos.puntaje_asignar}} <span>Puntos</span></div>
+                    </ion-col>
+                    <ion-col size="5" class="logo-wrapper" no-padding>
+                        <ion-img [appImgLoadingLocalOrServer]='companyPorfolio.company.image'
+                                [routeServer]="configUrl"
+                                [image]="transformUrl(companyPorfolio.company.nombre) + '.jpg'"
+                                [localPathComplete]="true"></ion-img>
+                    </ion-col>
+                    <ion-col size="7" class="right-data">
+                        <ul>
+                            <li class="name-company-portfolio">
+                                {{companyPorfolio.company.nombre}}
+                            </li>
+                            <li class="min-order" *ngIf="companyPorfolio.company.valor_minimo_compra > 0">
+                                Pedido Min. {{ companyPorfolio.company.valor_minimo_compra | currency:"COP":'symbol-narrow':'0.0-0'}}
+                            </li>
+                            <li>
+                                <p no-margin>Entrega gratis: 
+                                    <span>{{ companyPorfolio.company | addHoursDate }}</span>
+                                </p>
+                            </li>
+                        </ul>
+                    </ion-col>
+                    <ion-col size="12" class="subtotal" *ngIf="companyPorfolio.company.totalOrder && companyPorfolio.company.totalOrder > 0" no-padding>
+                        <ion-row>
+                            <ion-col>Valor pedido</ion-col>
+                            <ion-col text-right>{{companyPorfolio.company.totalOrder | currency:"COP":'symbol-narrow':'0.0-0'}}</ion-col>
+                        </ion-row>
+                    </ion-col>
+                    <ion-col size="12" class="express-order" *ngIf="companyPorfolio.company.pedido_express">
+                        <ion-icon class="icon-sort icon-flipped"></ion-icon>
+                        <ion-icon class="icon-shopping-cart"></ion-icon>
+                        Pedido Express
+                    </ion-col>
+                </ion-row>
+            </ion-card>
+        </ion-col>
+    </ng-container>
+</ion-row>

@@ -1,0 +1,9 @@
+<ion-row class="registro__cabecera">
+    <ion-col *ngIf="!mostrarBotonRegresar" size="12" text-center align-self-center>
+        <img *ngIf="showImage" src="../assets/images/logo-storeapp.svg" width="150">
+    </ion-col>
+    <ion-col *ngIf="mostrarBotonRegresar" size="12" text-center align-self-center>
+        <ion-icon class="icon-arrow-left icon-orange-gradient" (click)="justBack()"></ion-icon>
+        <img *ngIf="showImage" src="../assets/images/logo-storeapp.svg" width="150">
+    </ion-col>
+</ion-row>

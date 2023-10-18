@@ -1,0 +1,222 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="justBack()">
+        <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary" class="medium" no-padding *ngIf="showTitle">
+      {{ title }}<span>{{ subtitle }}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="form-ensurance">
+    <ion-row class="ion-justify-content-center" padding>
+      <ng-container
+      >
+      <div [hidden]="completedRegister">
+
+      
+      <ion-col size="11">
+        <small>Seguro seleccionado</small>
+        <h4  *ngIf="insurance.slug === 'vida_voluntario' "><img src="../assets/images/seguro-vida.png">{{insurance.nombre}}</h4>
+        <h4  *ngIf="insurance.slug === 'pyme' "><img src="../assets/images/seguro-negocio.png">{{insurance.nombre}}</h4>
+        <ion-slides 
+          [pager]="true"
+          class="register-slider"
+          #slides
+          [options]="slides"
+        >
+        <ion-slide>
+          <form  [formGroup]="formData">
+              <ion-item class="input-form">
+                <ion-label position="floating">Nombre completo</ion-label>
+                <ion-input formControlName="nombreCli"></ion-input>
+              </ion-item>
+              <!-- <div class="error" *ngIf="nombreGet.invalid && nombreGet.touched">
+                <span *ngIf="nombreGet.errors?.required">
+                  Este campo es obligatorio
+                </span>
+                <span *ngIf="nombreGet.errors?.pattern">
+                  Formato de nombre incorrecto
+                </span>
+              </div> -->
+              
+              <ion-item class="input-form">
+                <ion-label position="floating">Número de cédula</ion-label>
+                <ion-input type="number" (keyup)="testCedulaLength($event)" formControlName="cedula"></ion-input>
+              </ion-item>
+              <!-- <div class="error" *ngIf="cedulaErro">></ion-datetime>
+              </ion-item>
+                <span>
+                  Este campo es obligatorio
+                </span>
+              </div> -->
+
+              <ion-item class="input-form">
+                <ion-label position="floating">Fecha de nacimiento</ion-label>
+                <ion-datetime monthShortNames="Ene, Feb, Mar, Abr, May, Jun, Jul, Ago, Sep, Oct, Nov, Dic"
+                  cancelText="Cancelar" doneText="Seleccionar" formControlName="nacimiento" placeholder="Formato AAAA-MM-DD" displayFormat="YYYY MMM DD" max="{{maxDate}}" min="1950-06-04"></ion-datetime> 
+              <!-- <div class="error" *ngIf="nacimientoGet.invalid && nacimientoGet.touched">
+                <span *ngIf="nacimientoGet.errors?.required">
+                  Este campo es obligatorio
+                </span>
+                <span *ngIf="nacimientoGet.errors?.pattern">
+                  Formato de fecha incorrecto
+                </span>
+              </div> -->
+              </ion-item>
+
+              <ion-item *ngIf="insurance.slug == 'vida_voluntario'" class="input-form select" lines="none">
+                <div class="select-wrapper">
+                  <select formControlName="genero" class="select-default">
+                    <option value="" default selected>Genero</option>
+                    <option value="F">Femenino</option>
+                    <option value="M">Masculino</option>
+                  </select>
+                  <ion-icon class="icon-chevron-down"></ion-icon>
+                </div>
+              </ion-item>
+
+                <ion-col size="6" class="ion-padding-horizontal">
+                  <ion-button (click)="nextSlide(1)" expand="block">Continuar</ion-button>
+                </ion-col>
+            </form>
+          </ion-slide>
+          <ion-slide>
+            <form [formGroup]="formData2">
+              <ion-item class="input-form">
+                <ion-label position="floating">Celular</ion-label>
+                <ion-input type="number" formControlName="celular"></ion-input>
+              </ion-item>
+
+              <ion-item class="input-form">
+                <ion-label position="floating">Correo electrónico</ion-label>
+                <ion-input formControlName="correo" ></ion-input>
+              </ion-item>
+              <div class="error" *ngIf="correoGet.invalid && correoGet.touched">
+                <span *ngIf="correoGet.errors?.required">
+                  Este campo es obligatorio
+                </span>
+                <span *ngIf="correoGet.errors?.pattern">
+                  Formato de correo incorrecto
+                </span>
+              </div>
+
+              <ion-item class="input-form select" lines="none">
+                <div class="select-wrapper">
+                  <select formControlName="estado_civil" class="select-default">
+                    <option value="" default selected>Selecciona estado civil</option>
+                    <option *ngFor="let estado of est_civ" [ngValue]="estado.id">{{estado.value}}</option>
+                  </select>
+                  <ion-icon class="icon-chevron-down"></ion-icon>
+                </div>
+              </ion-item>
+              <ion-item *ngIf="insurance.slug == 'pyme'" class="input-form">
+                <ion-label position="floating">Dirección</ion-label>
+                <ion-input formControlName="direccion" ></ion-input>
+              </ion-item>
+              <ion-item class="input-form select" lines="none">
+                <div class="select-wrapper">
+                  <select formControlName="departamento" class="select-default">
+                    <option value="" default selected>Selecciona Departamento</option>
+                    <option *ngFor="let m of deptos" [value]="m.id">{{m.nombre}}</option>
+                    <!-- <option value="28">Bogotá</option>
+                      <option value="28">Antioquia</option> -->
+                    </select>
+                    <ion-icon class="icon-chevron-down"></ion-icon>
+                  </div>
+                </ion-item>
+                <!-- <div class="error" *ngIf="departamentoGet.invalid && departamentoGet.touched">
+                  <span *ngIf="departamentoGet.errors?.required">
+                    Este campo es obligatorio
+                  </span>
+                </div> -->
+                <ion-item class="input-form select" lines="none">
+                  <div class="select-wrapper">
+                    <select formControlName="ciudad" class="select-default">
+                      <option value="" default selected>Selecciona Ciudad</option>
+                      <option *ngFor="let m of ciu" [value]="m.id">{{m.ciudad}}</option>
+                    <!-- <option value="519">Bogotá</option>
+                    <option value="519">Medellin</option> -->
+                  </select>
+                  <ion-icon class="icon-chevron-down"></ion-icon>
+                </div>
+              </ion-item>
+              <ion-item class="input-form select" lines="none">
+                <div class="select-wrapper">
+                  <select formControlName="medioPago" class="select-default">
+                    <option value="" default selected>Selecciona Medio de pago</option>
+                    <option *ngFor="let n of medios ; let i = index" [value]="i">{{n}}</option>
+                    <!-- <option value="28">Bogotá</option>
+                                    <option value="28">Antioquia</option> -->
+                  </select>
+                  <ion-icon class="icon-chevron-down"></ion-icon>
+                </div>
+              </ion-item>
+              <!-- <div class="error" *ngIf="ciudadGet.invalid && ciudadGet.touched">
+                <span *ngIf="ciudadGet.errors?.required">
+                  Este campo es obligatorio
+                </span>
+              </div> -->
+              <!-- <ion-item class="input-form select" lines="none">
+                <div class="select-wrapper">
+                  <select class="select-default">
+                    <option value="" default selected>Meses de afiliación</option>
+                    <option value="1">1</option>
+                    <option value="1">2</option>
+                    <option value="1">3</option>
+                  </select>
+                  <ion-icon class="icon-chevron-down"></ion-icon>
+                </div>
+              </ion-item> -->
+              <ion-col size="12" class="ion-padding-horizontal">
+                <!-- <ion-button (click)="register()" expand="block">Continuar</ion-button> -->
+                <ion-button (click)="resumen()" expand="block">Continuar</ion-button>
+              </ion-col>
+            </form>
+            </ion-slide>
+        </ion-slides>
+
+
+      </ion-col>
+      </div>
+      </ng-container>
+      <ng-container  >
+        <div [hidden]="!completedRegister">
+          <ion-col size="12" class="ion-padding-horizontal">
+            <ion-row>
+              <ion-col size="12">
+                <ion-button (click)="nextSlide(0)" expand="block">Atras</ion-button>
+              </ion-col>
+              <!-- <ion-col size="6">
+                <ion-button expand="block">Continuar</ion-button>
+              </ion-col> -->
+            </ion-row>
+          </ion-col>
+          <ion-col size="10">
+            <div class="callout">
+              <small>Seguro seleccionado</small>
+              <h4 *ngIf='insurance.slug === "pyme"'>
+                <img [src]="insurance.slug === 'pyme' ? '../assets/images/seguro-negocio.png' : '../assets/images/seguro-vida.png'">Cubre tu Negocio</h4>
+              <h4 *ngIf='insurance.slug !== "pyme"'>
+                <img [src]="insurance.slug === 'pyme' ? '../assets/images/seguro-negocio.png' : '../assets/images/seguro-vida.png'">Seguro de Vida</h4>
+              <small>Nombre del beneficiario</small>
+              <h6>{{insurance.nombreCli}}</h6>
+              <hr class="divider">
+              <small>Información de pago</small>
+              
+              <p *ngIf="medio_pago == '0' ">Mensualmente se descontará de tu saldo el valor de ${{prima}}</p>
+              <p *ngIf="medio_pago == '1' ">Mensualmente se descontará de tus puntos el valor de {{prima_puntos}} pts.</p>
+              
+              <p class="small">* La cancelación de este producto puede ser en cualquier momento en la sección de seguros.</p>
+              <ion-button expand="block" (click)="register()">CONFIRMAR</ion-button>
+            </div>
+          </ion-col>
+        </div>
+    </ng-container>
+    </ion-row>
+  </ion-grid>
+</ion-content>

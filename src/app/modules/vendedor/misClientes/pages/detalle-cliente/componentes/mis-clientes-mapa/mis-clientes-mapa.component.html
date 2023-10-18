@@ -1,0 +1,35 @@
+<ion-row justify-content-center>
+    <ion-col size="12" no-padding>
+        <ion-row *ngIf="shop">
+            <ion-col [size]="(!shop.latitud || shop.latitud == '-1' || !shop.longitud || shop.longitud == '-1' || showMapa)  ? 12 : 6">
+                <ion-button class="button-outline white" expand="block" (click)="showMap()" *ngIf="!showMapa" no-margin>
+                    <ion-icon slot="start" name="map"></ion-icon> Ver Mapa
+                </ion-button>
+                <ion-button class="button-outline white ion-margin-bottom" expand="block" (click)="hideMap()" *ngIf="showMapa" no-margin>
+                    <ion-icon slot="start" name="map"></ion-icon> Ocultar Mapa
+                </ion-button>
+            </ion-col>
+            <ion-col [size]="(!shop.latitud || shop.latitud == '-1' || !shop.longitud || shop.longitud == '-1' || showMapa)  ? 12 : 6" *ngIf="!showMapa && ((shop.latitud && shop.latitud != '-1' && shop.longitud && shop.longitud != '-1') || end_location)">
+                <ion-button class="button-outline white" expand="block" (click)="openWaze()" no-margin>
+                    <i class="icon-waze"></i>Ir con Waze
+                    <span *ngIf="end_location && (!shop.latitud || shop.latitud == '-1' || !shop.longitud || shop.longitud == '1')">
+                        &nbsp;(Aprox.)
+                    </span>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-col>
+    <ion-col size="12" *ngIf="showMapa">
+        <ion-row>
+            <div class="mapa" #map id="map"></div>
+        </ion-row>
+    </ion-col>
+    <ion-col size="12" no-padding *ngIf="showMapa && ((shop.latitud && shop.latitud != '-1' && shop.longitud && shop.longitud != '-1') || end_location)">
+        <ion-button class="button-outline white" expand="block" (click)="openWaze()">
+            <i class="icon-waze"></i>Ir con Waze
+            <span *ngIf="end_location && (!shop.latitud || shop.latitud == '-1' || !shop.longitud || shop.longitud == '1')">
+                &nbsp;(Aprox.)
+            </span>
+        </ion-button>
+    </ion-col>
+</ion-row>

@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "752498946722",
+    "firebase_url": "https://storeapp-7c598.firebaseio.com",
+    "project_id": "storeapp-7c598",
+    "storage_bucket": "storeapp-7c598.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752498946722:android:0666e69876ed89a1",
+        "android_client_info": {
+          "package_name": "com.mukuralab.storeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752498946722-892fchruc8b5dhmn3d4ca9r096b59ddr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpubcHiJzAYJGcWxFXLQRluc7iMUpjvsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752498946722-892fchruc8b5dhmn3d4ca9r096b59ddr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752498946722:android:5fc590869a3f40e0",
+        "android_client_info": {
+          "package_name": "com.mukuralab.storeappv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752498946722-892fchruc8b5dhmn3d4ca9r096b59ddr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpubcHiJzAYJGcWxFXLQRluc7iMUpjvsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752498946722-892fchruc8b5dhmn3d4ca9r096b59ddr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

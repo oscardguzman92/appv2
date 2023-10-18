@@ -1,0 +1,46 @@
+<app-cabecera [showBackButton]="showBackButton" [title]="title" [subtitle]="subtitle" [showTitle]="showTitle" >
+</app-cabecera>
+  <ion-content>
+    <div *ngIf="!firstBranch" class="filter-value">
+        <div 
+        *ngFor="
+        let threadFilter of threadFilters;
+        let i = index;
+        let even = even;
+        let odd = odd
+      " >
+          <span (click)="reconfigureCategories(threadFilter.position)">{{ threadFilter.name }}</span>
+        <i class="icon-arrow-right" (click)="reconfigureCategories(threadFilter.position)"></i>
+        </div>
+        <i class="icon-x"  (click)="reconfigurePageSearch()"></i>
+      </div>  
+  <div class="results">
+    <ion-slides
+      *ngIf="updatingSlides"
+      #SearchSlides
+      class="cash-register-slides ion-color-medium"
+      pager="true"
+      slidesPerColumn="4"
+      [options]="searchSlides"
+    >
+        <ion-slide
+          *ngFor="
+            let category of categories;
+            let i = index;
+            let even = even;
+            let odd = odd
+          "
+          [ngClass]="{ odd: odd, even: even }"
+        >
+          <app-tarjeta-categoria
+            (click)="searchCategory(category, true, i)"
+            [category]="category"
+          >
+          </app-tarjeta-categoria>
+        </ion-slide>
+    </ion-slides>
+  </div>
+</ion-content>
+<ion-footer>
+  <strong>{{ message }}</strong>
+</ion-footer>

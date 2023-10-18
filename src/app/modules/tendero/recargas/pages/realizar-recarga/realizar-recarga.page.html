@@ -1,0 +1,9 @@
+<app-compartido-cabecera [titulo]="user.nombre_contacto" [mostrarBotonAuxiliar]="false"></app-compartido-cabecera>
+<ion-content padding>
+    <ion-grid no-padding *ngIf="show">
+        <app-recargas-crear-recarga [selected]="topUpsSelected" [user]="user"
+                                    (showFooter)="footerShow($event)"></app-recargas-crear-recarga>
+    </ion-grid>
+</ion-content>
+
+<app-recargas-solicitar-saldos *ngIf="showFooter" [user]="user"></app-recargas-solicitar-saldos>

@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" no-padding *ngIf="shop">
+            {{ shop.nombre_tienda | titlecase }}
+            <span>Cod. {{ shop.codigo_cliente }}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-grid>
+        <ion-row justify-content-center>
+            <ion-col size="12" text-center>
+                <h5 class="sub-title">¿Por qué no pudo realizar el pedido?</h5>
+                <p>Seleccione una opción para indicar por qué el cliente no realiza pedido</p>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col size="12">
+                <ion-list>
+                    <ion-item *ngFor="let item of motivos">
+                        <ion-label>{{item.motivo}}</ion-label>
+                       <!--  <ion-checkbox slot="end" (ionChange)="changeOption(item.id)"></ion-checkbox> -->
+                        <ion-checkbox slot="end" [(ngModel)]="item.isChecked" (click)="changeOption(item.id)"></ion-checkbox>
+                    </ion-item>
+                </ion-list>
+
+            </ion-col>
+        </ion-row>
+        
+        <!-- <ion-list padding>
+            <ion-item *ngFor="let item of items" >{{item.title}}<p>{{item.description}}</p>
+            </ion-item>
+        </ion-list> -->
+        <ion-row>
+            <ion-col size=12>
+                <ion-button (click)="sendMotivation()"style="width: 100%">Enviar</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

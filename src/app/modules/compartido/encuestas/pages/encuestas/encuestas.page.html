@@ -1,0 +1,103 @@
+<app-compartido-cabecera
+	[showBackButton]="true"
+	[titulo]="encuestaFanny ? 'Encuestas Fanny' : ((user && user.role == 'vendedor') ? 'Encuestas' : 'Concursos')"
+	[mostrarBotonAuxiliar]="false"
+></app-compartido-cabecera>
+
+<ion-content padding>
+	<ng-container  *ngIf="userSurveysService.surveysStorage && userSurveysService.surveysStorage.length > 0">
+		<p class="survey-pendding ion-text-center">
+			<ion-label position="fixed">Tienes {{userSurveysService.surveysStorage.length}}  
+				<span *ngIf="userSurveysService.surveysStorage.length == 1">encuesta pendiente</span>
+				<span *ngIf="userSurveysService.surveysStorage.length > 1">encuestas pendientes</span>
+			</ion-label>
+			<ion-button size="small" (click)="enviarEncuestasStorage()" class="orange-button ion-margin-top">
+				Enviar ahora
+			</ion-button>
+		</p>
+	</ng-container>
+
+	<ion-row padding *ngIf="btn_easyfiel">
+		<ion-col no-padding>
+			<button class="brand-button" (click)="goToEasyfiel()">
+				<ion-row class="ion-align-items-center">
+					<ion-col size="auto">
+						<ion-img
+							src="/assets/images/logo-easyfiel.png"
+						></ion-img>
+					</ion-col>
+					<ion-col>
+						Participa en el concurso de cliente 10 aquí
+					</ion-col>
+					<ion-col size="auto">
+						<ion-icon
+							name="arrow-forward"
+							color="secondary"
+						></ion-icon>
+					</ion-col>
+				</ion-row>
+			</button>
+		</ion-col>
+	</ion-row>
+
+	<ng-container
+		*ngFor="let encuesta of encuestasNoRespondidas; let i = index"
+	>
+		<app-comunidad-tenderos-post-encuesta
+			[survey]="encuesta"
+			[user]="user"
+			[notResponseValidation]="true"
+			[position]="i"
+            [shop_id]="shop_id"
+            [responseRepeatIn]="false"
+            [fanny]="encuestaFanny"
+			(setSurveysStorageExt)="setSurveysStorage()"
+            >
+		</app-comunidad-tenderos-post-encuesta>
+	</ng-container>
+
+	<ng-container *ngFor="let encuesta of encuestasRespondidas; let i = index">
+		<app-comunidad-tenderos-post-encuesta
+			[survey]="encuesta"
+			[user]="user"
+			[notResponseValidation]="true"
+			[position]="i"
+			[compressAll]="encuestasNoRespondidas.length > 0 && this.encuestaFanny"
+            [response]="true"
+            [responseRepeatIn]="false"
+			[shop_id]="shop_id"
+            [fanny]="encuestaFanny"
+			(setSurveysStorageExt)="setSurveysStorage()"
+		>
+		</app-comunidad-tenderos-post-encuesta>
+	</ng-container>
+
+	<h3
+		text-center
+		*ngIf="(encuestasRespondidas && encuestasRespondidas.length == 0)
+            && (encuestasNoRespondidas && encuestasNoRespondidas.length == 0)"
+	>
+		No hay encuestas por responder
+	</h3>
+	<ion-row>
+		<ion-col>
+			<div class="callout respondidas">
+				<ion-list *ngIf="encuestasFannyRespondidas.length > 0">
+					<ion-list-header>
+						<div class="survey-icon"><img src="/assets/images/icon-order.png" alt=""></div>
+						<ion-label>
+							Encuestas contestadas
+						</ion-label>
+					</ion-list-header>
+					<ion-row>
+						<ion-col class="ion-no-padding ion-padding-horizontal">
+							<ion-item *ngFor="let encuestasFannyRespondida of encuestasFannyRespondidas">
+								<ion-label>{{encuestasFannyRespondida}}</ion-label>
+							</ion-item>
+						</ion-col>
+					</ion-row>
+				</ion-list>
+			</div>
+		</ion-col>
+	</ion-row>
+</ion-content>

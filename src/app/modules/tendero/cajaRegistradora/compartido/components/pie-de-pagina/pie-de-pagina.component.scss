@@ -1,0 +1,23 @@
+small{
+    display: block;
+    font-family: 'montserrat_semiboldregular';
+    text-transform: uppercase;    
+}
+
+b{
+    font-size: 22px;
+    font-family: 'montserrat_semiboldregular';
+}
+
+button{
+    width: 100%;
+}
+p{
+    margin-bottom: 0;
+}
+
+ion-toolbar {
+    background: var( --ion-color-primary);
+    --background: var( --ion-color-primary);
+    color: white;
+}

@@ -1,0 +1,13 @@
+<app-cabecera titulo="Mi Ruta" subtitulo="Ruta Sugerida 2" [showBackButton]="true" [isModal]="false" [user]="user"
+	[mostrarBotonAuxiliar]="editRoute" tituloBoton="Editar Ruta" (action)="editRouteTransporter(true)"></app-cabecera>
+
+<ion-content scrollY="false" *ngIf="wayPoints && wayPoints.length > 0">
+	<app-mapa-transportador [wayPoints]="wayPoints" [origin]="origin" [limitShowRoute]="limitShowRoute"
+		(changeOrder)="changeOrder($event)">
+	</app-mapa-transportador>
+	<app-lista-tiendas (showEditRoute)="showEditRoute($event)" [wayPoints]="wayPoints" [enabledEditRoutes]="enabledEdit"
+        (changeEnableEdit)="editRouteTransporter($event)" (changeWayPoints)="changeWayPoints($event)" [user]="user"
+		[indexSelected]="indexSelected" [pedidos]="this.ruta.pedidos" (reOrderWayPoints)="reOrderRoute($event)"
+		[limitShowRoute]="limitShowRoute">
+    </app-lista-tiendas>
+</ion-content>

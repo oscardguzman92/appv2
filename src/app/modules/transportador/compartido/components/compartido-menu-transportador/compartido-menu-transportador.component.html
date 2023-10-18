@@ -1,0 +1,87 @@
+<ion-content class="menu-app" (swipe)="handleSwipe($event)">
+    <ion-toolbar no-padding>
+        <ion-title class="large">
+            {{user.nombre_contacto | titlecase}}
+            <p class="small" no-margin>{{user.cedula}}</p>
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="refreshData()" class="refresh-button">
+                <i class="icon-rotate-ccw icon-flipped"></i>
+                <span>Refrescar</span>
+            </ion-button>
+            <ion-button (click)="closeModal()">
+                <i class="icon-x-circle"></i>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+    <div class="divider-white"></div>
+
+
+    <ion-row class="section-menu">
+        <ion-col size="12" (click)="goRute()" class="no-padding-horizontal">
+            <a>
+                <p><ion-icon class="icon-list" name="null"></ion-icon>Ruta</p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+        <ion-col size="12" (click)="goList()" class="no-padding-horizontal">
+            <a>
+                <p><ion-icon class="icon-file-text" name="null"></ion-icon>Listas</p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+        <ion-col size="12" (click)="goReason()" class="no-padding-horizontal">
+            <a>
+                <p><ion-icon class="icon-info" name="null"></ion-icon>Novedad</p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+        <ion-col size="12" (click)="goHistory()" class="no-padding-horizontal">
+            <a>
+                <p><ion-icon name="star-outline"></ion-icon>Historial de novedades</p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+        <ion-col size="12" *ngIf="!messageInformation" (click)="goMyMessages()" routerDirection="forward" class="no-padding-horizontal">
+            <a>
+                <p>
+                    <i class="icon-mail"></i>
+                    Mensajes
+                </p>
+                <i class="icon-chevron-right ion-float-right"></i>
+            </a>
+        </ion-col>
+    </ion-row>
+    <div class="divider-white" *ngIf="messageInformation"></div>
+    <div class="messages" *ngIf="messageInformation">
+        <div (click)="goMyMessages()" class="messages-top ion-justify-content-between">
+            <p no-margin>
+                <i class="icon-mail"></i>
+                Mensajes
+            </p>
+            <span *ngIf="messageInformation && messageInformation.count > 0">( {{messageInformation.count}}
+                Nuevos )</span>
+        </div>
+        <div class="last-message" *ngIf="messageInformation && messageInformation.message"
+             (click)="openMessage(messageInformation.message)">
+            <span class="date">Hoy</span>
+            <span class="title-message">{{messageInformation.message.titulo | titlecase}}</span>
+            <p [innerHTML]="messageInformation.message.mensaje"></p>
+        </div>
+    </div>
+    <div class="divider-white"></div>
+    <ion-button expand="block" class="tiny-menu-button ion-margin-bottom" (click)="openChat()">
+        Atención en línea
+    </ion-button>
+    <ion-button expand="block" class="tiny-menu-button ion-margin-bottom" (click)="goTermsConditions()">Términos &
+        Condiciones
+    </ion-button>
+    <ion-button (click)="logOut()" expand="block" class="small button-outline ion-margin-bottom white" no-margin>
+        Cerrar Sesión
+    </ion-button>
+    <ion-row>
+        <ion-col class="ion-text-center ion-padding">
+            <small>Versión: {{ionVersionNumber}} - {{ionVersionCode}}</small>
+        </ion-col>
+    </ion-row>
+</ion-content>

@@ -1,0 +1,104 @@
+<ng-container *ngFor="let categorieProd of categoriesProds; let ic = index;">
+    <div id="list-cat-prod-{{ic}}" #containerCards>
+        <div class="wrapper-card-list" *ngIf="categorieProd.products && categoriesProds.length > 1">
+            <app-general-producto *ngFor="let product of categorieProd.products; let i = index;"
+                [cardTypeOffer]="(categorieProd.id == 991)" [product]="product" [offer]="true" [position]="i"
+                [isOfflineActive]="isOfflineActive" [ngStyle]="{'order': i.toString()}" [container]="containerMain._results[ic]"
+                [puntos]="(puntosCompania[product.compania_id]) ? puntosCompania[product.compania_id]: 0">
+            </app-general-producto>
+        </div>
+
+        <ng-container *ngIf="categorieProd.products && categorieProd.products.length > 0 && categoriesProds.length == 1">
+            <virtual-scroller #scroll [items]="categorieProd.products"
+                [scrollAnimationTime]="2000"
+                [enableUnequalChildrenSizes]="true" [checkResizeInterval]="2000" class="no-scroll" (scroll)="scrollListener($event)">
+                <div class="wrapper-card-list" #container [ngClass]="{'more-products': categorieProd.products.length > 4}">
+                    <app-general-producto *ngFor="let product of scroll.viewPortItems; let i = index;"
+                        [cardTypeOffer]="(categorieProd.id == 991) ? 1 :  0" [product]="product" [offer]="true"
+                        [position]="i" [isOfflineActive]="isOfflineActive" [ngStyle]="{'order': i}"
+                        [container]="containerMain._results[ic]"
+                        [puntos]="(puntosCompania[product.compania_id]) ? puntosCompania[product.compania_id]: 0"
+                        [isNotVisible]="categorieProd.paginateProducts.isNotVisible">
+                    </app-general-producto>
+                    <div id="divForStatusProduct" *ngIf="categorieProd.paginateProducts.isNotVisible">
+                        <h6>No disponible por:</h6>
+                        <ol type=”A”>
+                            <li *ngIf="categorieProd.products[0].valPdSegmentadoPara !== 'A' &&
+                                categorieProd.products[0].valPdSegmentadoPara !== 'V'">
+                                Segmentación no autorizada para el producto.
+                            </li>
+                            <li *ngIf="categorieProd.products[0].valCxdisActivo === 0">
+                                Compañia en el distribuidor inactiva.
+                            </li>
+                            <li *ngIf="categorieProd.products[0].valDActivo === 0">
+                                Distribuidor inactivo.
+                            </li>
+                            <li *ngIf="categorieProd.products[0].valDValidaStock === 1 &&
+                                categorieProd.products[0].valPdInventario <= 0">
+                                Producto sin inventario disponible.
+                            </li>
+                            <li *ngIf="categorieProd.products[0].valOFechaFin !== null &&
+                                convertStringDateToTime(categorieProd.products[0].valOFechaFin) < actualDate">
+                                Oferta vencida.
+                            </li>
+                            <li *ngIf="categorieProd.products[0].valPdVisible === 0">
+                                Producto en distribuidor no visible.
+                            </li>
+                            <li *ngIf="categorieProd.products[0].valTxdActivo === 0">
+                                Tienda en el distribuidor inactiva.
+                            </li>
+                            <!--El siguiente campo aun no se valida, lo dejo indicado por si lo necesitamos en futuros cambios-->
+                            <!--<li *ngIf="categorieProd.products[0].valPVisible === 0">-->
+                            <!--Producto no visible.-->
+                            <!--</li>-->
+                        </ol>
+                    </div>
+                </div>
+            </virtual-scroller>
+
+            <ion-infinite-scroll threshold="150px">
+                <ion-infinite-scroll-content
+                        *ngIf="categorieProd?.paginateProducts?.current_page < categorieProd?.paginateProducts?.last_page && !finishLoad"
+                        loadingSpinner="bubbles" loadingText="Cargando más productos...">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </ng-container>
+
+        <div *ngIf="!categorieProd.products || categorieProd.products.length == 0" class="category-empty">
+            <div class="load-text"><span>Cargando más productos,<br> un momento por favor.</span></div>
+            <div class="wrapper-skeleton-products">
+                <ion-card class="product-card" *ngFor="let iprod of [1,2,3,4,5,6]">
+                    <!-- <ion-skeleton-text animated></ion-skeleton-text> -->
+                    <ion-card-content>
+                        <div class="top-card">
+                            <div class="image">
+                                <ion-skeleton-text animated></ion-skeleton-text>
+                            </div>
+                        </div>
+                        <div class="bottom-card">
+                            <ion-row class="cost ion-justify-content-center ion-align-items-end">
+                                <ion-col size="7">
+                                    <p class="price-card"> <ion-skeleton-text animated></ion-skeleton-text> </p>
+                                </ion-col>
+                            </ion-row>
+                            <ion-card-title> 
+                                <ion-skeleton-text animated style="width: 90%; height:16px"></ion-skeleton-text> 
+                                <ion-skeleton-text animated style="width: 70%; height:16px"></ion-skeleton-text> 
+                                <ion-skeleton-text animated style="width: 50%; height:16px"></ion-skeleton-text> 
+                            </ion-card-title>
+                            <div class="info-prod">
+                                <small class="num-codigo">
+                                    <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>  
+                                </small>
+                            </div>
+                        </div>
+                    </ion-card-content>
+                    <div class="footer-card-prod">
+                        <ion-skeleton-text animated></ion-skeleton-text>  
+                    </div>
+                </ion-card>
+
+            </div>
+        </div>
+    </div>
+</ng-container>

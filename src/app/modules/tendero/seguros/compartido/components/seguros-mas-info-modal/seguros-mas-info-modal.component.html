@@ -1,0 +1,24 @@
+<div class="modal-cont-wrapper">
+  <ng-container *ngIf="insurance.slug === 'vida_voluntario' ">
+    <h4><img src="../assets/images/seguro-vida.png">{{insurance.nombre}}</h4>
+
+  </ng-container>
+
+  <ng-container *ngIf="insurance.slug === 'pyme' ">
+    <h4><img src="../assets/images/seguro-negocio.png">{{insurance.nombre}}</h4>
+
+  </ng-container>
+
+  <div [innerHTML]="insurance.descripcion"></div>
+
+  <div class="footer">
+    <ion-row class="contact">
+      <ion-col size="12" text-center><ion-icon class="icon-whatsapp" name="null"></ion-icon>Para mayor información contáctanos por WhatsApp al <a
+        href="https://api.whatsapp.com/send?text=Hola&phone=+573185853045" target="_blank">318 585 30 45</a>
+      </ion-col>
+    </ion-row>
+    <ion-button *ngIf="insurance.slug === 'pyme'" (click)="goToInsuranceRegister()" expand="block">QUIERO PROTEGER MI NEGOCIO</ion-button>
+    <ion-button *ngIf="insurance.slug != 'pyme'" (click)="goToInsuranceRegister()" expand="block">QUIERO PROTEGERME</ion-button>
+  </div>
+  
+</div>

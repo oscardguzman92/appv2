@@ -1,0 +1,8 @@
+<div class="searchbox searchbox--recargas" [ngClass]="{'small-button': small, 'input-expand': inputExpand}"
+     (click)="statusSize && showSearch()">
+    <div class="wrapper-search">
+        <ion-input placeholder="Buscar paquete" [(ngModel)]="txtSearch" (keyup.enter)="hideSearch()"
+                   (keyup)="activeKeyUp && keyup($event)" (ionBlur)="hideSearch()" #search></ion-input>
+        <i class="icon-search" (click)="!statusSize && hideSearch()"></i>
+    </div>
+</div>

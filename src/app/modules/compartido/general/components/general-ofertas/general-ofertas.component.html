@@ -1,0 +1,177 @@
+<ion-grid class="no-padding-top-bottom" padding *ngIf="offers && offers.length > 0">
+    <ion-row class="ion-align-items-center">
+        <ion-col class="no-padding-top-bottom" size="9">
+            <h6>Ofertas Destacadas</h6>
+        </ion-col>
+        <ion-col size="3" class="ion-text-right" (click)="goMyOrders()">
+            <ion-button size="small" class="more-button ion-align-items-center" (click)="openFeaturedProducts()">Más
+                <ion-icon class="icon-chevron-right" name="null" slot="end"></ion-icon>
+            </ion-button>
+        </ion-col>
+        <!-- <ion-col size="3" class="no-padding-top-bottom ion-text-right">
+            <ion-button size="small" class="button-outline" expand="block" (click)="openFeaturedProducts()"><small>Ver todo</small></ion-button>
+        </ion-col> -->
+    </ion-row>
+</ion-grid>
+<ion-slides [options]="slideOpts" #slides padding pager class="slider-offers no-padding-top" *ngIf="offers">
+    <ion-slide *ngFor="let offer of offers; let i = index" (click)="goToRedirect(offer)">
+        <!--  {{updateProductQty(offer)}} -->
+        <ion-card class="promo-card">
+            <div class="img-wrapper" *ngIf="!offer.type">
+                <img onerror="this.src='assets/images/product-without-image.jpg'"
+                    [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+offer.imagen">
+                <img *ngIf="!offer.imagen" src="assets/images/product-without-image.jpg">
+            </div>
+
+            <div class="img-wrapper" *ngIf="offer.type == 'banner'">
+                <img onerror="this.src='assets/images/product-without-image.jpg'" [src]="offer.imagen">
+                <img *ngIf="!offer.imagen" src="assets/images/product-without-image.jpg">
+            </div>
+
+            <!--<ion-card-content *ngIf="offer.type == 'banner'">
+                <p class="offer-description" *ngIf="offer.texto">
+                    {{offer.texto}}
+                </p>
+                <p class="offer-description" *ngIf="!offer.texto">
+                    Conoce más entrando aquí.
+                </p>
+            </ion-card-content>-->
+            <!-- <ion-card-content>
+                <p class="offer-description">
+                    {{offer.descripcion_adicional | titlecase}}
+                </p>
+                <p class="offer-description" *ngIf="offer.type == 'banner' && offer.texto">
+                    {{offer.texto}}
+                </p>
+                <p class="offer-description" *ngIf="offer.type == 'banner' && !offer.texto">
+                    Conoce más entrando aquí.
+                </p>
+
+                <div margin-bottom *ngIf="offer.meta_venta_mes">
+                    <ion-row *ngIf="offer.meta_venta_mes">
+                        <ion-col no-padding><small class="information-title">Meta:</small></ion-col>
+                        <ion-col size="auto" no-padding>
+                            <small class="information-description">
+                                <span>{{offer.meta_venta_mes}}</span>
+                            </small>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row *ngIf="offer.cantidad_vendida">
+                        <ion-col no-padding><small class="information-title">Vendido:</small></ion-col>
+                        <ion-col size="auto" no-padding>
+                            <small class="information-description">
+                                <span>{{offer.cantidad_vendida}}</span>
+                            </small>
+                        </ion-col>
+                    </ion-row>
+                </div>
+
+                <div class="quantity-control" *ngIf="!offer.type">
+                    <ion-button *ngIf="!productsBinding[offer.id] && (!offer.cantidad || offer.cantidad == 0)"
+                                size="small orange-button has-icon" (click)="addToCart(offer)">
+                        Agregar
+                        <ion-icon slot="end" name="add-circle-outline"></ion-icon>
+                    </ion-button>
+                    <div class="count-products-offer"
+                         *ngIf="productsBinding[offer.id] || (!productsBinding[offer.id] && offer.cantidad > 0)">
+                        <ion-icon class="addToKart remove" (click)="rmToCart(offer)" name="remove-circle-outline">
+                        </ion-icon>
+                        <p>
+                            <ion-input [value]="offers[i].cantidad" (keyup.enter)="changeCountProd($event, offer, true)"
+                                       (ionBlur)="changeCountProd($event,offer)"
+                                       (ionFocus)="onFocus()" class="addToKart input-count-prod"
+                                       type="number"></ion-input>
+                        </p>
+                        
+                        <ion-icon class="addToKart add" (click)="addToCart(offer)" name="add-circle-outline">
+                        </ion-icon>
+                    </div>
+                </div>
+                <span class="price" *ngIf="!offer.type">
+                    {{ offer.precio | currency:"COP":'symbol-narrow':'0.0-0' }}
+                </span>
+            </ion-card-content> -->
+        </ion-card>
+    </ion-slide>
+    <!--<ion-slide (click)="goInsurence()" *ngIf="statusInsurence && offers.length > 0">
+        <ion-card class="promo-card">
+            <div class="img-wrapper">
+                <img src="/assets/images/banners-seguros-sliderprod.jpg">
+            </div>
+             <ion-card-content>
+                <p>
+                    Conoce más entrando aquí.
+                </p>
+            </ion-card-content> 
+        </ion-card>
+    </ion-slide>-->
+</ion-slides>
+
+<!-- Aquí los slides de cuando no hay ofertas -->
+
+<div *ngIf="offers">
+    <!-- <ion-grid class="ion-padding-horizontal" no-padding>
+        <ion-row *ngIf="offers.length == 0">
+            <ion-col size="12" class="no-padding-top-bottom">
+                <div class="banner-ofertas">
+                    <img src="/assets/images/banner-ofertas.png">
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid> -->
+    <ion-grid class="no-padding-top-bottom" padding *ngIf="offers.length === 0">
+        <ion-row class="ion-align-items-center">
+            <ion-col class="no-padding-top-bottom" size="9">
+                <h6>Ofertas Destacadas</h6>
+            </ion-col>
+            <!-- <ion-col size="3" class="no-padding-top-bottom ion-text-right">
+                <ion-button size="small" class="button-outline" expand="block" (click)="openFeaturedProducts()"><small>Ver todo</small></ion-button>
+            </ion-col> -->
+        </ion-row>
+    </ion-grid>
+    <ion-grid class="ion-margin-bottom" no-padding>
+        <ion-slides [options]="slideOpts" padding pager class="slider-offers no-padding-top slider-normal"
+            *ngIf="offers.length === 0">
+            <ion-slide (click)="goInsurence()" *ngIf="statusInsurence">
+                <ion-card class="promo-card">
+                    <div class="img-wrapper">
+                        <img src="/assets/images/banners-seguros.jpg">
+                    </div>
+                    <!-- <ion-card-content>
+                        <p>
+                            Conoce más entrando aquí.
+                        </p>
+                    </ion-card-content> -->
+                </ion-card>
+            </ion-slide>
+
+            <ion-slide (click)="goCommunity()">
+                <ion-card class="promo-card">
+                    <div class="img-wrapper">
+                        <img src="/assets/images/banners-red-social.jpg">
+                    </div>
+                    <!-- <ion-card-content>
+                        <p>
+                            Conoce más entrando aquí.
+                        </p>
+                    </ion-card-content> -->
+                </ion-card>
+            </ion-slide>
+
+
+            <ion-slide (click)="goPoints()">
+                <ion-card class="promo-card">
+                    <div class="img-wrapper">
+                        <img src="/assets/images/banners-puntos.jpg">
+                    </div>
+                    <!-- <ion-card-content>
+                        <p>
+                            Conoce más entrando aquí.
+                        </p>
+                    </ion-card-content> -->
+                </ion-card>
+            </ion-slide>
+        </ion-slides>
+    </ion-grid>
+</div>

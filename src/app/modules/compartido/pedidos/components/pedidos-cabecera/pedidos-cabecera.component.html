@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-toolbar>
+        <div>
+            <ion-buttons>
+                <ion-button (click)="justBack()">
+                    <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+                </ion-button>
+            </ion-buttons>
+            <ion-title color="primary" class="medium" no-padding (click)="emitHeader()">
+                {{ tienda | titlecase }}<span>{{ direccionTienda }}</span>
+            </ion-title>
+            <ion-buttons *ngIf="user.role != 'vendedor'">
+                <ion-button (click)="onClickFilter()" class="right-button-header">
+                    <span *ngIf="!filtro">{{ tituloBoton }}</span>
+                    <i class="icon-filter" *ngIf="filtro"></i>
+                </ion-button>
+            </ion-buttons>
+        </div>
+    </ion-toolbar>
+</ion-header>
+<ion-grid class="sub-header" *ngIf="mostrarBotonPedidosAnteriores">
+    <ion-row class="ion-align-items-center">
+        <ion-col size="1" text-center no-padding>
+            <small>10</small>
+            <i class="icon-shopping-cart"></i>
+        </ion-col>
+        <ion-col size="7" class="date-order">
+            Pedido Anterior
+            <span>Martes 12</span>
+        </ion-col>
+        <ion-col size="4" text-right no-padding>
+            <a (click)="goToSeePreOrders()" class="link">ver todos</a>
+        </ion-col>
+    </ion-row>
+</ion-grid>

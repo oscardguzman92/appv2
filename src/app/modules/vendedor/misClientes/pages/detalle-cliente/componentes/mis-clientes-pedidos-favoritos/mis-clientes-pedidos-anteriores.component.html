@@ -1,0 +1,24 @@
+<div class="wrapper-slider ion-margin-horizontal">
+    <ion-slides [options]="slideOpts" class="cart-products" #slides>
+        <ion-slide *ngFor="let product of favoriteOrders[0].productos">
+            <img *ngIf="product.imagenes && product.imagenes.length > 0" 
+                onerror="this.src='assets/images/product-without-image.jpg'" 
+                [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagenes[0].url">
+            <img *ngIf="!product.imagenes || product.imagenes.length == 0" src="assets/images/product-without-image.jpg">
+            <!-- <ion-img *ngIf="product.imagenes.length > 0"
+                     [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagenes[0].url"></ion-img>
+            <img *ngIf="product.imagenes.length == 0" src="assets/images/product-without-image.jpg"> -->
+            <div><span>{{product.cantidad}}</span></div>
+        </ion-slide>
+    </ion-slides>
+</div>
+<ion-grid class="no-padding-top" padding>
+    <ion-row class="ion-align-items-center">
+        <ion-col size="5">
+            <span class="total-prod">{{favoriteOrders[0].productos.length}} producto(s)</span>
+        </ion-col>
+        <ion-col size="7" text-right>
+            <ion-button size="small" (click)="requestOrder(favoriteOrders[0])" no-margin>Pedir de nuevo</ion-button>
+        </ion-col>
+    </ion-row>
+</ion-grid>

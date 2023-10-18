@@ -1,0 +1,72 @@
+<app-compartido-cabecera [isModal]="true" [showBackButton]="true" [titulo]="'Mis Mensajes'"
+                         [mostrarBotonAuxiliar]="false"></app-compartido-cabecera>
+<ion-content padding>
+    <ion-grid class="messages" no-padding>
+        <ion-row>
+            <ion-col size="12">
+                <h6 class="sub-title">{{message.titulo}}</h6>
+                <small>{{message.fecha}}</small>
+            </ion-col>
+            <ion-col size="12">
+                <p no-margin>{{message.mensaje}}</p>
+            </ion-col>
+            <ion-col size="12">
+                <div class="divider"></div>
+            </ion-col>
+            <ion-col size="12" *ngIf="message?.datos?.pedido_id && message?.datos?.tienda_id">
+                <ion-button (click)="goToShop(message.datos.tienda_id)" expand="block">
+                    Ir a la tienda
+                </ion-button>
+            </ion-col>
+            <ion-col size="12" *ngIf="pageRedirecAction && (!message?.datos?.pedido_id && !message?.datos?.tienda_id)">
+                <ion-button (click)="goToActionRedirect()" expand="block">
+                    Ir
+                </ion-button>
+            </ion-col>
+            
+            <div #containerCards>
+                <ion-col size="12" *ngIf="showProduct">
+                    <ng-container *ngIf="showProduct && producto">
+                        <app-general-producto 
+                            [userIn]="user"
+                            [disabledProduct]="disabledProduct"
+                            [product]="producto"
+                            [cardTypeOffer]="(producto.categoria_id == 991)"
+                            [offer]="true" 
+                            [order]="-1" 
+                            [position]="-1"
+                            [container]="container._results[0]"
+                            analyticsType="notificacion"
+                            [analyticsTypeEvent]="'notificacion_'+message.id"></app-general-producto>
+                    </ng-container>
+                </ion-col>
+            </div>
+
+
+            <ion-col size="12" *ngIf="(message?.datos?.action && message?.datos?.action == 'whatsapp') && (message?.datos?.telefono_distribuidor)">
+                <ion-button (click)="goToWhatsapp(message.datos.telefono_distribuidor)" expand="block"
+                            class="button-outline">
+                    <i class="icon-whatsapp"></i>Ir a Whatsapp
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- <ion-button [@jump]="thingState" class="cart-button" [ngClass]="{'show': nProducts > 0}" (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">{{orderValue | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{nProducts}}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button> -->
+</ion-content>

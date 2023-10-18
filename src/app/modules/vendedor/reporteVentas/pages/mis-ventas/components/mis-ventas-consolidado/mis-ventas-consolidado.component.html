@@ -1,0 +1,310 @@
+<!-- <app-compartido-cabecera></app-compartido-cabecera>	 -->
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <ion-icon slot="icon-only" class="icon-x icon-orange-gradient" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" class="medium" no-padding>{{user.nombre_contacto}}
+            <span>{{user.cedula}}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-row>
+    <ion-col size="12" class="date ion-padding-top" text-center *ngIf="dateShow">
+        <i class="icon-calendar"></i>{{dateShow}}
+    </ion-col>
+</ion-row>
+<ion-content padding scrollable>
+    <ion-card class="post tables">
+        <ion-card-header color="primary">
+            <ion-card-subtitle>
+                Ventas
+            </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content no-padding>
+            <ion-grid no-padding>
+                <ion-row>
+                    <ion-col size="12" class="header-day">
+                        <strong>Día:</strong> <span>{{sales.ventas_dia_total | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="cont-day">
+                        Día de visita:<span>{{sales.ventas_dia_visita | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="cont-day">
+                        Día de no visita:<span>{{sales.ventas_dia_no_visita | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                    </ion-col>
+                    <ion-col size="12" class="header-month">
+                        <strong>Mes:</strong> <span>{{sales.venta_mes_sin_iva | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="cont-month">
+                        Día de visita:<span>{{sales.ventas_dia_visita_mes | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="cont-month">
+                        Día de no visita:<span>{{sales.ventas_dia_no_visita_mes | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                    </ion-col>
+                    <ion-col size="12" class="cont-month">
+                        Cuota del mes: <span>{{sales.cuota_vendedor | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                    </ion-col>
+                    <ion-col size="12" class="cont-month">
+                        % Cumplimiento mensual:<span>{{sales.porcentaje_cumplimiento_sin_iva}} %</span>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card class="post tables">
+        <ion-card-header color="primary">
+            <ion-card-subtitle>
+                Tiendas activas
+            </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content no-padding>
+            <ion-grid no-padding>
+                <ion-row>
+                    <ion-col size="6" class="header-day">
+                        Día: <span>{{sales.cantidad_pedidos_dia}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="header-month">
+                        Mes: <span>{{sales.tiendas_activas_x_vendedor_del_mes}}</span>
+                    </ion-col>
+                    <ion-col size="12">
+                        Registradas storeapp: <span>{{sales.tiendas_storeapp_rutero}}</span>
+                    </ion-col>
+                    <ion-col size="12">
+                        Total rutero: <span>{{sales.tiendas_del_vendedor_del_mes}}</span>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card class="post tables">
+        <ion-card-header color="primary">
+            <ion-card-subtitle>
+                Pedidos
+            </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content no-padding>
+            <ion-grid no-padding>
+                <ion-row>
+                    <ion-col size="12" class="header-day">
+                        Día: <span>{{sales.cantidad_pedidos_dia}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="cont-day">
+                        Día de visita:<span>{{sales.pedidos_dia_visita}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="cont-day">
+                        Día de no visita:<span>{{sales.pedidos_dia_no_visita}}</span>
+                    </ion-col>
+                    <ion-col size="12" class="header-month">
+                        Mes: <span>{{sales.cantidad_pedidos_mes}}</span>
+                    </ion-col>
+                    <ion-col size="6" class="cont-month">
+                        Día de visita:<span>{{sales.pedidos_dia_visita_mes}}</span>
+                    </ion-col>
+
+                    <ion-col size="6" class="cont-month">
+                        Día de no visita:<span>{{sales.pedidos_dia_no_visita_mes}}</span>
+                    </ion-col>
+
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card class="post tables">
+        <ion-card-content no-padding>
+            <ion-grid no-padding>
+                <ion-row>
+                    <ion-col size="12">
+                        Proyeccion de cierre: <span>{{sales.proyeccion_cierre_sin_iva | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                        <div class="below-text">
+                            <span [ngClass]="{'color-success': sales.porcentaje_proyeccion >= 80, 'color-danger': sales.porcentaje_proyeccion < 80 }">
+                                {{sales.porcentaje_proyeccion}}%
+                            </span>
+                        </div>
+                    </ion-col>
+                    <ion-col size="12">
+                        <div>Pedido promedio: <span>{{sales.pedido_promedio_mes | currency:"COP":'symbol-narrow':'0.0-0'}}</span></div>
+                        <div class="below-text">vs Mes anterior:
+                            <span [ngClass]="{'color-success': sales.variacion_pedidos_promedio_sin_iva > 0, 'color-danger': sales.variacion_pedidos_promedio_sin_iva <= 0}">
+                                {{sales.variacion_pedidos_promedio_sin_iva}}%
+                                <i [ngClass]="{'icon-arrow-up': sales.variacion_pedidos_promedio_sin_iva > 0, 'icon-arrow-down': sales.variacion_pedidos_promedio_sin_iva <= 0}"></i>
+                            </span></div>
+                    </ion-col>
+                    <ion-col size="12">
+                        <div>Productos promedio por pedido: <span>{{sales.productos_promedio_pedido_mes}}</span></div>
+                        <div class="below-text">vs Mes anterior:
+                            <span [ngClass]="{'color-success': sales.variacion_productos_promedio > 0, 'color-danger': sales.variacion_productos_promedio <= 0}">
+                                {{sales.variacion_productos_promedio}}%
+                                <i [ngClass]="{'icon-arrow-up': sales.variacion_productos_promedio > 0, 'icon-arrow-down': sales.variacion_productos_promedio <= 0}"></i>
+                            </span>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+    <ion-row>
+        <ion-col>
+            <ion-button (click)="companyResults()" expand="block">Ver resultados por compañia</ion-button>
+        </ion-col>
+    </ion-row>
+    <div *ngIf="company">
+        <ion-card class="post tables below">
+            <ion-card-header color="primary">
+                <ion-card-subtitle>
+                    Ventas
+                </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content no-padding>
+                <ion-grid no-padding *ngFor="let companySale of sales.companias.ventas">
+                    <ion-row>
+                        <ion-col size="12" text-center>
+                            {{companySale.nombre}}
+                        </ion-col>
+                        <ion-col size="6" class="header-day">
+                            Día: <span>{{companySale.venta_dia | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                        </ion-col>
+                        <ion-col size="6" class="header-month">
+                            Mes: <span>{{companySale.venta_mes_sin_iva | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card class="post tables below">
+            <ion-card-header color="primary">
+                <ion-card-subtitle>
+                    Tiendas activas
+                </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content no-padding>
+                <ion-grid no-padding *ngFor="let shopsCompany of sales.companias.tiendas">
+                    <ion-row>
+                        <ion-col size="12" text-center>
+                            {{shopsCompany.nombre}}
+                        </ion-col>
+                        <ion-col size="6" class="header-day">
+                            Día: <span>{{shopsCompany.tiendas_activas_x_dia}}</span>
+                        </ion-col>
+                        <ion-col size="6" class="header-month">
+                            Mes: <span>{{shopsCompany.tiendas_activas_x_mes}}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card class="post tables below">
+            <ion-card-header color="primary">
+                <ion-card-subtitle>
+                    Pedidos
+                </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content no-padding>
+                <ion-grid no-padding *ngFor="let ordersCompany of sales.companias.pedidos">
+                    <ion-row>
+                        <ion-col size="12" text-center>
+                            {{ordersCompany.nombre}}
+                        </ion-col>
+                        <ion-col size="6" class="header-day">
+                            Día: <span>{{ordersCompany.cantidad_pedidos_dia}}</span>
+                        </ion-col>
+                        <ion-col size="6" class="header-month">
+                            Mes: <span>{{ordersCompany.cantidad_pedidos_mes}}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+    </div>
+    <ion-row>
+        <ion-col>
+            <ion-button (click)="brandResults()" expand="block">Ver resultados por marca</ion-button>
+        </ion-col>
+    </ion-row>
+    <div *ngIf="brands">
+        <ion-card class="post tables below">
+            <ion-card-header color="primary">
+                <ion-card-subtitle>
+                    Ventas
+                </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content no-padding>
+                <ion-grid no-padding *ngFor="let brandSale of sales.marcas.ventas">
+                    <ion-row>
+                        <ion-col size="12" text-center>
+                            {{brandSale.nombre}}
+                        </ion-col>
+                        <ion-col size="6" class="header-day">
+                            Día: <span>{{brandSale.venta_dia | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                        </ion-col>
+                        <ion-col size="6" class="header-month">
+                            Mes: <span>{{brandSale.venta_mes_sin_iva | currency:"COP":'symbol-narrow':'0.0-0'}}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card class="post tables below">
+            <ion-card-header color="primary">
+                <ion-card-subtitle>
+                    Tiendas activas
+                </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content no-padding>
+                <ion-grid no-padding *ngFor="let brandShop of sales.marcas.tiendas">
+                    <ion-row>
+                        <ion-col size="12" text-center>
+                            {{brandShop.nombre}}
+                        </ion-col>
+                        <ion-col size="6" class="header-day">
+                            Día: <span>{{brandShop.tiendas_activas_x_dia}}</span>
+                        </ion-col>
+                        <ion-col size="6" class="header-month">
+                            Mes: <span>{{brandShop.tiendas_activas_x_mes}}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card class="post tables below">
+            <ion-card-header color="primary">
+                <ion-card-subtitle>
+                    Pedidos
+                </ion-card-subtitle>
+            </ion-card-header>
+
+            <ion-card-content no-padding>
+                <ion-grid no-padding *ngFor="let brandOrder of sales.marcas.pedidos">
+                    <ion-row>
+                        <ion-col size="12" text-center>
+                            {{brandOrder.nombre}}
+                        </ion-col>
+                        <ion-col size="6" class="header-day">
+                            Día: <span>{{brandOrder.cantidad_pedidos_dia }}</span>
+                        </ion-col>
+                        <ion-col size="6" class="header-month">
+                            Mes: <span>{{brandOrder.cantidad_pedidos_mes}}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>

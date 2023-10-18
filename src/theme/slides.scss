@@ -1,0 +1,156 @@
+ion-slides {
+  .swiper-pagination-bullet {
+    background: var(--ion-color-primary);
+  }
+  ion-slide {
+    width: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+    // &:first-child {
+    //     padding-left: 0;
+    // }
+  }
+  .swiper-slide {
+    text-align: left;
+  }
+  &.register-slider {
+    padding-bottom: 40px;
+    ion-slide {
+      width: 100% !important;
+    }
+    .buttons-wrapper {
+      // position: absolute;
+      // top: 35vh;
+    }
+  }
+  &.suggested-products {
+    ion-slide {
+      flex-direction: column;
+      margin: 0 5px;
+
+      img {
+        width: 145px;
+      }
+      div {
+        color: var(--ion-color-primary);
+        text-align: center;
+        padding: 10px 0;
+        display: block;
+        font-family: "montserrat_semiboldregular";
+        font-size: 12px;
+        span {
+          color: var(--ion-color-secondary);
+        }
+      }
+    }
+  }
+  &.cart-products {
+    ion-slide {
+      position: relative;
+      img,
+      ion-img {
+        width: 50px;
+      }
+      div {
+        position: absolute;
+        color: var(--ion-color-dark);
+        width: 25px;
+        height: 25px;
+        display: flex;
+        right: 5px;
+        bottom: 5px;
+        font-family: "montserrat_semiboldregular";
+        font-size: 15px;
+        background: var(--ion-color-tertiary);
+        border-radius: 50%;
+        justify-content: center;
+        span {
+          align-self: center;
+          letter-spacing: 1px;
+          line-height: 1;
+        }
+      }
+    }
+  }
+  &.slider-offers {
+    ion-slide {
+      width: 300px !important;
+      .img-wrapper {
+        height: 148px;
+      }
+    }
+  }
+  /*&.redeem-prize {
+        ion-slide {
+            &:first-child {
+                ion-card {
+                    margin-left: 0;
+                }
+            }
+        }
+    }*/
+  &.previous-orders-slider {
+    overflow: inherit;
+    margin: 8px 0;
+    padding-bottom: 30px;
+    ion-slide {
+      padding: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      max-width: 156px;
+      margin-right: 8px;
+      display: block;
+      .top {
+        padding: 6px 8px;
+        background-color: #e8f0ff;
+      }
+      .date-circle {
+        width: 35px;
+        height: 35px;
+        background-color: var(--ion-color-primary);
+        font-family: 'montserrat_semiboldregular';
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        font-size: 13px;
+        line-height: 1;
+        margin-right: 8px;
+        span {
+          font-size: 10px;
+        }
+      }
+      ion-row {
+        padding: 0;
+        width: 100%;
+      }
+      p {
+        margin: 0;
+        color: var(--ion-color-dark);
+        font-family: 'montserrat_semiboldregular';
+        font-size: 12px;
+        line-height: 1.4;
+        &.distributor {
+          color: var(--ion-color-primary);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 78px;
+          white-space: nowrap;
+        }
+      }
+      ion-icon {
+        color: var(--ion-color-secondary);
+        line-height: 1.2;
+      }
+      .products {
+        font-family: "montserrat_mediumregular";
+        color: var(--ion-color-primary);
+        font-size: 16px;
+      }
+    }
+  }
+}

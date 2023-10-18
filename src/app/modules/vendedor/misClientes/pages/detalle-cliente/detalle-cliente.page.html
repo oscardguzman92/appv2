@@ -1,0 +1,257 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" no-padding *ngIf="shop">
+            {{ shop.nombre_tienda | titlecase }}
+            <span>Cod. {{ shop.codigo_cliente }}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="with-searchbox" no-padding>
+    <ion-grid class="data-client" padding>
+        <app-mis-clientes-datos-cliente *ngIf="shop" direction="{{shop.direccion | titlecase}}"
+                                        cellphone="{{shop.telefono_contacto}}" visitDay="{{shop.dia}}"
+                                        [name]="shop.nombre_contacto"
+                                        [document]="shop.cedula_distribuidor"
+                                        [shopId]="shop.id"
+                                        [orden]="(shop.preferencia_orden!=undefined)?shop.preferencia_orden:0">
+        </app-mis-clientes-datos-cliente>
+        <app-mis-clientes-mapa [shop]="shop" *ngIf="!isOfflineActive && !offlineDynamic"></app-mis-clientes-mapa>
+    </ion-grid>
+    <ion-grid padding>
+        <!-- indicadores tienda -->
+        <ion-row class="basic-indicators" *ngIf="!isOfflineActive && !offlineDynamic">
+            <ion-col size="8" *ngIf="dropSize" class="align-center">
+                <h5>Puntos cliente</h5>
+            </ion-col>                
+            <ion-col size="4" *ngIf="dropSize">
+                <ion-button
+                    class="right-button-header points"
+                >
+                <span>{{ dropSize.puntos }}</span>
+                <ion-icon name="star" color="secondary"></ion-icon>
+                </ion-button>                
+            </ion-col>
+            <ion-col size="12" >
+                <h4>Indicadores de la tienda</h4>
+            </ion-col>
+            <ion-col *ngIf="dropSize">
+                <ion-row>
+                    <ion-col no-padding>
+                        <h6 class="sub-title">Pedido Promedio</h6>
+                        <p class="small" no-margin><span>{{dropSize.cumplimiento_pedido_promedio}}%</span> vs mes
+                            anterior</p>
+                    </ion-col>
+                    <ion-col size="auto" class="value" no-padding>
+                        {{dropSize.pedido_promedio}}
+                        <i *ngIf="dropSize.cumplimiento_pedido_promedio != 100" [ngClass]="{
+                            'icon-arrow-down': dropSize.cumplimiento_pedido_promedio < 100,
+                            'icon-arrow-up': dropSize.cumplimiento_pedido_promedio > 100}"></i>
+                        <span *ngIf="dropSize.cumplimiento_pedido_promedio == 100">=</span>
+                    </ion-col>
+                </ion-row>
+                <div class="divider"></div>
+                <ion-row>
+                    <ion-col no-padding>
+                        <h6 class="sub-title">Frecuencia De Pedidos</h6>
+                        <p class="small" no-margin><span>{{dropSize.cumplimiento_frecuencia_pedido}}%</span> vs mes
+                            anterior</p>
+                    </ion-col>
+                    <ion-col size="auto" class="value" no-padding>
+                        {{dropSize.frecuencia_pedido | number:'0.0-0'}}
+                        <i *ngIf="dropSize.cumplimiento_frecuencia_pedido != 100" [ngClass]="{
+                            'icon-arrow-down': dropSize.cumplimiento_frecuencia_pedido < 100,
+                            'icon-arrow-up': dropSize.cumplimiento_frecuencia_pedido > 100}"></i>
+                        <span *ngIf="dropSize.cumplimiento_frecuencia_pedido == 100">=</span>
+                    </ion-col>
+                </ion-row>
+                <div class="divider"></div>
+                <ion-row>
+                    <ion-col no-padding>
+                        <h6 class="sub-title">Referencias Por Pedidos</h6>
+                        <p class="small" no-margin><span>{{dropSize.cumplimiento_referencia_promedio}}%</span> vs mes
+                            anterior</p>
+                    </ion-col>
+                    <ion-col size="auto" class="value" no-padding>
+                        {{dropSize.referencia_promedio | number:'0.0-0'}}
+                        <i *ngIf="dropSize.cumplimiento_referencia_promedio != 100" [ngClass]="{
+                            'icon-arrow-down': dropSize.cumplimiento_referencia_promedio < 100,
+                            'icon-arrow-up': dropSize.cumplimiento_referencia_promedio > 100}"></i>
+                        <span *ngIf="dropSize.cumplimiento_referencia_promedio == 100">=</span>
+                    </ion-col>
+                </ion-row>
+                <div class="divider"></div>
+                <ion-row>
+                    <ion-col size="12" no-padding>
+                        <p class="small" no-margin>*Estos datos son del mes de <b>{{month}}</b> comparados con el mes
+                            de <b>{{lastMonth}}</b>.</p>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <!-- cartera -->
+            <ion-col size="12" *ngIf="shop.valor_ultima_factura || shop.valor_ultimo_pago || shop.plazo_pago">
+                <ion-button class="cartera-button" expand="block" (click)="goCartera()" no-margin>
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="auto" text-left no-padding>
+                            <div class="left-side"><img src="../assets/images/credit-card.svg">
+                                <h3>Cartera</h3></div>
+                        </ion-col>
+                        <ion-col text-right no-padding>
+                            <p no-margin>{{ getMora() | currency:"COP":'symbol-narrow':'0.0-0' }}</p>
+                            <span>Saldo por pagar</span>
+                        </ion-col>
+                        <ion-col size="auto" no-padding>
+                            <ion-icon class="icon-chevron-down" name="null"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-button>
+            </ion-col>
+
+            <!-- crear pedido -->
+            <ion-col *ngIf="shop">
+                <button class="main-button blue-button pending-order-button"
+                        *ngIf="shop && shop.status_productos_pendientes" (click)="createOrder()">
+                    <span>Seguir con <br/>el pedido</span>
+                    <div class="badge" *ngIf="!this.isOfflineActive && !this.offlineDynamic">{{ nProducts }}</div>
+                </button>
+                <button class="main-button blue-button order-button"
+                        *ngIf="(shop && !firstProductsSelected().pedido && !shop.status_productos_pendientes) && (!isOfflineActive && !offlineDynamic)"
+                        (click)="createOrder()">
+                    <span>Crear <br/>pedido</span>
+                </button>
+                <button class="main-button blue-button order-button"
+                        *ngIf="(shop && !firstProductsSelected().pedido && !shop.status_productos_pendientes) && (isOfflineActive || offlineDynamic)"
+                        (click)="createOrder()">
+                    <span>Crear Pedido</span>
+                </button>
+                <button class="main-button blue-button order-button"
+                        *ngIf="shop && firstProductsSelected().pedido && !shop.status_productos_pendientes"
+                        (click)="createOrder()">
+                    <span>Actualizar <br/>pedido</span>
+                    <div class="badge">{{ nProducts }}</div>
+                </button>
+            </ion-col>
+
+            <!-- asignar saldo *ngIf="(!isOfflineActive && !offlineDynamic)"-->
+            <ion-col *ngIf="(isOfflineActive || offlineDynamic)">
+                <button class="main-button orange-button ward-button offline" (click)="goSurveys()">
+                    <span>Ver <br/>concursos</span>
+                </button>
+            </ion-col>
+            <ion-col *ngIf="(!isOfflineActive && !offlineDynamic)">
+                <span class="badge__large" *ngIf="badge"></span>
+                <button class="main-button orange-button ward-button" (click)="goSurveys()">
+                    <span>Ver <br/>concursos</span>
+                </button>
+            </ion-col>
+            <ion-col size="12">
+                <ion-button expand="block" (click)="goNopedido()" no-margin>
+                    No compra - No encuesta
+                </ion-button>
+            </ion-col>
+            <ion-col size="12" *ngIf="(!isOfflineActive && !offlineDynamic)">
+                <ion-button expand="block" (click)="goRecord()" no-margin>
+                    Historial de Pedidos
+                </ion-button>
+            </ion-col>
+            <ion-col size="12" *ngIf="(!isOfflineActive && !offlineDynamic)">
+                <ion-button expand="block" (click)="goAssignClient()" no-margin>
+                    Asignar cliente en storeapp
+                </ion-button>
+            </ion-col>
+            <ion-col size="12"
+                     *ngIf="(shop && firstProductsSelected().pedido && !shop.status_productos_pendientes) && ((!isOfflineActive && !offlineDynamic) && user.distribuidor?.devoluciones)">
+                <ion-button expand="block" (click)="goReturn()" no-margin>
+                    Hacer una devolución
+                </ion-button>
+            </ion-col>
+            <ion-col size="12" *ngIf="(!isOfflineActive && !offlineDynamic)">
+                <ion-button expand="block" (click)="goUpdateData()" no-margin>
+                    Actualizar datos cliente
+                </ion-button>
+            </ion-col>
+            <ion-col size="12" *ngIf="(!isOfflineActive && !offlineDynamic)">
+                <ion-button expand="block" no-margin (click)="setBalance()">
+                    Asignar saldo
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- pedidos favoritos -->
+    <ion-grid class="ion-padding-horizontal" no-padding *ngIf="favoriteOrders && (!isOfflineActive && !offlineDynamic)">
+        <ion-row *ngIf="favoriteOrders.length > 0">
+            <ion-col>
+                <div class="divider"></div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <span *ngIf="favoriteOrders && (!isOfflineActive && !offlineDynamic)">
+		<ion-grid class="no-padding-bottom" padding *ngIf="favoriteOrders.length > 0">
+			<ion-row>
+				<ion-col class="no-padding-top-bottom">
+					<h4 class="ion-float-left">Pedidos sugeridos</h4>
+					<p (click)="openFavoriteOrders()" class="small-link ion-float-right">
+						Ver todo
+					</p>
+				</ion-col>
+			</ion-row>
+		</ion-grid>
+		<app-mis-clientes-pedidos-anteriores *ngIf="favoriteOrders.length > 0" [favoriteOrders]="favoriteOrders"
+             [shop]="shop">
+		</app-mis-clientes-pedidos-anteriores>
+	</span>
+
+</ion-content>
+<ion-footer class="wrapper-search-scan" *ngIf="(!isOfflineActive && !offlineDynamic) && ((user.transportador && hasAddress) || !user.transportador)">
+    <app-pedidos-buscador #pedidosBuscador [nProducts]="nProducts" activeKeyUp="false" [idShop]="shop?.id"></app-pedidos-buscador>
+    <ion-button [@jump]="thingState" class="cart-button"
+                [ngClass]="{'show': nProducts > 0, 'small-button': (pedidosBuscador && !pedidosBuscador.inputExpand && !pedidosBuscador.small)}"
+                (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">{{orderValue | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{nProducts}}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+</ion-footer>
+
+<ion-footer class="wrapper-search-scan" *ngIf="(isOfflineActive || offlineDynamic)">
+    <ion-button [@jump]="thingState" class="cart-button"
+                [ngClass]="{'show': nProducts > 0, 'small-button': false,'edit-cart': hasEdit}"
+                (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">{{orderValue | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{nProducts}}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+</ion-footer>

@@ -1,0 +1,39 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <ion-icon slot="icon-only" class="icon-x icon-orange-gradient"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" class="medium" no-padding>
+            {{user.nombre_contacto}}
+            <span>{{user.cedula}}</span>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid padding>
+        <ion-row *ngFor="let product of productsFeatured">
+            <ion-col size="12">
+                <ion-card class="promo-card">
+                    <div class="img-wrapper">
+                        <ion-button size="small orange-button has-icon" (click)="addProduct(product)">
+                            Agregar <ion-icon slot="end" class="icon-plus-circle"></ion-icon>
+                        </ion-button>
+                        <img
+                            onerror="this.src='assets/images/product-without-image.jpg'" 
+                            [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagen">
+                        <img *ngIf="!product.imagen" src="assets/images/product-without-image.jpg">
+                        <!-- <img src="https://admin.storeapp.net/imagenes/productos/thumb/{{product.imagen}}"> -->
+                    </div>
+                    <ion-card-content>
+                        <p class="small">
+                            {{product.nombre}}
+                        </p>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

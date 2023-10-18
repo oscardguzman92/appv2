@@ -1,0 +1,24 @@
+<div class="wrapper-modal" *ngIf="data">
+    <ion-icon class="icon-x-circle" name="null" (click)="close()"></ion-icon>
+    <img [src]="data.imagen" *ngIf="data.imagen && !showProduct">
+    <div class="wrappet-cont" *ngIf="!showProduct">
+        <h5 *ngIf="data.titulo">{{data.titulo}}</h5>
+        <p *ngIf="data.texto">{{data.texto}}</p>
+    </div>
+    <ng-container *ngIf="showProduct && producto">
+        <app-general-producto
+                [userIn]="user"
+                [product]="producto"
+                [cardTypeOffer]="(producto.categoria_id == 991)"
+                [offer]="true"
+                [container]="container._results[0]"
+                analyticsType="modal"
+                [analyticsTypeEvent]="'modal_'+data.id"
+                [cardModal]="true"></app-general-producto>
+    </ng-container>
+    <div class="wrapper-buttons ion-margin-top" *ngIf="(data.datos || data.link_externo) && !showProduct">
+        <ion-button size="small" (click)="goTo()" expand="block">
+            Ver más
+        </ion-button>
+    </div>
+</div>

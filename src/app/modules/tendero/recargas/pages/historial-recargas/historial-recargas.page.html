@@ -1,0 +1,23 @@
+<app-compartido-cabecera titulo="Historial De Saldo" [mostrarBotonAuxiliar]="false"
+                         [showBackButton]="true"></app-compartido-cabecera>
+<ion-segment class="segment-general" (ionChange)="cambiarSegmento($event)">
+    <ion-segment-button value="egresos" checked>
+        <ion-label>Egresos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="ingresos">
+        <ion-label>Ingresos</ion-label>
+    </ion-segment-button>
+</ion-segment>
+<ion-content no-padding>
+    <ion-grid no-padding>
+        <app-recargas-egresos [egresos]="egresos" *ngIf="segmento=='egresos'"></app-recargas-egresos>
+        <app-recargas-ingresos [ingresos]="ingresos" *ngIf="segmento=='ingresos'"></app-recargas-ingresos>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadInfiniteScroll($event)">
+            <ion-infinite-scroll-content
+                    loadingSpinner="bubbles"
+                    loadingText="Loading more data...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </ion-grid>
+</ion-content>
+<app-recargas-solicitar-saldos *ngIf="user" [user]="user"></app-recargas-solicitar-saldos>

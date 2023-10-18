@@ -1,0 +1,237 @@
+<ion-content no-padding>
+    <ion-grid class="ion-justify-content-between" padding>
+        <!-- <app-compartido-cabecera-sin-login [mostrarBotonRegresar]="false"></app-compartido-cabecera-sin-login> -->
+
+        <ion-row justify-content-center>
+            <ion-col size="12">
+                <h5 class="sub-title">Actualiza tus datos</h5>
+            </ion-col>
+
+            <ion-col size="12">
+                <ion-list>
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Ingresa tu nombre:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{user.nombre_contacto}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(0)" class="button-outline">Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 0" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="user.nombre_contacto"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1" [disabled]="!user.nombre_contacto">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Ingresa el nombre de tu tienda:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{user.tiendas[0].nombre}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(1)" class="button-outline">Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 1" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="user.tiendas[0].nombre"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1" [disabled]="!user.tiendas[0].nombre">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Ingresa tu correo electronico:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{user.email}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(2)" class="button-outline">Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 2" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="user.email"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1" [disabled]="!user.email">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Si un asesor te está ayudando, ingresa el código de membresía:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{user.membresia}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button size="small" (click)="goToEditableItem(3)" class="button-outline">
+                                    Editar
+                                </ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 3" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="user.membresia"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1" [disabled]="!user.membresia">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                   <!--  <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Ingresa tu número celular. Es muy importante que tengas tu celular a la mano porque a este número llegará un código de confirmación:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{user.telefono_contacto}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button (click)="goToEditableItem(3)" class="button-outline">Editar</ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 3" no-padding>
+                                <ion-item class="input-form">
+                                    <ion-input type="text" [(ngModel)]="user.telefono_contacto"></ion-input>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1" [disabled]="!user.telefono_contacto">
+                                    Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item> -->
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>En qué estrato se encuentra ubicada tu tienda:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{user.tiendas[0].estrato}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button (click)="goToEditableItem(4)" class="button-outline">Editar</ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 4" no-padding>
+                                <ion-item class="input-form">
+                                    <div class="select-wrapper">
+                                        <select class="select-default" [(ngModel)]="user.tiendas[0].estrato">
+                                            <option value="" default selected>Estrato</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                        </select>
+                                        <ion-icon class="icon-chevron-down"></ion-icon>
+                                    </div>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1"
+                                            [disabled]="!user.tiendas[0].estrato">Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Selecciona el tipo que aplica para tu tienda:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center" *ngIf="editable === -1">
+                                <p no-margin>{{getTipologiaName}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="editable === -1">
+                                <ion-button (click)="goToEditableItem(5)" class="button-outline">Editar</ion-button>
+                            </ion-col>
+                            <ion-col size="12" *ngIf="editable === 5" no-padding>
+                                <ion-item class="input-form">
+                                    <div class="select-wrapper">
+                                        <select class="select-default"
+                                                [(ngModel)]="user.tiendas[0].tienda_tipologia_id"
+                                                (change)="changeTypeShop()">
+                                            <option value="" default selected>Tipo de negocio</option>
+                                            <option [value]="typeShop.id" *ngFor="let typeShop of typesShops">
+                                                {{typeShop.nombre}}
+                                            </option>
+                                        </select>
+                                        <ion-icon class="icon-chevron-down"></ion-icon>
+                                    </div>
+                                </ion-item>
+                                <ion-button expand="block" (click)="editable = -1"
+                                            [disabled]="!user.tiendas[0].tienda_tipologia_id">Guardar
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <!-- <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Selecciona el departamento y ciudad donde te encuentras ubicado:</small>
+                            </ion-col>
+                            <ion-col size="12" no-padding>
+                                <small>Departamento:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center">
+                                <p no-margin>{{departament}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding>
+                                <ion-button (click)="goToMap()" class="button-outline">Editar</ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item> -->
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Ciudad:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center">
+                                <p no-margin>{{city}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding>
+                                <ion-button (click)="goToMap()" class="button-outline">Editar</ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                    <ion-item no-padding>
+                        <ion-row>
+                            <ion-col size="12" no-padding>
+                                <small>Dirección:</small>
+                            </ion-col>
+                            <ion-col no-padding class="ion-align-self-center">
+                                <p no-margin>{{user.tiendas[0].direccion}}</p>
+                            </ion-col>
+                            <ion-col size="auto" no-padding>
+                                <ion-button (click)="goToMap()" class="button-outline">Editar</ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+
+            <ion-col size="12">
+                <ion-button expand="block" (click)="finallyRegister()" [disabled]="!validateFinish">
+                    Finalizar
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

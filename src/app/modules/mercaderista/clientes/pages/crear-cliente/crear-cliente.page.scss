@@ -1,0 +1,45 @@
+.slider-center {
+  margin-top: -160px;
+  top: 50%;
+  position: relative;
+}
+.client-location {
+    ion-item {
+        --padding-start: 16px;
+        --padding-end: 16px;
+        --padding-top: 4px;
+        --padding-bottom: 4px;
+        --inner-padding-start: 0;
+        --inner-padding-end: 0;
+        --background: var(--ion-color-light);
+        border-radius: 10px;
+        margin-bottom: 16px;
+        &:last-child {
+            margin-bottom: 0px;
+        }
+        ion-label {
+            h2, h3 {
+                font-family: "montserrat-medium";
+                display: flex;
+                align-items: center;
+                ion-icon {
+                    margin-right: 8px;
+                    font-size: 16px;
+                }
+            }
+            h2 {
+                color: var(--ion-color-primary);
+                font-family: "montserrat-semibold";
+            }
+            span {
+                font-size: 12px;
+                color: var(--ion-color-medium);
+            }
+        }
+        ion-checkbox {
+            --border-radius: 50%;
+            width: 25px;
+            height: 25px;
+        }
+    }
+}

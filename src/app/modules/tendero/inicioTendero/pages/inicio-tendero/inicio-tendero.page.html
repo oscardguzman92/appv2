@@ -1,0 +1,288 @@
+<app-compartido-cabecera *ngIf="user" [titulo]="user.nombre_contacto" [mostrarBotonAuxiliar]="true"
+                         [tituloBoton]="titlebutton" [filtros]="false" (eventHandlerPounts)="eventPounts()"
+                         [user]="user"
+                         [listenerEventHeader]="user.tiendas.length > 1" [rutaRedirection]="'inicio-tendero'"
+                         (eventHeader)="eventHeader()">
+</app-compartido-cabecera>
+<ion-content *ngIf="user" class="with-searchbox">
+    <ion-grid class="no-padding-top" padding>
+        <ion-row>
+            <ion-col size="3">
+                <div class="callout cod ion-align-items-center">
+                    <ion-icon name="null" class="icon-qrcode" (click)="goMyQR()"></ion-icon>
+                    <small>Código</small>
+                </div>
+            </ion-col>
+            <ion-col size="9">
+                <div class="callout bal-credit">
+                    <ion-row class="ion-align-items-center" (click)="goToBalance()">
+                        <ion-col size="6" no-padding>
+                            <h5>Mi Saldo</h5>
+                        </ion-col>
+                        <ion-col size="6" no-padding>
+                            <p class="ion-text-right" no-margin>{{balance | currency:"COP":'symbol-narrow':'0.0-0'}}
+                                <span><i class="icon-chevron-right"></i></span></p>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-align-items-center" (click)="goCreditsList()">
+                        <ion-col size="6" no-padding>
+                            <h5>Mi Cupo <span>Disponible</span></h5>
+                        </ion-col>
+                        <ion-col size="6" no-padding>
+                            <p class="ion-text-right"
+                               no-margin>{{ (totalAvalaibleCredits) | currency: 'COP': 'symbol': '1.0'}}<span><i
+                                    class="icon-chevron-right"></i></span></p>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <span *ngIf="user.tiendas.length > 0">
+        <app-general-ofertas [user]="user" [statusInsurence]="seguroActivo" (onOfertas)="onOfertas()" (concursos)="activeBadge($event)"
+                             [consultaModals]="true">
+        </app-general-ofertas>
+    </span>
+    <div class="previous-orders" *ngIf="myOrders && myOrders.length > 0 && !nProducts">
+        <ion-row class="ion-align-items-center">
+            <ion-col size="9">
+                <h6>
+                    <ion-icon name="null" class="icon-shopping-cart"></ion-icon>
+                    Pedidos Recientes
+                </h6>
+            </ion-col>
+            <ion-col size="3" class="ion-text-right" (click)="goMyOrders()">
+                <ion-button size="small" class="more-button ion-align-items-center">Más
+                    <ion-icon class="icon-chevron-right" name="null" slot="end"></ion-icon>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-slides class="previous-orders-slider" [options]="slideOpts" pager no-padding>
+            <ion-slide *ngFor="let myOrder of myOrders" (click)="requestAgain(myOrder)">
+                <ion-row class="top ion-align-items-center">
+                    <ion-col size="auto" no-padding>
+                        <div class="date-circle">{{ myOrder.created_at | date:'d'}}
+                            <span>{{ myOrder.created_at | date:'MMM' | titlecase}}</span></div>
+                    </ion-col>
+                    <ion-col size="auto" no-padding>
+                        <p>{{myOrder.valor_pedido | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+                        <p class="distributor">{{ myOrder.distribuidor | titlecase}}</p>
+                    </ion-col>
+                    <ion-col class="ion-align-self-center ion-text-right" no-padding>
+                        <ion-icon name="null" class="icon-chevron-right"></ion-icon>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="products ion-align-items-center">
+                    <ion-col>
+                        <ng-container *ngFor="let myOrderProductos of myOrder.productos; let i=index">
+                            <img *ngIf="i<3 && myOrderProductos.imagenes[0] != undefined"
+                                 onerror="this.src='assets/images/product-without-image.jpg'"
+                                 [src]="'https://admin.storeapp.net/imagenes/productos/thumb/' + myOrderProductos.imagenes[0].url"/>
+                        </ng-container>
+                    </ion-col>
+                    <div class="products-count" *ngIf="myOrder.productos.length>3">
+                        {{ myOrder.productos.length - 3}}+
+                    </div>
+                </ion-row>
+            </ion-slide>
+        </ion-slides>
+    </div>
+    <ion-grid class="no-padding-top-bottom" padding>
+        <ion-row class="ion-align-items-baseline">
+            <ion-col size="12">
+                <ion-row class="ion-padding-bottom">
+                    <button class="card-button" (click)="mostrarModal()">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="auto">
+                                <img src="/assets/images/icono-pedidos.png">
+                            </ion-col>
+                            <ion-col>
+                                <h5>Pedidos <span>Surte tu negocio</span></h5>
+                            </ion-col>
+                            <ion-col size="auto">
+                                <ion-icon name="null" class="icon-arrow-right"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </button>
+                </ion-row>
+                <ion-row class="ion-padding-bottom">
+                    <button class="card-button" [class.pending-contest]="badge" (click)="goSurveys()">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="auto">
+                                <div class="wrapper-img">
+                                    <img src="/assets/images/icono-concursos.png">
+                                </div>
+                            </ion-col>
+                            <ion-col>
+                                <h5 *ngIf="!badge">Concursos <span>Responde y participa por premios</span></h5>
+
+                                <!-- Si hay concursos pendientes por responder -->
+                                <h5 *ngIf="badge">Concursos <span>Tienes una encuesta por responder</span></h5>
+                            </ion-col>
+                            <ion-col size="auto">
+                                <ion-icon name="null" class="icon-arrow-right"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </button>
+                </ion-row>
+                <ion-row class="ion-padding-bottom">
+                    <button class="card-button" (click)="goMobileCharge()">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="auto">
+                                <img src="/assets/images/icono-recargas.png">
+                            </ion-col>
+                            <ion-col>
+                                <h5>Recargas <span>Para cualquier operador</span></h5>
+                            </ion-col>
+                            <ion-col size="auto">
+                                <ion-icon name="null" class="icon-arrow-right"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </button>
+                </ion-row>
+                <ion-row class="ion-padding-bottom">
+                    <button class="card-button" (click)="goCommunity()">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="auto">
+                                <img src="/assets/images/icono-red-social.png">
+                            </ion-col>
+                            <ion-col>
+                                <h5>Red Social <span>Conéctate con otros comercios</span></h5>
+                            </ion-col>
+                            <ion-col size="auto">
+                                <ion-icon name="null" class="icon-arrow-right"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </button>
+                </ion-row>
+                <ion-row class="ion-padding-bottom">
+                    <button class="card-button" (click)="goToIndicators()">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="auto">
+                                <img src="/assets/images/icono-indicadores.png">
+                            </ion-col>
+                            <ion-col>
+                                <h5>Indicadores <span>Rendimiento de tu negocio</span></h5>
+                            </ion-col>
+                            <ion-col size="auto">
+                                <ion-icon name="null" class="icon-arrow-right"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </button>
+                </ion-row>
+                <ion-row class="ion-padding-bottom">
+                    <a class="btn-help-center" href="https://storeappsupport.zendesk.com/hc/es" target="_blank">
+                        <button class="card-button">
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="auto">
+                                    <img src="/assets/images/icono-ayuda.png">
+                                </ion-col>
+                                <ion-col>
+                                    <h5>Centro de Ayuda <span>Entra aquí si tienes preguntas</span></h5>
+                                </ion-col>
+                                <ion-col size="auto">
+                                    <ion-icon name="null" class="icon-arrow-right"></ion-icon>
+                                </ion-col>
+                            </ion-row>
+                        </button>
+                    </a>
+                </ion-row>
+            </ion-col>
+            <!-- Boton Bancolombia -->
+
+            <!-- nuevo boton seguros -->
+            <ion-col size="12" *ngIf="seguroActivo">
+                <div (click)="goToInsurance()" class="banner-hdi">
+                    <img src="../assets/images/banner-hdi-seguros.png">
+                </div>
+            </ion-col>
+            <div class="general-boton-adicional" *ngIf="shops.length > 0">
+                <app-general-boton-adicional [user]="user">
+                </app-general-boton-adicional>
+            </div>
+            <ion-col size="6" *ngIf="checkCartera()">
+                <button class="card-button">
+                    <ion-grid no-padding>
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="3" no-padding>
+                                <i
+                                        class="icon-help-circle icon-orange-gradient ion-align-self-center"
+                                >
+                                </i>
+                            </ion-col>
+                            <ion-col (click)="selectShop()" size="9" no-padding
+                            >Cartera
+                            </ion-col
+                            >
+                        </ion-row>
+                    </ion-grid>
+                </button>
+            </ion-col>
+
+            <!-- cartera -->
+            <ion-col size="12" *ngIf="checkCartera()">
+                <ion-button class="cartera-button" expand="block" (click)="goCartera()" no-margin>
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="auto" text-left no-padding>
+                            <div class="left-side"><img src="../assets/images/credit-card.svg">
+                                <h3>Cartera</h3>
+                            </div>
+                        </ion-col>
+                        <ion-col text-right no-padding>
+                            <p no-margin>{{ getMora() | currency:"COP":'symbol-narrow':'0.0-0' }}</p>
+                            <span>Saldo por pagar</span>
+                        </ion-col>
+                        <ion-col size="auto" no-padding>
+                            <ion-icon class="icon-chevron-down" name="null"></ion-icon>
+                        </ion-col>
+                    </ion-row>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-button [@jump]="thingState" class="cart-button" [ngClass]="{ show: nProducts > 0 ,'edit-cart':hasEdit}"
+                (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">
+                    {{ orderValue | currency: "COP":"symbol-narrow":"0.0-0" }}
+                </p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{ nProducts }}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+    <!-- pedidos favoritos -->
+    <!-- <ion-grid class="ion-padding-horizontal" no-padding *ngIf="favoriteOrders">
+        <ion-row *ngIf="favoriteOrders.length > 0">
+            <ion-col>
+                <div class="divider"></div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <span *ngIf="favoriteOrders">
+        <ion-grid class="no-padding-bottom" padding *ngIf="favoriteOrders.length > 0">
+            <ion-row>
+                <ion-col class="no-padding-top-bottom">
+                    <h4 class="ion-float-left">Pedidos sugeridos</h4>
+                    <p (click)="openFavoriteOrders()" class="small-link ion-float-right">
+                        Ver todo
+                    </p>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <app-general-pedidos-favoritos *ngIf="favoriteOrders.length > 0" [favoriteOrders]="favoriteOrders"
+            [shop]="shops[0]">
+        </app-general-pedidos-favoritos>
+    </span> -->
+
+</ion-content>

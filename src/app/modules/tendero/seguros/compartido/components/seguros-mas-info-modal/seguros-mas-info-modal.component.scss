@@ -1,0 +1,92 @@
+.modal-cont-wrapper {
+    overflow: scroll;
+    height: 85vh;
+    padding: 16px 16px 80px 16px;
+    h4 {
+        color: var(--ion-color-secondary);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        font-size: 22px;
+        line-height: 1.1;
+        img {
+            width: 65px;
+            margin-right: 10px;
+        }
+    }
+    p {
+        font-size: 12px;
+        text-align: justify;
+        word-break: break-word;
+        hyphens: auto;
+        strong{
+            color:blue !important;
+        }
+        
+        span{
+            color: var(--ion-color-secondary) !important;
+        }
+        hr{
+            display: block;
+            unicode-bidi: isolate;
+            margin-block-start: 0.5em;
+            margin-block-end: 0.5em;
+            margin-inline-start: auto;
+            margin-inline-end: auto;
+            overflow: hidden;
+            border-style: inset;
+            border-width: 1px;
+        }
+    }
+    .insurance-table {
+        font-size: 12px;
+        font-family: "montserrat_mediumregular";
+        .header ion-col {
+            background-color: var(--ion-color-primary);
+            color: white;
+            font-family: "montserrat_semiboldregular";
+            border-color: var(--ion-color-primary);
+            &:first-child {
+                border-right: solid 1px var(--ion-color-primary-shade);
+            }
+        }
+        
+        ion-col {
+            border: solid 1px grey;
+            border-bottom-style: none;
+            border-right-style: none;
+        }
+        
+        ion-col:last-child {
+            border-right: solid 1px grey;
+        }
+        
+        ion-row:last-child ion-col {
+            border-bottom: solid 1px grey;
+        }
+    }
+    .footer {
+        position: fixed;
+        bottom: 1vh;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        background: white;
+        .contact {
+            font-family: "montserrat_mediumregular";
+            color: var(--ion-color-secondary);
+            font-size:17px;
+            line-height:1.2;
+            ion-icon {
+                margin-right : 5px;
+                color : var(--ion-color-success);
+
+            }
+            a {
+                display: block;
+                text-decoration: none;
+            }
+        }
+    }
+
+}

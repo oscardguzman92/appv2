@@ -1,0 +1,74 @@
+<app-cabecera [showBackButton]="showBackButton" [total]="total | number" [products]="quantity" [title]="title" [subtitle]="subtitle" [showTitle]="showTitle" [showDataSale]="inSale">
+  </app-cabecera>
+<ion-content>
+  <ion-grid align-items-center justify-content-center>
+    <form class="cash-register-form" [formGroup]="confirmDataProduct">
+      <ion-row>
+        <ion-col>
+          <h1>{{ getFullProductName() | titlecase }}</h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item class="input-form">
+              <ion-label position="floating">Escriba el precio del producto</ion-label>
+              <ion-input formControlName="price" type="number" [(ngModel)]="productSelect.price"></ion-input>
+          </ion-item>            
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="showShopkeeper">
+        <ion-col class="add-remove">
+          <ion-icon
+            class="icon-minus-circle"
+            (click)="remove(productSelect.quantity)"
+          >
+          </ion-icon>
+        </ion-col>
+        <ion-col class="add-remove-input">
+          <ion-input
+            type="number"
+            formControlName="quantity"
+            [(ngModel)]="productSelect.quantity"
+          ></ion-input>
+        </ion-col>
+        <ion-col class="add-remove">
+          <ion-icon
+            class="icon-plus-circle"
+            (click)="add(productSelect.quantity)"
+          >
+          </ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row class="shopkeeper-product" *ngIf="!showShopkeeper">
+
+        <ion-col size="6">
+          <button class="card-button" (click)="overriding()" [ngClass]="{'active': shopkeeperProductSelect.overriding}">
+                  Más Vendido
+          </button>
+        </ion-col>
+
+        <ion-col size="6">
+          <button class="card-button" (click)="outstanding()" [ngClass]="{'active': shopkeeperProductSelect.outstanding}">
+                  Destacado
+          </button>
+        </ion-col>
+
+      </ion-row>
+    </form>
+  </ion-grid>
+</ion-content>
+<ion-footer class="cash-register-footer">
+  <button class="even" (click)="cancel()" *ngIf="showShopkeeper">
+    <p>
+      Borrar
+    </p>
+    <ion-icon class="icon-x"></ion-icon>
+  </button>
+
+  <button class="odd" (click)="confirm()">
+    <p>
+      Confirmar
+    </p>
+    <ion-icon class="icon-check"></ion-icon>
+  </button>
+</ion-footer>

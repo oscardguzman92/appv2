@@ -1,0 +1,85 @@
+ion-header {
+    .options {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      i.icon-x {
+        font-size: 30px;
+        border-radius: 100%;
+        color: white;
+        background: var(--ion-color-danger);
+        border: 3px solid var(--ion-color-danger-shade);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        z-index: 50;
+      }
+      & > div {
+        position: absolute;
+        right: 3%;
+        width: 33vw;
+        display: flex;
+        align-items: center;
+        color: var(--ion-color-medium);
+        justify-content: space-between;
+        flex-flow: row wrap;
+        height: 100%;
+        span {
+          font-family: "montserrat_semiboldregular";
+          width: 100%;
+          text-align: right;
+        }
+      }
+    }
+  }
+
+ion-footer{
+  ion-col{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &.filter-active{
+      align-items: flex-start;    
+    }
+  }
+  strong{
+    font-size: 1.5em;
+    font-family: 'montserratbold';
+    font-weight: normal;
+    border-bottom: 2px solid;
+    padding-bottom: 3px;
+  }
+  p{
+    margin-top: 10px;
+    display: block;
+    margin-bottom: 0;
+  }
+  small{
+    margin-bottom: 3px;
+    display: block;
+  }
+}
+
+.filter-button{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 30px;
+  position: absolute;
+  top: 30px;
+  box-shadow: 5px 2px 6px#fff3;
+  right: 2%;
+  width: 44%;
+  padding: 7px 10px;
+  background:white;
+  z-index: 999;
+  small{
+    font-size: 12px;
+    width: 70%;
+    text-align: left;
+    margin:0;
+  }
+  i{
+    font-size: 15px;
+  }
+}

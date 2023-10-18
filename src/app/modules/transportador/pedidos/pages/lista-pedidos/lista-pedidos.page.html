@@ -1,0 +1,240 @@
+<ion-header class="header-delivery" *ngIf="!selectedMethod">
+    <ion-toolbar>
+        <div>
+            <ion-buttons slot="start">
+                <ion-button (click)="goBack()"><i class="icon-arrow-left icon-orange-gradient"></i></ion-button>
+            </ion-buttons>
+            <ion-title class="small" color="primary" no-padding *ngIf="pedidoSeleccionado">
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="auto" no-padding><span class="number">{{pedidoSeleccionado.orden}}</span></ion-col>
+                    <ion-col size="10" class="text-title" no-padding *ngIf="pedidoSeleccionado.pedido">
+                        {{pedidoSeleccionado.pedido.tienda && pedidoSeleccionado.pedido.tienda.nombre}}
+                        <span> Pedido: #{{pedidoSeleccionado.pedido.id}}</span>
+                    </ion-col>
+                </ion-row>
+            </ion-title>
+            <ion-buttons slot="end" *ngIf="pedidoSeleccionado">
+                <ion-button class="quantity">
+                    <ion-icon class="icon-shopping-cart" name="null"></ion-icon>
+                    <span>{{pedidoSeleccionado.pedido.productos.length}}</span></ion-button>
+                <ion-button class="updates" *ngIf="!pedidoSeleccionado.entregado">
+                    <div class="button-wrapper">
+                        <ion-icon class="icon-info" name="null"></ion-icon>
+                        <span>Novedad</span></div>
+                </ion-button>
+            </ion-buttons>
+        </div>
+    </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="!selectedMethod">
+    <div class="info-client">
+        <ion-row class="ion-align-items-center">
+            <ion-col size="auto">
+                <ion-icon class="icon-map-pin" name="null"></ion-icon>
+            </ion-col>
+            <ion-col>
+                {{pedidoSeleccionado.pedido.tienda.direccion}}
+            </ion-col>
+            <ion-col size="auto"
+                     *ngIf="(pedidoSeleccionado.pedido.tienda.latitud !== ''
+                            && pedidoSeleccionado.pedido.tienda.latitud !== '-1')
+                            && (pedidoSeleccionado.pedido.tienda.longitud !== ''
+                            && pedidoSeleccionado.pedido.tienda.longitud !== '-1')">
+                <div class="button-info" (click)="openWaze()">
+                    <ion-icon class="icon-waze" name="null"></ion-icon>
+                    Ir con Waze
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+            <ion-col size="auto">
+                <ion-icon class="icon-user" name="null"></ion-icon>
+            </ion-col>
+            <ion-col>
+                {{pedidoSeleccionado.pedido.tienda.cliente.nombre_contacto}}
+            </ion-col>
+            <ion-col size="auto" *ngIf="(pedidoSeleccionado.pedido.tienda.cliente.telefono_contacto !== '')">
+                <div class="button-info" (click)="openContactModal()">
+                    <ion-icon class="icon-whatsapp" name="null"></ion-icon>
+                    Contactar
+                </div>
+            </ion-col>
+        </ion-row>
+    </div>
+    <div class="wrapper-transporter-products" *ngIf="pedidoSeleccionado.pedido">
+        <virtual-scroller [items]="pedidoSeleccionado.pedido.productos" [scrollAnimationTime]="2000"
+                          [enableUnequalChildrenSizes]="true" [checkResizeInterval]="2000" #scroll
+                          class="product-list-cart">
+            <ion-row class="ion-padding-horizontal"
+                     *ngFor="let product of scroll.viewPortItems; let i = index;">
+                <ion-col size="2">
+                    <img *ngIf="product.imagenes && product.imagenes.length > 0"
+                         onerror="this.src='assets/images/product-without-image.jpg'"
+                         [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagenes[0].url">
+                    <img *ngIf="!product.imagenes || product.imagenes.length == 0"
+                         src="assets/images/product-without-image.jpg">
+                </ion-col>
+                <ion-col size="10">
+                    <div class="title">{{getFullProductName(product) | titlecase}}</div>
+                    <ion-row>
+                        <ion-col size="7" no-padding>
+                            <small>Cod.: {{product.cod_sap}}</small>
+                            <ion-row>
+                                <ion-col size="auto" no-padding>
+                                    <p class="price-card">
+                                        {{ +product.precio | currency:"COP":'symbol-narrow':'0.0-0' }}
+                                    </p>
+                                </ion-col>
+                                <ion-col no-padding>
+                                    <p class="price-card before"
+                                       *ngIf="product.ofertas && product.ofertas.length > 0">
+                                        {{ product.ofertas[0].precio_habitual | currency:"COP":'symbol-narrow':'0.0-0' }}
+                                    </p>
+                                </ion-col>
+                            </ion-row>
+                        </ion-col>
+                        <ion-col size="5" class="ion-align-self-end" no-padding>
+                            <div class="quantity-control">
+                                <ion-icon class="icon-minus-circle" name="null"
+                                            (click)="rmToCart(product)">
+                                </ion-icon>
+                                <p>
+                                    <ion-input [(ngModel)]="product.cantidad" [disabled]="true"
+                                                class="addToKart input-count-prod" type="number">
+                                    </ion-input>
+                                </p>
+                                <ion-icon class="icon-plus-circle" name="null"
+                                            (click)="addToCart(product)">
+                                </ion-icon>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+                <ion-col size="12" no-padding>
+                    <div class="divider"></div>
+                </ion-col>
+            </ion-row>
+        </virtual-scroller>
+    </div>
+</ion-content>
+
+<ion-footer class="footer-delivery" *ngIf="!selectedMethod">
+    <ion-row class="resume">
+        <ion-col class="no-padding-top-bottom" size="6">Subtotal (Sin IVA)</ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right>
+            {{pedidoSeleccionado.pedido.valor_sin_iva | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </ion-col>
+        <ion-col class="no-padding-top-bottom" size="6">IVA</ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right>
+            {{pedidoSeleccionado.pedido.iva | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </ion-col>
+        <ion-col class="no-padding-top-bottom" size="6"><b>Total (Con IVA)</b></ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right><b>
+            {{pedidoSeleccionado.pedido.valor_pedido | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </b></ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="no-padding-top" text-center>
+            <small>Pedido Pago</small>
+        </ion-col>
+    </ion-row>
+    <div class="method-pay-select" (click)="!pedidoSeleccionado.entregado && changeMethodPay()">
+        <strong>Método de pago:</strong>
+        <small *ngIf="selectedCash">
+            <i class="icon-dollar-sign"></i>
+            Efectivo
+        </small>
+        <small *ngIf="selectedCredit || selectedCreditstoreapp">
+            <i class="icon-smartphone"></i>
+            Crédito
+        </small>
+        <p *ngIf="!pedidoSeleccionado.entregado">Cambiar</p>
+    </div>
+    <ion-button expand="block" (click)="sendOrder()" *ngIf="!pedidoSeleccionado.entregado">Entregar</ion-button>
+</ion-footer>
+
+<div class="slider-method-pay">
+    <ion-row padding id="method-pay" *ngIf="selectedMethod">
+        <div class="method-pay-header">
+            <p>Método de pago</p>
+            <small>Puedes seleccionar más de un método para pagar.</small>
+        </div>
+
+        <ion-col size="12" class="method-pay-body" no-padding>
+            <div class="active" [ngClass]="{ active: selectedCash }">
+                <i class="icon-check" (click)="selectCash()"></i>
+                <ion-label (click)="selectCash()">
+                    <strong>Efectivo</strong>
+                </ion-label>
+                <ion-input #cashInput type="tel"
+                           [ngModel]="amountCash | currency: 'COP':'symbol-narrow':'0.0-0'"
+                           [disabled]="!selectedCash"
+                           (ionChange)="amountCash = updateDataCash($event, false)"
+                           (ionBlur)="amountCash = updateDataCash($event, true)">
+                </ion-input>
+            </div>
+            <div class="info">
+                <strong>
+                    Puedes utilizar los cupos de manera completa o parcial.
+                </strong>
+                <div class="break"></div>
+                <small>
+                    Selecciona el número si deseas <br/>cambiar la cantidad.
+                </small>
+            </div>
+
+            <div *ngIf="+balance > 0" [ngClass]="{ active: selectedCreditstoreapp}" class="credit">
+                <i (click)="selectstoreappCredit()" class="icon-check"></i>
+                <ion-label (click)="selectstoreappCredit()">
+                    <strong>storeapp</strong>
+                    <small>Saldo disponible</small>
+                    <small *ngIf="selectedCreditstoreapp">$ {{ +balance | number }}</small>
+                </ion-label>
+                <ion-input [disabled]="!selectedCreditstoreapp" type="tel"
+                           #creditstoreappInput
+                           [ngModel]="amountstoreappCredit | currency: 'COP':'symbol-narrow':'0.0-0'"
+                           (ionChange)="amountstoreappCredit = updateDataCreditstoreapp($event)"
+                           (ionBlur)="amountstoreappCredit = updateDataCreditstoreapp($event, true)">
+                </ion-input>
+            </div>
+
+            <div *ngFor="let credit of credits; let i = index; let even = even; let odd = odd"
+                 [ngClass]="{ active: credit.selectedPay }" class="credit entity">
+                <i class="icon-check" (click)="selectCredit(i)"></i>
+
+                <ion-label (click)="selectCredit(i)">
+                    <strong>{{ credit.name }} </strong>
+                    <small>Saldo disponible</small>
+                    <small *ngIf="credit.selectedPay">$ {{ credit.quota - credit.debt | number }}</small>
+                </ion-label>
+
+                <ion-input #creditInput type="tel" [disabled]="!credit.selectedPay"
+                           [ngModel]="credit.amountPay | currency: 'COP':'symbol-narrow':'0.0-0'"
+                           (ionChange)="credit.amountPay = updateDataCredit($event, false, credit)"
+                           (ionBlur)="credit.amountPay = updateDataCredit($event, true, credit)">
+                </ion-input>
+            </div>
+        </ion-col>
+    </ion-row>
+</div>
+<ion-footer class="footer-delivery" *ngIf="selectedMethod">
+    <ion-row class="resume">
+        <ion-col class="no-padding-top-bottom" size="6">Subtotal (Sin IVA)</ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right>
+            {{pedidoSeleccionado.pedido.valor_sin_iva | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </ion-col>
+        <ion-col class="no-padding-top-bottom" size="6">IVA</ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right>
+            {{pedidoSeleccionado.pedido.iva | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </ion-col>
+        <ion-col class="no-padding-top-bottom" size="6"><b>Total (Con IVA)</b></ion-col>
+        <ion-col class="no-padding-top-bottom" size="6" text-right><b>
+            {{pedidoSeleccionado.pedido.valor_pedido | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </b></ion-col>
+        <ion-col size="12" no-padding class="ion-margin-top">
+            <ion-button expand="block" (click)="confirmMethodPay()" class="orange-button" no-margin>
+                Confirmar Método
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

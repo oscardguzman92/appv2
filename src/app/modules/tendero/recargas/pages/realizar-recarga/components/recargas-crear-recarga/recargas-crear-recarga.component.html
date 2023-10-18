@@ -1,0 +1,80 @@
+<ion-row justify-content-center align-items-center text-center>
+    <ion-col size="10">
+        <p no-margin>Ingresa los datos para realizar la recarga</p>
+    </ion-col>
+</ion-row>
+
+<ion-row justify-content-center align-items-center *ngIf="selected">
+    <ion-col size="6" text-center *ngIf="selected.tipo_producto == 'paquetes'">
+        <img src="../assets/images/logos-operadores/logo-{{selected.operador}}.jpg">
+    </ion-col>
+
+    <ion-col size="6" text-center *ngIf="selected.tipo_producto == 'recargas'">
+        <img src="../assets/images/logos-operadores/logo-{{selected.operador}}.jpg">
+    </ion-col>
+</ion-row>
+
+<!-- <ion-row justify-content-center align-items-center *ngIf="selected">
+    <ion-col size="12" text-center class="sub-title ion-padding-vertical">
+        {{selected.nombre}}
+    </ion-col>
+</ion-row> -->
+
+<form [formGroup]="formTopsUps">
+    <ion-row>
+        <ion-col size="12" no-padding>
+            <ion-item class="input-form">
+                <!-- <ion-label position="floating">Referencia o Celular</ion-label> -->
+                <ion-input formControlName="cellphone"
+                           [type]="(selected.tipo_recarga === 'movil' ? 'tel' : 'text')"
+                           [placeholder]="(selected.tipo_recarga === 'movil' ? 'Número de Teléfono' : 'Número de cuenta')"
+                           (ionFocus)="disabledFooter()" (ionBlur)="enabledFooter()">
+                </ion-input>
+            </ion-item>
+            <div class="error" *ngIf="controls.cellphone.invalid && controls.cellphone.touched" text-center>
+                <span *ngIf="controls.cellphone.errors?.required">
+                    El número celular es obligatorio
+                </span>
+
+                <span *ngIf="controls.cellphone.errors?.minlength">
+                    El número celular es inválido
+                </span>
+
+                <span *ngIf="controls.cellphone.errors?.pattern && !controls.cellphone.errors?.required">
+                    El número celular es inválido
+                </span>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col size="12" no-padding>
+            <ion-item class="input-form">
+                <!-- <ion-label position="floating">Monto de la Recarga</ion-label> -->
+                <ion-input formControlName="value" type="tel" placeholder="Mín.: 1,000 - Máx.: 100,000"
+                           [disabled]="disabledValue" (ionFocus)="disabledFooter()" (ionBlur)="enabledFooter()">
+                </ion-input>
+            </ion-item>
+            <div class="error" text-center *ngIf="controls.value.invalid && controls.value.touched">
+                <span *ngIf="controls.value.errors?.required">
+                    El valor es obligatorio
+                </span>
+
+                <span *ngIf="controls.value.errors?.min">
+                    El valor mínimo es de 1000
+                </span>
+
+                <span *ngIf="controls.value.errors?.pattern && !controls.value.errors?.required">
+                    <br>El valor es inválido
+                </span>
+            </div>
+        </ion-col>
+    </ion-row>
+</form>
+
+<ion-row justify-content-center align-items-center>
+    <ion-col size="12" text-center>
+        <ion-button [disabled]="!formTopsUps.valid" (click)="sendTopsUps(formTopsUps.value)">
+            Enviar Recarga
+        </ion-button>
+    </ion-col>
+</ion-row>

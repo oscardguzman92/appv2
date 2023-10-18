@@ -1,0 +1,718 @@
+<ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-button (click)="closeCar()">
+            <i class="icon-x"></i>
+        </ion-button>
+    </ion-buttons>
+    <ion-title color="primary">
+        <ion-icon name="cart" size="small"></ion-icon>
+        Carrito de compras
+    </ion-title>
+</ion-toolbar>
+<ion-content [class.with-scroll]="setOrderSuccess || products.length > 3">
+    <ion-slides #slideWithNav autoplay="0" loop="false" style="height: auto; width: 100%" [options]="slideOpts" [options]="{autoHeight: true}">
+        <ion-slide [ngStyle]="{ 'width' : platformWidth +'px'}">
+            <div class="wrapper" *ngIf="!setOrderSuccess">
+                <div class="company-summary-cart" no-padding>
+                    <div class="{{scrollHorizontal}}">
+                        <ion-segment scrollable [ngClass]="{'more-than-one-order': karts.length > 2}">
+                            <ion-segment-button *ngFor="let kart of karts;let indice=index" [checked]="kart.active" (click)="setActiveKart(indice)" class="pendding-send-order">
+                                <ion-row class="header-list ion-align-items-center">
+                                    <ion-col size="auto">
+                                        <small>{{kart.nProducts}}</small>
+                                        <ion-icon name="cart"></ion-icon>
+                                    </ion-col>
+                                    <ion-col>
+                                        <h6 *ngIf="kart.tipoCarro == typeKart.company">{{kart.compania}}</h6>
+                                        <h6 *ngIf="kart.tipoCarro == typeKart.portfolio">{{kart.distribuidor}}</h6>
+                                        <p *ngIf="(kart.products && kart.products.length > 0 && kart.products[0].pedido) && kart.products[0].fecha_entrega" no-margin>
+                                            Entrega: {{kart.products[0].fecha_entrega}}
+                                        </p>
+                                        <p *ngIf="kart.products && kart.products.length > 0 && kart.products[0].pedido && !hasEditMesage" no-margin><span>{{ kart.total | currency:"COP":'symbol-narrow':'0.0-0' }}</span> - Enviado</p>
+                                        <p *ngIf="kart.products && kart.products.length > 0 && kart.products[0].pedido && hasEditMesage" no-margin><span>{{ kart.total | currency:"COP":'symbol-narrow':'0.0-0' }}</span> - Modificado</p>
+                                        <p *ngIf="!kart.products || kart.products.length == 0 || !kart.products[0]?.pedido" no-margin><span>{{ kart.total | currency:"COP":'symbol-narrow':'0.0-0' }}</span> - No enviado</p>
+                                        <small *ngIf="isOfflineActive" no-margin>Sin Conexión</small>
+                                        <span>{{ (kart.total - (kart.descuento ? kart.descuento : 0))  | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-segment-button>
+                        </ion-segment>
+                    </div>
+                    <ion-grid class="product-list-cart" no-padding *ngIf="products.length > 0">
+                        <ion-row class="ion-padding-horizontal" *ngFor="let product of products; let i = index;">
+                            <ion-col size="2">
+                                <img *ngIf="product.imagenes && product.imagenes.length > 0" onerror="this.src='assets/images/product-without-image.jpg'" [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagenes[0].url">
+                                <img *ngIf="!product.imagenes || product.imagenes.length == 0" src="assets/images/product-without-image.jpg">
+                            </ion-col>
+                            <ion-col size="10">
+                                <ng-container class="title" *ngIf="role == roles.seller">
+                                    <div class="title">
+                                        {{ product.nombre | titlecase }}
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="role != roles.seller">
+                                    <div class="title" *ngIf="(!product.ofertas) || (product.ofertas && product.ofertas[0] && !product.ofertas[0].descripcion_oferta)">
+                                        {{ getFullProductName(product) | titlecase }}
+                                    </div>
+                                    <div class="title" *ngIf="product.ofertas && product.ofertas[0] && product.ofertas[0].descripcion_oferta">
+                                        {{ product.ofertas[0].descripcion_oferta | titlecase }}
+                                    </div>
+                                </ng-container>
+                                <ion-row>
+                                    <ion-col size="7" no-padding>
+                                        <small>Cod.: {{product.codigo_disti}}</small>
+                                        <ion-row>
+                                            <ion-col size="auto" no-padding>
+                                                <p class="price-card">
+                                                    {{ +product.precio | currency:"COP":'symbol-narrow':'0.0-0' }}
+                                                </p>
+                                            </ion-col>
+                                            <ion-col no-padding>
+                                                <p class="price-card before" *ngIf="product.ofertas && product.ofertas.length > 0 && product.ofertas[0]?.precio_habitual > 0">
+                                                    {{ product.ofertas[0].precio_habitual | currency:"COP":'symbol-narrow':'0.0-0' }}
+                                                </p>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-col>
+                                    <ion-col size="5" class="ion-text-right" no-padding>
+                                        <div class="quantity-control">
+                                            <div>
+                                                <ion-icon class="icon-minus-circle icon-blue-gradient" name="null" (click)="rmToCart(i)">
+                                                </ion-icon>
+                                                <p>
+                                                    <ion-input [(ngModel)]="product.cantidad" class="addToKart input-count-prod" type="number" (keyup.enter)="changeCountProd($event, i, true)" (ionBlur)="changeCountProd($event, i)" (ionFocus)="onFocus($event)">
+                                                    </ion-input>
+                                                    <span *ngIf="product.unidad_seleccionada">{{getMesureName(product.unidad_seleccionada)}}</span>
+                                                </p>
+                                                <ion-icon class="icon-plus-circle icon-blue-gradient" name="null" (click)="addToCart(i)">
+                                                </ion-icon>
+                                            </div>
+                                        </div>
+                                    </ion-col>
+                                    <ion-col size="12" class="ion-no-padding" *ngIf="product.obsequio">
+                                        <div class="with-gift">
+                                            <ion-icon name="gift"></ion-icon>
+                                            <div>
+                                                Producto con Obsequio
+                                                <span class="name-gift">{{product.obsequio_cantidad}} un. Referencia {{product.obsequio_referencia}}</span>
+                                            </div>
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-col>
+                            <ion-col size="12" no-padding>
+                                <div class="divider"></div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+            </div>
+        </ion-slide>
+
+        <!-- segundo slide -->
+        <ion-slide [ngStyle]="{ 'width' : platformWidth +'px'}">
+            <ion-row padding>
+                <ion-col size="12" text-center no-padding>
+                    <h6>No olvides agregar esto a tu pedido</h6>
+                </ion-col>
+                <ion-col size="12" no-padding>
+                    <ion-row class="feature-products">
+                        <ion-col *ngFor="let product of suggestedProducts; let i = index;" size="6" no-padding>
+                            <ion-row class="wrapper-prod ion-justify-content-center">
+                                <ion-col size="6" class="no-padding-bottom">
+                                    <img *ngIf="product.imagenes && product.imagenes.length > 0" onerror="this.src='assets/images/product-without-image.jpg'" [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagenes[0].url">
+                                    <img *ngIf="!product.imagenes || product.imagenes.length == 0" src="assets/images/product-without-image.jpg">
+                                </ion-col>
+                                <ion-col size="12" text-center no-padding>
+                                    <h3>{{getFullProductName(product) | titlecase}}</h3>
+                                    <p class="price-card" no-margin>{{ +product.precio | currency:"COP":'symbol-narrow':'0.0-0' }}</p>
+                                </ion-col>
+                                <ion-col size="12" class="no-padding-top">
+                                    <div class="quantity-control">
+                                        <ion-button *ngIf="!statusInputCountProd && (!product.cantidad || product.cantidad == 0)" (click)="addToCart2(product)" size="small" expand="block" class="button-outline addToKart">
+                                            Agregar
+                                        </ion-button>
+                                        <div *ngIf="statusInputCountProd || (!statusInputCountProd && product.cantidad > 0)">
+                                            <ion-icon class="addToKart remove icon-minus-circle icon-blue-gradient" (click)="rmvToCartPluss(product)" name="null">
+                                            </ion-icon>
+                                            <p>
+                                                <ion-input [(ngModel)]="product.cantidad" (ionBlur)="changeCountProd($event)" (ionFocus)="onFocus($event)" class="addToKart input-count-prod" type="number">
+                                                </ion-input>
+                                            </p>
+                                            <ion-icon class="addToKart add icon-plus-circle icon-blue-gradient" (click)="addToCartPluss(product)" name="null">
+                                            </ion-icon>
+                                        </div>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
+            </ion-row>
+
+        </ion-slide>
+
+        <!-- tercer slide -->
+        <ion-slide [ngStyle]="{ 'width' : platformWidth +'px'}">
+
+            <!-- nuevo diseño carrito-->
+            <div class="secondView" *ngIf="setOrderSuccess">
+
+                <div class="wrapper" *ngIf="role=='vendedor'">
+                    <!-- Dispositivos bluetooth -->
+
+                    <ion-row *ngIf="autoVenta">
+                        <ion-col size="12" text-center no-padding>
+                            <h3 class="sub-title ion-margin-top">Pedido autoventa</h3>
+                        </ion-col>
+                        <ion-col *ngIf="devicesBluetooth.length > 0 " size="12" text-center padding>
+                            <ion-list class="device-list">
+                                <ion-list-header>
+                                    <ion-label>Selecciona la impresora para imprimir el recibo</ion-label>
+                                </ion-list-header>
+                                <div padding>
+                                    <ion-item *ngFor="let deviceBluetooth of devicesBluetooth" (click)="printInboice(deviceBluetooth.address)" no-padding no-margin>
+                                        <ion-label>
+                                            <ion-icon class="icon-printer" name="null"></ion-icon>{{deviceBluetooth.name}}</ion-label>
+                                        <span slot="end">Imprimir<ion-icon class="icon-chevron-right" name="null"></ion-icon></span>
+                                    </ion-item>
+                                </div>
+                            </ion-list>
+
+                        </ion-col>
+
+                        <ion-col size="12" text-center class="ion-padding-horizontal">
+                            <div class="sent-email">
+                                <div *ngIf="!isEnabled">
+                                    <ion-row class="ion-align-items-center option-1">
+                                        <ion-col size="2">
+                                            <ion-icon class="bluetooth-icon" name="bluetooth"></ion-icon>
+                                        </ion-col>
+                                        <ion-col size="9">
+                                            <p class="discount">
+                                                Por favor activa el bluetooth y enlaza una impresora.
+                                            </p>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                                <ion-label>También puedes enviar una copia de la factura por mensaje de texto</ion-label>
+                                <ion-button (click)="sendInboiceBySms()" expand="block">Enviar Factura</ion-button>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                    <div *ngIf="!autoVenta" class="shipping-options">
+                        <ion-row class="ion-align-items-center option-1">
+                            <ion-col no-padding>
+                                <div class="explanation">
+                                    <ion-row class="ion-align-items-center">
+                                        <ion-col size="3" class="ion-align-self-center" no-padding text-center>
+                                            <ion-icon class="icon-truck" name="null"></ion-icon>
+                                        </ion-col>
+                                        <ion-col no-padding>
+                                            <h5>Entrega gratis.</h5>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="expressOrderActive">
+                                <ion-toggle color="secondary" (ionChange)="toggleOne($event)" [(ngModel)]="toggle" [checked]="toggle" disabled="{{forceToggle}}"></ion-toggle>
+                            </ion-col>
+                            <ion-col size="12" no-padding>
+                                <p class="small" no-margin [innerHTML]="setOrderSuccessMessage">{{setOrderSuccessMessage}}</p>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row *ngIf="expressOrderActive" class="ion-align-items-center option-2">
+                            <ion-col no-padding>
+                                <div class="explanation">
+                                    <ion-row class="ion-align-items-center">
+                                        <ion-col size="3" class="ion-align-self-center" no-padding>
+                                            <ion-icon class="icon-sort icon-flipped" name="null"></ion-icon>
+                                            <ion-icon class="icon-shopping-cart" name="null"></ion-icon>
+                                        </ion-col>
+                                        <ion-col no-padding>
+                                            <h5>Pedido Express</h5>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-col>
+                            <ion-col size="auto" no-padding>
+                                <ion-toggle color="secondary" (ionChange)="toggleTwo($event)" [(ngModel)]="toggle2" [checked]="toggle2">
+                                </ion-toggle>
+                            </ion-col>
+                            <ion-col size="12" no-padding>
+                                <p class="small" no-margin>{{expressOrderButtonText}}
+                                </p>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                    <ion-row padding>
+                        <ion-col size="12" no-padding>
+                            <ion-item class="input-form">
+                                <ion-textarea name="comentario" id="comentario" [(ngModel)]="comment" placeholder="Escribe tu Comentario"></ion-textarea>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="12" text-center no-padding *ngIf="usu.distribuidor?.config_extra_ruta && !autoVenta">
+                            <h6 class="ion-margin-bottom">Envío Extra Ruta</h6>
+                            <ion-button expand="block" no-margin (click)="openCalendar()">
+                                <ion-icon slot="start" class="icon-calendar" name="null"></ion-icon>
+                                Cambiar fecha de envío
+                            </ion-button>
+                        </ion-col>
+                        <ion-col size="12" text-center no-padding *ngIf="calendarIsOpened">
+                            <!--  -->
+                            <ionic-calendar-date-picker [todaysItemStyle]="{'color': '#000000', 'background': '#ffce0d', 'border-radius': '20px'}" [monthLabels]="monthNamesShort" [dayLabels]="daysShort" (onSelect)="dateSelected($event)" class="calendar-picker">
+                            </ionic-calendar-date-picker>
+                        </ion-col>
+                    </ion-row>
+                </div>
+
+                <div class="wrapper" *ngIf="role=='cliente'">
+                    <div>
+                        <ion-segment class="{{scrollHorizontal}}" scrollable>
+                            <ion-segment-button *ngFor="let kart of karts;let indice=index; let last = last" [checked]="kart.active" (click)="setActiveKart(indice)" class="pendding-send-order">
+                                <ion-row class="header-list ion-align-items-center">
+                                    <ion-col size="auto">
+                                        <small>{{kart.nProducts}}</small>
+                                        <ion-icon name="cart"></ion-icon>
+                                    </ion-col>
+                                    <ion-col>
+                                        <h6 *ngIf="kart.tipoCarro == typeKart.company">{{kart.compania}}</h6>
+                                        <h6 *ngIf="kart.tipoCarro == typeKart.portfolio">{{kart.distribuidor}}</h6>
+                                        <p *ngIf="kart.products && kart.products.length > 0 && kart.products[0].pedido" no-margin><span>{{ kart.total | currency:"COP":'symbol-narrow':'0.0-0' }}</span> - Enviado</p>
+                                        <p *ngIf="!kart.products || kart.products.length == 0 || !kart.products[0]?.pedido" no-margin><span>{{ kart.total | currency:"COP":'symbol-narrow':'0.0-0' }}</span> - No enviado</p>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-segment-button>
+                        </ion-segment>
+                    </div>
+
+                    <!-- nuevo -->
+                    <!-- <div class="shipping-options">
+                        <ion-row class="ion-align-items-center option-1" >
+                            <ion-col no-padding>
+                                <div class="explanation">
+                                    <ion-row class="ion-align-items-center">
+                                        <ion-col no-padding>
+                                            <h5><ion-icon class="icon-truck" name="null"></ion-icon>Entrega gratis.</h5>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-col>
+                            <ion-col size="auto" no-padding *ngIf="expressOrderActive">
+                                <ion-toggle color="secondary" (ionChange)="toggleOne($event)" [(ngModel)]="toggle"
+                                    [checked]="toggle" disabled="{{forceToggle}}"></ion-toggle>
+                            </ion-col>
+                            <ion-col size="12" no-padding>
+                                <p class="small" no-margin>{{setOrderSuccessMessage}}</p>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row *ngIf="expressOrderActive" class="ion-align-items-center option-2">
+                            <ion-col no-padding>
+                                <div class="explanation">
+                                    <ion-row class="ion-align-items-center">
+                                        <ion-col size="3" class="ion-align-self-center" no-padding>
+                                            <ion-icon class="icon-sort icon-flipped" name="null"></ion-icon>
+                                            <ion-icon class="icon-shopping-cart" name="null"></ion-icon>
+                                        </ion-col>
+                                        <ion-col no-padding>
+                                            <h5>Pedido Express</h5>
+                                        </ion-col>
+                                    </ion-row>
+                                </div>
+                            </ion-col>
+                            <ion-col size="auto" no-padding>
+                                <ion-toggle color="secondary" (ionChange)="toggleTwo($event)" [(ngModel)]="toggle2"
+                                    [checked]="toggle2">
+                                </ion-toggle>
+                            </ion-col>
+                            <ion-col size="12" no-padding>
+                                <p class="small" no-margin>{{expressOrderButtonText}}
+                                </p>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                    <ion-row padding>
+                        <ion-col size="12" no-padding>
+                            <ion-item class="input-form">
+                                <ion-textarea name="comentario" id="comentario" [(ngModel)]="comment"
+                                    placeholder="Escribe tu Comentario">
+                                </ion-textarea>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row> -->
+                    <div class="order-summary">
+                        <ion-row>
+                            <ion-col class="delivery-time" no-padding>
+                                <ion-row class="ion-align-items-center">
+                                    <ion-col class="text-delivery-off" size="12">
+                                        <h5 float-left>Entrega Gratis</h5>
+                                        <p class="small" float-right>{{fechaEntrega | date:'EEE d MMM, y' | titlecase }}</p>
+                                    </ion-col>
+                                    <ion-col class="text-delivery-off" size="9" *ngIf="ultima_hora_edicion">
+                                        <h6>Puedes editar tu pedido hasta:</h6>
+                                        <p class="small">
+                                            {{ultima_hora_edicion| date:'shortTime' | titlecase}}
+                                        </p>
+                                    </ion-col>
+                                    <ion-col size="3" text-right *ngIf="expressOrderActive" no-padding>
+                                        <ion-toggle class="summary" color="primary" (ionChange)="toggleOne($event)" [(ngModel)]="toggle" [checked]="toggle" disabled="{{forceToggle}}"></ion-toggle>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="express ion-align-items-center" *ngIf="expressOrderActive">
+                                    <ion-col size="9">
+                                        <h6>Pedido Express</h6>
+                                        <p class="small">¿Quieres recibirlo hoy por $2,000?</p>
+                                    </ion-col>
+                                    <ion-col size="3" text-right no-padding>
+                                        <ion-toggle color="summary" color="success" (ionChange)="toggleTwo($event)" [(ngModel)]="toggle2" [checked]="toggle2">
+                                        </ion-toggle>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-row>
+                            <ion-col size="4"><b>Pedido:</b></ion-col>
+                            <ion-col class="order-number" size="8" text-right>#{{pedido_id}} ({{distribuidor}})</ion-col>
+                        </ion-row>
+                        <ion-row class="value-summary">
+                            <ion-col size="7">Subtotal (Sin IVA)</ion-col>
+                            <ion-col size="5" text-right>{{ totalOrder + (descuento ? descuento : 0)| currency:"COP":'symbol-narrow':'0.0-0' }}</ion-col>
+                            <ion-col size="7">IVA</ion-col>
+                            <ion-col size="5" text-right>{{ totalOrderIVA | currency:"COP":'symbol-narrow':'0.0-0' }}</ion-col>
+                            <ion-col size="7" *ngIf="descuento > 0"><b>Descuento</b></ion-col>
+                            <ion-col size="5" text-right *ngIf="descuento > 0"><b>
+                                {{ descuento | currency:"COP":'symbol-narrow':'0.0-0' }}
+                            </b></ion-col>
+
+                            <ion-col size="7"><b>Total (Con IVA)</b></ion-col>
+                            <ion-col size="5" text-right><b>
+                                {{ (total) | currency:"COP":'symbol-narrow':'0.0-0' }}
+                            </b></ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="5"><b>Tu vendedor es</b></ion-col>
+                            <ion-col size="7" text-right>{{vendedor}}</ion-col>
+                        </ion-row>
+                        <!-- <ion-row class="schedule">
+                            <ion-col no-padding>
+                                <b>Horario</b>
+                                <ion-list>
+                                    <ion-radio-group [(ngModel)]="schedule">
+                                        <ion-row class="no-padding">
+                                            <ion-col size="4">
+                                                <ion-item lines="none">
+                                                    <ion-label>Cualquier Hora</ion-label>
+                                                    <ion-radio class="radio" slot="start"  value="indistinto" checked mode="ios"></ion-radio>
+                                                </ion-item>
+                                            </ion-col>
+                                            <ion-col size="4">
+                                                <ion-item lines="none">
+                                                    <ion-label>Por la mañana</ion-label>
+                                                    <ion-radio class="radio" slot="start" value="dia" mode="ios"></ion-radio>
+                                                </ion-item>
+                                            </ion-col>
+                                            <ion-col size="4">
+                                                <ion-item lines="none">
+                                                    <ion-label>Por la <br>tarde</ion-label>
+                                                    <ion-radio class="radio" slot="start" value="tarde" mode="ios"></ion-radio>
+                                                </ion-item>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-radio-group>
+                                </ion-list>
+                            </ion-col>
+                        </ion-row> -->
+                        <ion-row class="ion-justify-content-center">
+                            <ion-col size="8">
+                                <p class="small ion-text-center">Si quieres adicionar un comentario a tu pedido escríbelo aquí</p>
+                            </ion-col>
+                            <ion-col size="12">
+                                <ion-item class="input-form">
+                                    <ion-textarea name="comentario" id="comentario" [(ngModel)]="comment" placeholder="Escribe tu Comentario">
+                                    </ion-textarea>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                    </div>
+                </div>
+            </div>
+        </ion-slide>
+        <!-- slide credito -->
+        <!-- cuarto slide -->
+        <ion-slide class="slider-method-pay" [ngStyle]="{ width: platformWidth + 'px' }">
+            <ion-row padding id="method-pay" *ngIf="fourSlideActive">
+                <div class="method-pay-header">
+                    <p>Método de pago</p>
+                    <small>Puedes seleccionar más de un método para pagar.</small>
+                </div>
+
+                <ion-col size="12" class="method-pay-body" no-padding>
+                    <div class="active" [ngClass]="{ active: selectedCash }">
+                        <i class="icon-check" (click)="selectCash()"></i>
+                        <ion-label (click)="selectCash()">
+                            <strong>Efectivo</strong>
+                        </ion-label>
+                        <ion-input #cashInput type="tel" [ngModel]="amountCash | currency: 'COP':'symbol-narrow':'0.0-0'" [disabled]="!selectedCash" (ionChange)="amountCash = updateDataCash($event, false)" (ionBlur)="amountCash = updateDataCash($event, true)">
+                        </ion-input>
+                    </div>
+                    <!--
+                    <div class="info">
+                        <strong>
+                            Puedes utilizar los cupos de manera completa o parcial.
+                        </strong>
+                        <div class="break"></div>
+                        <small>
+                            Selecciona el número si deseas <br/>cambiar la cantidad.
+                        </small>
+                    </div>-->
+
+                    <div *ngIf="+balance > 0" [ngClass]="{ active: selectedstoreappCredit,
+                            disabled: this.role == 'vendedor'}" class="credit">
+                        <i (click)="selectstoreappCredit()" class="icon-check"></i>
+                        <ion-label (click)="selectstoreappCredit()">
+                            <strong>storeapp</strong>
+                            <small>Saldo disponible</small>
+                            <small *ngIf="selectedstoreappCredit">$ {{ +balance | number }}</small>
+                        </ion-label>
+                        <ion-input [disabled]="this.role == 'vendedor' || !selectedstoreappCredit" type="tel" #creditstoreappInput [ngModel]="amountstoreappCredit | currency: 'COP':'symbol-narrow':'0.0-0'" (ionChange)="amountstoreappCredit = updateDataCreditstoreapp($event)"
+                            (ionBlur)="amountstoreappCredit = updateDataCreditstoreapp($event, true)">
+                        </ion-input>
+                    </div>
+
+                    <div *ngFor="let credit of credits; let i = index; let even = even; let odd = odd" [ngClass]="{ active: credit.selectedPay }" class="credit entity">
+                        <i class="icon-check" (click)="selectCredit(i)"></i>
+
+                        <ion-label (click)="selectCredit(i)">
+                            <strong>{{ credit.name }} </strong>
+                            <small>Saldo disponible</small>
+                            <small *ngIf="credit.selectedPay">$ {{ credit.quota - credit.debt | number }}</small>
+                        </ion-label>
+
+                        <ion-input #creditInput type="tel" [disabled]="!credit.selectedPay" [ngModel]="credit.amountPay | currency: 'COP':'symbol-narrow':'0.0-0'" (ionChange)="credit.amountPay = updateDataCredit($event, false, credit)" (ionBlur)="credit.amountPay = updateDataCredit($event, true, credit)">
+                        </ion-input>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-slide>
+    </ion-slides>
+</ion-content>
+<div class="points-per-order" *ngIf="totalPts != 0 && this.role != 'vendedor'">
+    <span>Este pedido genera {{totalPts}} puntos</span>
+    <div class="icon-points">
+        <ion-icon name="star-outline"></ion-icon>
+    </div>
+</div>
+<!-- despues de guardar pedido exitosamente  -->
+<ion-footer [class.promo-code]="!fourSlideActive" *ngIf="setOrderSuccess">
+    <ion-row *ngIf="role=='vendedor'">
+        <ion-col size="12">
+            <ion-row class="values">
+                <ion-col size="6" no-padding>
+                    <p class="small date" no-margin><b>Lo Recibirás:</b></p>
+                </ion-col>
+                <ion-col size="6" text-right no-padding>
+                    <p class="small date" no-margin><b>{{fechaEntrega}}</b></p>
+                </ion-col>
+                <ion-col *ngIf="cuponUsed" size="6" no-padding>
+                    <p class="small extras" no-margin><b>Descuento Código</b></p>
+                </ion-col>
+                <ion-col *ngIf="cuponUsed" size="6" text-right no-padding>
+                    <p class="small extras" no-margin>
+                        <b>-{{ onCuponSucessApplyValue | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+                <ion-col *ngIf="toggle2" size="6" no-padding>
+                    <p class="small" no-margin><b>Pedido Express</b></p>
+                </ion-col>
+                <ion-col *ngIf="toggle2" size="6" text-right no-padding>
+                    <p class="small" no-margin>
+                        <b>{{ onExpressSucessApplyValue | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+                <ion-col size="6" no-padding>
+                    <p class="small" no-margin><b>Subtotal (sin IVA):</b></p>
+                </ion-col>
+                <ion-col size="6" text-right no-padding *ngIf="!totalOrderDistribuidor">
+                    <p class="small" no-margin><b>{{ totalOrder | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+                <ion-col size="6" text-right no-padding *ngIf="totalOrderDistribuidor">
+                    <p class="small" no-margin><b>
+                            {{ totalOrderDistribuidor | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+                <ion-col size="6" no-padding>
+                    <p class="small" no-margin no-padding><b>IVA:</b></p>
+                </ion-col>
+                <ion-col size="6" text-right no-padding *ngIf="!totalOrderIVADistribuidor">
+                    <p class="small" no-margin><b>{{ totalOrderIVA | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+                <ion-col size="6" text-right no-padding *ngIf="totalOrderIVADistribuidor">
+                    <p class="small" no-margin><b>
+                            {{ totalOrderIVADistribuidor | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+                <ion-col size="6" no-padding *ngIf="totalImpo">
+                    <p class="small" no-margin no-padding><b>Impoconsumo:</b></p>
+                </ion-col>
+                <ion-col size="6" text-right no-padding *ngIf="totalImpo">
+                    <p class="small" no-margin><b>
+                        {{ totalImpo | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+                <ion-col size="6" *ngIf="descuento > 0" no-padding>
+                    <p class="small" no-margin no-padding><b>Descuento:</b></p>
+                </ion-col>
+                <ion-col size="6" *ngIf="descuento > 0" text-right no-padding>
+                    <p class="small" no-margin><b>
+                        {{ descuento | currency:"COP":'symbol-narrow':'0.0-0' }}
+                    </b></p>
+                </ion-col>
+                <ion-col size="6" no-padding>
+                    <p class="small" no-margin><b>Total (con IVA):</b></p>
+                </ion-col>
+                <ion-col size="6" text-right no-padding *ngIf="!totalDistribuidor">
+                    <p class="small" no-margin><b>{{ (total) | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+                <ion-col size="6" text-right no-padding *ngIf="totalDistribuidor">
+                    <p class="small" no-margin><b>
+                            {{ totalDistribuidor | currency:"COP":'symbol-narrow':'0.0-0' }}</b></p>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col size="12" no-padding>
+            <div *ngIf="((products && products.length > 0) && products[0].pedido) && !fourSlideActive">
+                <p class="small ion-text-center" no-margin>
+                    No olvides actualizar tus métodos de pago, al actualizar el pedido queda para pago en efectivo:
+                </p>
+            </div>
+            <div *ngIf="thirdSlideActive" class="method-pay-select" (click)="changeMethodPay()">
+                <strong>Método de pago:</strong>
+                <small *ngIf="selectedCash">
+                    <i class="icon-dollar-sign"></i>
+                    Efectivo
+                </small>
+                <small *ngIf="selectedCredit">
+                    <i class="icon-smartphone"></i>
+                    Crédito
+                </small>
+                <p>Cambiar</p>
+            </div>
+            <ion-button *ngIf="thirdSlideActive" expand="block" (click)="finishButton()" class="orange-button" no-margin>
+                Confirmar Pedido
+            </ion-button>
+        </ion-col>
+        <!-- <ion-col size="12"*ngIf="role=='vendedor'">
+            <ion-button expand="block" (click)="printInboice()" class="blue-button" no-margin>Imprimir factura
+            </ion-button>
+        </ion-col> -->
+    </ion-row>
+
+    <!-- metodos de pago -->
+    <ion-toolbar *ngIf="fourSlideActive && role!='vendedor'">
+        <ion-row padding>
+            <ion-col size="6" no-padding>
+                <span>Subtotal (sin iva)</span>
+            </ion-col>
+            <ion-col size="6" text-right no-padding>
+                <span>{{ totalOrder | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+            <ion-col size="6" no-padding>
+                <span>IVA</span>
+            </ion-col>
+            <ion-col size="6" text-right no-padding>
+                <span>{{ totalOrderIVA | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+
+            <ion-col size="6" no-padding *ngIf="totalImpo">
+                <span>Impoconsumo</span>
+            </ion-col>
+            <ion-col size="6" text-right no-padding *ngIf="totalImpo">
+                <span>{{ totalImpo | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+
+            <ion-col size="6" no-padding>
+                <span>Total (con iva)</span>
+            </ion-col>
+            <ion-col size="6" text-right no-padding>
+                <span>{{ total | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+            <ion-col size="12" no-padding>
+                <ion-button expand="block" (click)="confirmMethodPay()" class="orange-button" no-margin>
+                    Confirmar Método
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+
+    <ion-row *ngIf="fourSlideActive && role=='vendedor'" class="ion-padding">
+        <ion-col size="12" no-padding>
+            <ion-button expand="block" (click)="confirmMethodPay()" class="orange-button" no-margin>
+                Confirmar Método
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-footer>
+
+<!-- antes de enviar pedido al server -->
+<ion-footer *ngIf="!setOrderSuccess">
+    <ion-toolbar>
+        <ion-row padding>
+            <ion-col *ngIf="firstSlideActive" size="6" no-padding>
+                <span>Subtotal (sin iva)</span>
+            </ion-col>
+            <ion-col *ngIf="firstSlideActive" size="6" text-right no-padding>
+                <span>{{ totalOrder + (descuento ? descuento : 0) | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+
+            <ion-col size="6" *ngIf="firstSlideActive && descuento > 0 " no-padding>
+                <span>Descuento</span>
+            </ion-col>
+            <ion-col size="6" *ngIf="firstSlideActive && descuento > 0 " text-right no-padding>
+                <span>
+                    {{ descuento | currency:"COP":'symbol-narrow':'0.0-0' }}
+                </span>
+            </ion-col>
+
+            <ion-col *ngIf="firstSlideActive" size="6" no-padding>
+                <span>IVA</span>
+            </ion-col>
+            <ion-col *ngIf="firstSlideActive" size="6" text-right no-padding>
+                <span>{{ totalOrderIVA | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+
+            <ion-col *ngIf="firstSlideActive && totalImpo" size="6" no-padding>
+                <span>Impoconsumo</span>
+            </ion-col>
+            <ion-col *ngIf="firstSlideActive && totalImpo" size="6" text-right no-padding>
+                <span>{{ totalImpo | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+
+            <ion-col size="6" no-padding>
+                <span>Total (con iva)</span>
+            </ion-col>
+            <ion-col size="6" text-right no-padding>
+                <!-- <span>{{ (total - ((total + (descuento_productos_especial + descuento_productos_lineal)) * descuento_oferta_especial)) | currency:"COP":'symbol-narrow':'0.0-0' }}</span> -->
+                <span>{{ (total) | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+            <ion-col size="12" no-padding>
+                <div class="wrapper" *ngIf="!setOrderSuccess" text-center>
+                    <ion-button size="small" *ngIf="products && products.length > 0 && !products[0].pedido && total > 0 && firstSlideActive" class="button-outline white" no-margin (click)="emptyCart()">
+                        Vaciar carrito</ion-button>
+                    <ion-button size="small" *ngIf="products && products.length > 0 && products[0].pedido && firstSlideActive" class="button-outline white" no-margin (click)="CancelOrder()">Cancelar Pedido</ion-button>
+                    <ion-button *ngIf="products && products.length > 0 && products[0].pedido && firstSlideActive" expand="block" color="danger" no-margin (click)="nextSlide(2)">
+                        <ion-text text-wrap>
+                            Actualizar Pedido
+                            <span class="text-shop" *ngIf="role === 'vendedor'"> - ({{shopData.codigo_cliente || ""}}) {{shopData.nombre ||  shopData.nombre_tienda || ""}}</span>
+                        </ion-text>
+
+                    </ion-button>
+                    <ion-button *ngIf="products && products.length > 0 && !products[0].pedido && firstSlideActive" expand="block" class="orange-button" no-margin (click)="nextSlide(2)">
+                        <ion-text text-wrap>
+                            Crear Pedido
+                            <span class="text-shop" *ngIf="role === 'vendedor'"> - ({{shopData.codigo_cliente || ""}}) {{shopData.nombre ||  shopData.nombre_tienda || ""}}</span>
+                        </ion-text>
+                    </ion-button>
+                    <ion-button *ngIf="secondSlideActive" expand="block" class="orange-button" no-margin (click)="nextSlide(2)">Continuar</ion-button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,78 @@
+
+.prev{
+    app-buscador{
+        margin-bottom: 30px;
+        display: block;        
+    }
+    ion-slides{
+        display: block;
+        margin-bottom: 25px;        
+    }
+    p{
+        color: var(--ion-color-primary);
+        font-family: 'montserrat_semiboldregular';
+        text-align: center;
+    }
+    
+    .options{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        button{
+            width: 47%;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            border-radius: 5px;   
+            i{
+                color: white;
+                font-size: 22px;
+            }
+            span{
+                font-family: 'montserratregular';
+                color: white;
+                font-size: 14px;
+                text-align: left;
+            }
+        }
+        button:nth-child(1){
+            background: var(--ion-color-secondary);
+            margin-right: 3%;
+        }
+        button:nth-child(2){
+            background: var(--ion-color-secondary);
+            margin-left: 3%;
+        }
+        button:nth-child(3){
+            width: 100%;
+            background: var(--ion-color-primary);
+            margin-top: 5%;
+        }                
+    }
+}
+app-postal-producto{
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+}
+
+rl-tag-input {
+    box-shadow: none !important;
+}
+input[class~="ng2-tag-input-field"] {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid var(--ion-color-primary);
+    text-align: center;
+    background-color: red;
+}
+.ng2-tag-input {
+    box-shadow: none !important;
+}
+.ng2-tag-input-focus {
+    box-shadow: none !important;
+}
+.another-list-option{
+    position: absolute;
+}

@@ -1,0 +1,83 @@
+<ion-card class="post">
+  <ion-card-header>
+    <ion-item lines="none" no-padding>
+      <ion-avatar slot="start" class="ion-margin-end" no-margin [ngClass]="{'img-company': (post.tipo_usuario == 'Compañía' && post.compania != '')}">
+        <img *ngIf="post.tipo_usuario == 'Cliente'" src="assets/images/avatar-usuarios-tendero.jpg">
+        <img *ngIf="post.tipo_usuario == 'Vendedor'" src="assets/images/avatar-usuarios-vendedor.jpg">
+        <img *ngIf="post.tipo_usuario == 'Compañía' && post.compania != ''" [src]="'/assets/images/logos-companias/logo-'+companiesPortfolioShopkeeperService.cleanImgCompany(post.compania) +'-color.jpg'">
+        <img *ngIf="post.tipo_usuario == 'storeapp' || (post.tipo_usuario != 'Cliente' && post.tipo_usuario != 'Vendedor' && post.tipo_usuario != 'Compañía') || (post.tipo_usuario == 'Compañía' && post.compania == '')" src="assets/images/avatar-usuarios-storeapp.jpg">
+      </ion-avatar>
+      <ion-label no-margin>
+        <h3>
+          {{post.nombre_contacto | titlecase}}
+        </h3>
+        <p>
+          {{post.tipo_usuario || "" }}
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-card-header>
+  <ion-card-content no-padding>
+      <!--  -->
+    <!-- <div class="promo-tag">
+      <ion-icon class="icon-star"></ion-icon>  Nombre Concurso
+    </div> -->
+    <img *ngIf="post.medias && post.medias.length > 0 && post.medias[0].type == 'imagen' && post.medias[0].url" [src]="post.medias[0].url">
+    <iframe *ngIf="post.medias && post.medias.length > 0 && post.medias[0].type == 'video' && post.medias[0].url" class="video" [src]="post.medias[0].url" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    <p padding>
+      {{post.texto}}
+      <small>
+        <span>
+          {{post.created_at}}
+        </span>
+        <span *ngIf="post.ciudad" float-right>
+          {{post.ciudad || "" | titlecase}}
+        </span>
+      </small>
+    </p>
+    <div class="card-bottom">
+        <ion-label (click)="addLike()" float-left>
+          <ion-icon name="thumbs-up" [color]="(post.meGustaUsuario) ? 'primary' : null"></ion-icon> {{(post.cantidadMeGustas == 0) ? "" : post.cantidadMeGustas}} Me gusta
+        </ion-label>
+        <ion-label (click)="getComments()" float-right>
+          <ion-icon name="chatboxes"></ion-icon> {{(post.cantidadComentarios == 0) ? "" : post.cantidadComentarios}} Comentario
+        </ion-label>
+    </div>
+    <ion-row class="write-comment ion-padding-horizontal" [formGroup]="formComment">
+        <ion-col no-padding>
+          <ion-button *ngIf="!statusWriteComment" class="ion-margin-bottom write-comment-button" size="small" (click)="showWriteComment()" expand="block">
+            Escribe un Comentario
+          </ion-button>
+          <div *ngIf="statusWriteComment">
+            <ion-item class="input-form">
+              <ion-input placeholder="Escribe tu comentario" formControlName="comment" [value]="formComment.value.comment"></ion-input>
+            </ion-item>
+            <ion-button class="ion-margin-bottom" size="small" (click)="createComment($event)" expand="block">
+              Enviar Comentario
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+    <ng-container *ngIf="statusListComment && post.comments && post.comments.length > 0">
+      <ion-row class="ion-padding-horizontal">
+        <ion-col class="title-comments" no-padding>
+          <ion-icon name="chatboxes"></ion-icon> Comentarios
+        </ion-col>
+      </ion-row>
+      <div class="comments-wrapper">
+        <div class="comment" *ngFor="let comment of post.comments">
+          <p class="name" *ngIf="!comment.user_storeapp">{{comment.usuario | titlecase}}</p>
+          <p class="name" *ngIf="comment.user_storeapp">storeapp</p>
+          <p class="small">{{comment.texto}}</p>
+          <small class="date">{{comment.created_at}}</small>
+          <div class="reply_comment" *ngFor="let reply_comment of comment.reply_comments">
+            <p class="name">storeapp</p>
+            <p class="small">{{reply_comment.texto}}</p>
+            <small class="date">{{reply_comment.created_at}}</small>
+          </div>
+        </div>
+      </div>
+
+    </ng-container>
+  </ion-card-content>
+</ion-card>

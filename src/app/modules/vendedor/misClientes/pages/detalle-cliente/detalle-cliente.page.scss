@@ -1,0 +1,18 @@
+.data-client {
+    background: var(--ion-color-primary);   
+    border-bottom: 1px solid var(--ion-color-primary-shade);
+}
+
+.divider {
+    margin: 0;
+}
+
+.right-button-header {
+    --background:var(--ion-color-primary);
+    --background-hover:var(--ion-color-primary);
+}
+
+.align-center{
+    display: flex;
+    align-items: center;
+}

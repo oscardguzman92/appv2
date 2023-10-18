@@ -1,0 +1,28 @@
+<app-pedidos-cabecera tienda="{{nombreTienda}}" direccionTienda="{{direccionTienda}}" tituloBoton="puntos"
+                      [mostrarBotonPedidosAnteriores]="false" [filtro]="false" [user]="user"></app-pedidos-cabecera>
+<ion-content class="with-searchbox" no-padding>
+    <ion-grid no-padding>
+        <app-pedidos-pedido-anterior *ngFor="let favoriteOrder of favoriteOrders; let i = index"
+                                     [favoriteOrder]="favoriteOrder" [item]="i"
+                                     [shop]="shop"></app-pedidos-pedido-anterior>
+    </ion-grid>
+
+    <ion-button [@jump]="thingState" class="cart-button" [ngClass]="{'show': nProducts > 0}" (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Ver Carrito</p>
+                <p class="value">{{orderValue | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{nProducts}}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+</ion-content>

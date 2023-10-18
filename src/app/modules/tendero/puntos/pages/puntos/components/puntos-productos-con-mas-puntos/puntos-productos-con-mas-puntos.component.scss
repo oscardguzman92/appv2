@@ -1,0 +1,22 @@
+.productos-con-puntos{
+  padding: 20px 0;
+  margin-bottom: 80px;
+  ion-slide{
+    width: 30% !important;
+    flex-direction: column;
+  }
+
+  &__imagen{
+    height: 120px;
+    width: 100%;
+    background-color: #bdd9ff;
+  }
+
+  &__puntos{
+    background-color: #0962b3;
+    color: white;
+    display: block;
+    padding: 3px;
+    width: 100%;
+  }
+}

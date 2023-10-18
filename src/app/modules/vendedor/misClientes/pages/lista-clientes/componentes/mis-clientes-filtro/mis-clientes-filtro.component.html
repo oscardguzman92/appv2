@@ -1,0 +1,50 @@
+<div class="header-modal">
+    <ion-icon class="icon-filter" name="null"></ion-icon>
+    Filtrar
+</div>
+<ion-content class="ion-padding-horizontal">
+    <div class="scroll-cont-filter">
+        <ion-item lines="full">
+            <ion-label class="ion-text-wrap">Ver todas las tiendas</ion-label>
+            <ion-checkbox slot="start" [(ngModel)]="filter.viewAll" (ionChange)="selectItem(true)" [disabled]="filter.viewAll" color="primary"></ion-checkbox>
+        </ion-item>
+        
+        <ion-item lines="full">
+            <ion-label class="ion-text-wrap">Con storeapp</ion-label>
+            <ion-checkbox slot="start" [(ngModel)]="filter.active" (ionChange)="selectItem()" color="primary"></ion-checkbox>
+        </ion-item>
+
+        <ion-item lines="full">
+            <ion-label class="ion-text-wrap">Sin storeapp</ion-label>
+            <ion-checkbox slot="start" [(ngModel)]="filter.inactive" (ionChange)="selectItem()" color="primary"></ion-checkbox>
+        </ion-item>
+        <ng-container *ngIf="!onlyFilterShopActive">
+            <ion-item lines="full">
+                <ion-label class="ion-text-wrap">Con pedidos Pendientes</ion-label>
+                <ion-checkbox slot="start" [(ngModel)]="filter.pending_products" (ionChange)="selectItem()" color="primary"></ion-checkbox>
+            </ion-item>
+
+            <ion-item lines="full">
+                <ion-label class="ion-text-wrap">Con Pedidos Realizados</ion-label>
+                <ion-checkbox slot="start" [(ngModel)]="filter.order" (ionChange)="selectItem()" color="primary"></ion-checkbox>
+            </ion-item>
+        </ng-container>
+        <div class="settings-wrapper">
+            <div class="header-modal subheader">
+                <ion-icon name="null" class="icon-settings"></ion-icon>
+                Configurar búsqueda de clientes
+            </div>
+            <ion-item>
+                <ion-label class="ion-text-wrap">Todos los días</ion-label>
+                <ion-toggle [(ngModel)]="searchAllDays" (ionChange)="searchAllDaysChange($event)"></ion-toggle>
+            </ion-item>
+            <ion-item lines="none">
+                <ion-label class="ion-text-wrap">Día actual</ion-label>
+                <ion-toggle [(ngModel)]="searchCurrentDay" (ionChange)="searchAllCurrentDayChange($event)"></ion-toggle>
+            </ion-item>
+        </div>
+    </div>
+    <ion-button expand="block" (click)="saveFilter()" class="orange-button ion-margin-top">
+        Filtrar
+    </ion-button>
+</ion-content>

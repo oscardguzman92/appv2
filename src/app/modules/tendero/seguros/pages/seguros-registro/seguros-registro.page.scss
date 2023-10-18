@@ -1,0 +1,67 @@
+.form-ensurance {
+    h4 {
+        margin: 8px 0;
+        color: var(--ion-color-secondary);
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+        background-image: url("../../../../../../assets/images/bkg-header-ensurance.jpg");
+        background-repeat: no-repeat;
+        background-size: 100%;
+        padding: 0;
+        border-radius: 100px;
+        img {
+            width: 55px;
+            margin-right: 18px;
+        }
+    }
+    ion-item {
+        --inner-padding-start:0px;
+        --inner-padding-end:0px;
+        &.select {
+            --inner-padding-top: 24px;
+        }
+    }
+    form {
+        width: 100%;
+    }
+}
+
+.callout {
+    background: var(--ion-color-light);
+    padding: 8px 14px 14px;
+    border-radius: 10px;
+    ion-button {
+        font-size: 12px;
+        margin: 0;
+    }
+    h4 {
+        color: var(--ion-color-secondary);
+        background: transparent !important;
+    }
+    h6 {
+        font-family: "montserrat_semiboldregular";
+        color: var(--ion-color-primary);
+    }
+    p {
+        font-size: 14px;
+        font-family: "montserrat_mediumregular";
+        margin: 8px 0 10px;
+        &.small {
+            font-size: 12px;
+        }
+    }
+    small {
+        font-size: 10px;
+        font-family: "montserrat_mediumregular";
+        color: var(--ion-color-primary);
+        line-height: 1;
+    }
+}
+
+select {
+    -webkit-appearance: none !important;
+}
+select::-ms-expand {
+    display: none !important;
+}

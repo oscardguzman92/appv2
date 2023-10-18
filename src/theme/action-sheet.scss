@@ -1,0 +1,31 @@
+.sc-ion-action-sheet-md-h {
+  padding-bottom: 10px;
+  .action-sheet-title {
+    font-family: "montserrat_semiboldregular";
+    color: var(--ion-color-primary);
+    padding: 16px 16px 14px 16px;
+    border-bottom: 1px solid var(--ion-color-primary);
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin-bottom: 6px;
+    &:before {
+      content: "\e9cc";
+      margin-right: 16px;
+      font-family: "iconfont";
+      font-weight: bold;
+    }
+  }
+  .action-sheet-button {
+    border-bottom: 1px solid var(--ion-color-light);
+    font-family: "montserrat_mediumregular";
+    color: var(--ion-color-dark);
+    height: 44px;
+  }
+  .action-sheet-icon {
+    margin-inline-end: 16px;
+    color: var(--ion-color-dark);
+  }
+  .action-sheet-group-cancel {
+  }
+}

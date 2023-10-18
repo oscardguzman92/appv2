@@ -1,0 +1,98 @@
+<app-cabecera [titulo]="'Creación de nuevo cliente'" [showBackButton]="true" [isModal]="false"
+              [user]="user"></app-cabecera>
+
+<ion-content class="vertical-align-content" no-padding *ngIf="!client && !getClientByDocumentRes">
+    <ion-grid no-padding>
+        <ion-row class="ion-justify-content-center">
+            <ion-col>
+                <form [formGroup]="formDocument"
+                      (ngSubmit)="validateDocument(formDocument.valid && formDocument.value)">
+                    <h5 class="sub-title ion-margin-bottom" text-center>Ingrese la cédula del tendero</h5>
+                    <div class="ion-margin-bottom">
+                        <ion-item class="input-form">
+                            <ion-label position="floating">Número de Cédula</ion-label>
+                            <ion-input formControlName="document" type="tel">
+                            </ion-input>
+                        </ion-item>
+                        <div class="error" *ngIf="controls.document.invalid && controls.document.touched" text-center>
+                                <span *ngIf="controls.document.errors?.required">
+                                    El número de cédula es obligatorio
+                                </span>
+
+                            <span *ngIf="controls.document.errors?.pattern && !controls.document.errors?.required">
+                                    El número de cédula es inválido
+                                </span>
+                        </div>
+                    </div>
+                    <div class="ion-padding">
+                        <ion-button expand="block" type="submit" [disabled]="!formDocument.valid">
+                            Validar
+                        </ion-button>
+                    </div>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<!-- parte de seleccionar cliente -->
+<ion-content *ngIf="getClientByDocumentRes && !selected" #pageTop>
+    <ion-grid class="client-location" no-padding>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="10">
+                <h5 class="sub-title" text-center>Selecciona la información del cliente</h5>
+                <p class="small no-margin-bottom" text-center>La cédula ya está registrada en tu distribuidor, puedes
+                    editar la información o crear una sucursal que será aprobada por facturación.</p>
+            </ion-col>
+
+
+            <ion-col size="10" *ngFor="let item of getClientByDocumentRes.posibleDuplicado">
+                <ion-list>
+                    <ion-item lines="none">
+                        <ion-label>
+                            <h2>
+                                <ion-icon name="null" class="icon-storeapp"></ion-icon>
+                                {{item.nombre_tienda_en_distribuidor}}
+                            </h2>
+                            <h3>
+                                <ion-icon name="null" class="icon-user"></ion-icon>{{item.nombre_en_distribuidor}}
+                            </h3>
+                            <h3>
+                                <ion-icon name="null" class="icon-info"></ion-icon>{{item.cedula_en_distribuidor}}
+                            </h3>
+                            <span *ngFor="let vendedor of item.vendedores"><b>Vendedor:</b> {{vendedor.nombre}}</span>
+                        </ion-label>
+                        <ion-checkbox color="primary" slot="end" (click)="updateData(item)"></ion-checkbox>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer *ngIf="getClientByDocumentRes && !selected">
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col size="6">
+                <ion-button (click)="cancel()" expand="block">Cancelar</ion-button>
+            </ion-col>
+            <ion-col size="6">
+                <ion-button (click)="createNewStore()" expand="block" class="orange-button">Crear Sucursal</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-footer>
+
+<ion-content *ngIf="client" #pageTop>
+    <ion-grid class="slider-center" no-padding>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="10">
+                <h5 class="sub-title" text-center>Ingresa la información general del cliente</h5>
+            </ion-col>
+            <ion-col size="10">
+                <app-crear-cliente-captura-datos (cancelCreateEvent)="cancelCreate()" [pageTop]="pageTop"
+                                                 [shopkeeper]="client"
+                                                 [mercaderista]="user"></app-crear-cliente-captura-datos>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

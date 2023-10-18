@@ -1,0 +1,76 @@
+<app-cabecera titulo="Pedidos" subtitulo="{{user.nombre_contacto}}"
+              [showBackButton]="false" [isModal]="false" [user]="user" *ngIf="user"></app-cabecera>
+<ion-content>
+    <ion-list class="route-clients" *ngIf="routeDay">
+        <ion-list-header (click)="editRoute()" *ngIf="!enableEdit">
+            <div class="button-edit">
+                <ion-icon class="icon-edit" name="null"></ion-icon>
+            </div>
+            Editar orden de ruta
+            <span class="date"> {{daySel.dateString}} </span>
+        </ion-list-header>
+
+        <ion-list-header (click)="enableEdit = false" *ngIf="enableEdit">
+            <div class="button-edit">
+                <ion-icon class="icon-edit" name="null"></ion-icon>
+            </div>
+            Salir de editar orden
+            <span class="date"> {{daySel.dateString}} </span>
+        </ion-list-header>
+
+        <div [class.close-route]="routeDay.close">
+            <p *ngIf="routeDay.close" class="close-title">
+                <ion-icon name="alert"></ion-icon>
+                Ruta finalizada
+            </p>
+
+            <ion-item [class.focus-item]="route.firstActive && !route.entregado"
+                      (click)="!enableEdit && goPedidos(routeDay, route, i) || enableEdit && editRoutemodal(i)"
+                      *ngFor="let route of routeDay.pedidos; let i = index">
+                <div class="number" slot="start" [class.show-route]="((i + 1) <= limitShowRoute) && !route.entregado">
+                    {{route.orden}}
+                </div>
+                <ion-label [class.disable-by-edit]="enableEdit">
+                    <h2>{{route.pedido.tienda && route.pedido.tienda.nombre}}</h2>
+                    <h3>{{route.pedido.tienda && route.pedido.tienda.cliente && route.pedido.tienda.cliente.nombre_contacto}}</h3>
+                    <p>{{route.pedido.tienda && route.pedido.tienda.direccion}}</p>
+                </ion-label>
+                <div slot="end" [class.disable-by-edit]="enableEdit">
+                    <div class="quantity-cart-in-list">
+                        <ion-icon class="icon-shopping-cart" name="null"></ion-icon>
+                        <span [class.delivered]="route.entregado">{{route.pedido.productos.length}}</span>
+                    </div>
+                    <ion-icon class="icon-chevron-right" name="null"></ion-icon>
+                </div>
+		    </ion-item>
+		</div>
+    </ion-list>
+
+    <ion-title *ngIf="!routeDay || (routeDay && routeDay.pedidos.length == 0)" color="medium" class="medium msg-empty"
+               text-center>
+        No tiene pedidos asociados
+    </ion-title>
+</ion-content>
+<ion-tabs *ngIf="(routeDay && routeDay.pedidos.length > 0)">
+    <ion-tab-bar slot="bottom">
+        <ion-tab-button tab="lista">
+            <ion-icon class="icon-list" name="null"></ion-icon>
+            <ion-label>Lista</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button (click)="goRecorridoTransportador()">
+            <ion-icon class="icon-map" name="null"></ion-icon>
+            <ion-label>Ruta</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button (click)="goLiquidador()">
+            <ion-icon class="icon-file-text" name="null"></ion-icon>
+            <ion-label>Liquidador</ion-label>
+        </ion-tab-button>
+
+        <ion-tab-button (click)="presentModalNovedades()">
+            <ion-icon class="icon-info" name="null"></ion-icon>
+            <ion-label>Novedades</ion-label>
+        </ion-tab-button>
+    </ion-tab-bar>
+</ion-tabs>

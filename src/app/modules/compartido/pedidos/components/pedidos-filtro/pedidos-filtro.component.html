@@ -1,0 +1,33 @@
+<div class="header-modal">
+    <ion-icon class="icon-filter"></ion-icon>
+    Filtrar
+</div>
+<ion-content class="ion-padding-horizontal">
+
+    <!-- <ion-item lines="full">
+        <ion-label text-wrap>Segmentar por Marcas</ion-label>
+        <ion-checkbox slot="start" [(ngModel)]="filter.viewAll" (ionChange)="selectItem(true)" [disabled]="filter.viewAll" color="primary"></ion-checkbox>
+    </ion-item>
+
+    <ion-item lines="full">
+        <ion-label text-wrap>Segmentar Categorías</ion-label>
+        <ion-checkbox slot="start" [(ngModel)]="filter.active" (ionChange)="selectItem()" color="primary"></ion-checkbox>
+    </ion-item> -->
+
+    <ion-radio-group name="auto" [(ngModel)]="filter.typeSegment">
+        <ion-list-header>Tipo de segmentación</ion-list-header>
+        <ion-item>
+            <ion-label>Segmentar por Categorías</ion-label>
+            <ion-radio [value]="typeSegments.categories"></ion-radio>
+        </ion-item>
+        <ion-item>
+            <ion-label>Segmentar por Marcas</ion-label>
+            <ion-radio [value]="typeSegments.brands"></ion-radio>
+        </ion-item>
+    </ion-radio-group>
+
+
+    <ion-button expand="block" (click)="saveFilter()" class="orange-button ion-margin-top">
+        Filtrar
+    </ion-button>
+</ion-content>

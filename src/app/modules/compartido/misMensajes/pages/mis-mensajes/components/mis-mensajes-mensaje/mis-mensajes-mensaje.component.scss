@@ -1,0 +1,13 @@
+.messages {
+    p {
+        font-size:  calc(18px + var(--big-text-size));
+        line-height: calc(1.4 - var(--big-line-height));
+        margin-bottom: 16px;
+    }
+}
+
+.icon-whatsapp {
+    margin-right: 8px;
+    font-weight: bold;
+    font-size: 18px;
+}

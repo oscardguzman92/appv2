@@ -1,0 +1,116 @@
+<ion-content>
+  <div [hidden]="!tutorial">
+    <div class="skip-bottom" (click)="skipTutorial()" *ngIf="showSkip"><span>Saltar</span></div>
+    <ion-slides pager="true" [options]="slideOpts" (ionSlideWillChange)="changeSlide($event)" #sliderRef>
+      <ion-slide>
+        <div class="wrapper">
+          <img src="../../../../../../assets/images/anim/anim-1.gif">
+          <!-- <b>1</b> -->
+          <h3><b>El tendero ya tenía un pedido activo</b>, revisa cuáles productos deseas dejar en el pedido final</h3>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="wrapper">
+          <img src="../../../../../../assets/images/anim/anim-2.gif">
+          <!-- <b>3</b> -->
+          <h3>
+            Si hay <b>un producto en ambos pedidos</b>, puedes <b>sumar</b> sus cantidades
+          </h3>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="wrapper">
+          <img src="../../../../../../assets/images/anim/anim-3.gif">
+          <!-- <b>3</b> -->
+          <h3>
+            <b>Confirma y listo</b>
+          </h3>
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="8" class="ion-no-padding">
+              <ion-button class="orange-button" expand="block" (click)="noShowTutorial()">No volver a mostrar</ion-button>
+            </ion-col>
+            <ion-col size="8" class="ion-no-padding">
+              <ion-button expand="block" (click)="hideTutorial()">Cerrar</ion-button>
+            </ion-col>
+          </ion-row>
+          <!-- <ion-button expand="block" (click)="closeModal()" class="ion-margin-vertical">No volver a mostrar tutorial</ion-button> -->
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <ion-grid class="ion-no-padding" fixed [hidden]="tutorial">
+    <ion-row class="header">
+      
+      <ion-col size="6" class="border-right ion-padding">
+        <div class="top">
+          <img src="../../../../../../assets/images/conflicting-order/icon-tendero.png">
+          Cliente
+        </div>
+        <div class="name">
+          {{ shop.nombre_contacto | titlecase }}
+        </div>
+      </ion-col>
+      <ion-col size="6" class="ion-padding">
+        <div class="top">
+          <img src="../../../../../../assets/images/conflicting-order/icon-vendedor.png">
+          Vendedor
+        </div>
+        <div class="name">
+          {{ user.nombre_contacto | titlecase }}
+        </div>
+      </ion-col>
+      <ion-col size="12" class="title-head">
+        <img src="../../../../../../assets/images/tap.svg">
+        <p>
+          Verifica el pedido. Toca los productos a retirar y confirma
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid fixed>
+    <ng-container *ngIf="productos_sel.length > 0">
+      <ion-virtual-scroll [items]="productos_sel" approxItemHeight="130px">
+        <ion-row class="conflicting-list-product" *virtualItem="let prod_s; let i = index;">
+          <ion-col size="6" [class.active]="prod_s && prod_s?.producto_c && prod_s?.producto_c?.selected_merge" (click)="selectProd(i, 'c')">
+            <ng-container *ngIf="prod_s && prod_s?.producto_c">
+              <div class="card-wrapper">
+                <div class="title">
+                  <h4>{{prod_s?.producto_c?.nombre}}</h4>
+                </div>
+                <p><small><b>Cód.:</b> {{prod_s.producto_c.cod_sap}}</small></p>
+                <p class="quantity">{{prod_s.producto_c.cantidad}} Un.</p>
+                <ion-icon class="selected" name="checkmark-circle-outline"></ion-icon>
+                <ion-icon class="unSelected" name="close-circle-outline"></ion-icon>
+              </div>
+            </ng-container>
+          </ion-col>
+          <ion-col size="6" [class.active]="prod_s && prod_s?.producto_v && prod_s?.producto_v?.selected_merge" (click)="selectProd(i, 'v')">
+            <ng-container *ngIf="prod_s && prod_s?.producto_v">
+              <div class="card-wrapper">
+                <div class="title">
+                  <h4>{{prod_s?.producto_v?.nombre}}</h4>
+                </div>
+                <p><small><b>Cód.:</b> {{prod_s.producto_v.cod_sap}}</small></p>
+                <p class="quantity">{{prod_s.producto_v.cantidad}} Un.</p>
+                <ion-icon class="selected" name="checkmark-circle-outline"></ion-icon>
+                <ion-icon class="unSelected" name="close-circle-outline"></ion-icon>
+              </div>
+            </ng-container>
+          </ion-col>
+          <div class="total-units" *ngIf="prod_s?.producto_v?.selected_merge && prod_s?.producto_c?.selected_merge">
+            <small>Total</small>
+            <p>{{(prod_s.producto_v.cantidad + prod_s.producto_c.cantidad)}}<span>Un</span></p>
+          </div>
+        </ion-row>
+      </ion-virtual-scroll>
+    </ng-container>
+  </ion-grid>
+  <div class="help-button" *ngIf="!tutorial" (click)="showTutorial()">
+    <ion-icon name="help"></ion-icon>
+  </div>
+</ion-content>
+<ion-footer class="ion-padding-horizontal" *ngIf="!tutorial">
+  <ion-toolbar>
+    <ion-button expand="block" class="orange-button" no-margin (click)="confirm()">Confirmar</ion-button>
+  </ion-toolbar>
+</ion-footer>

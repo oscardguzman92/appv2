@@ -1,0 +1,40 @@
+<ion-grid class="top-alert" *ngIf="showAlert">
+    <ion-row>
+        <ion-col size="12 ion-no-padding">
+            <ion-row>
+                <ion-col class="ion-align-items-center ion-no-padding" size="auto">
+                    <i class="icon-alert-triangle"></i>
+                </ion-col>
+                <ion-col class="ion-no-padding">
+                    <p no-margin><b>Recuerde:</b></p>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col size="12" class="ion-no-padding">
+            <p class="small" no-margin>Los pedidos realizados después de las {{formatHour}} serán enviados en la siguiente ruta de entrega.
+            </p>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+<ion-header>
+    <ion-toolbar>
+        <div>
+        <ion-buttons>
+            <ion-button (click)="toggleMenu()" *ngIf="!showBackButton">
+                <i slot="icon-only" class="icon-menu icon-orange-gradient"></i>
+            </ion-button>
+            <ion-button (click)="justBack()" *ngIf="showBackButton" >
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title *ngIf="user" color="primary" class="medium ion-no-padding">
+            {{user.nombre_contacto  | titlecase}}<span>{{user?.distribuidor?.nombre || ""}}</span> <span *ngIf="isOfflineActive"> Sin conexión <i class="icon-wifi-off"></i></span>
+        </ion-title>
+        <ion-buttons (click)="onClickFilter()">
+            <ion-button class="right-button-header">                    
+                <i class="icon-filter"></i>
+            </ion-button>
+        </ion-buttons>
+    </div>
+    </ion-toolbar>
+</ion-header>

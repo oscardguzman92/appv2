@@ -1,0 +1,26 @@
+@import "../../../../../../../../theme/gradients";
+
+.wrapper-stars {
+  border-radius: 50px;
+  background: var(--ion-color-primary);
+  margin-bottom: 10px;
+  ion-icon {
+    font-size: 40px;
+    color: var(--ion-color-tertiary);
+  }
+}
+ion-item {
+  ion-checkbox {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: 16px;
+    --border-color: var(--ion-color-primary);
+  }
+  ion-label {
+    font-family: "montserrat_semiboldregular";
+    color: var(--ion-color-primary);
+  }
+}
+.check-wrapper {
+    background: var(--ion-color-light);
+}

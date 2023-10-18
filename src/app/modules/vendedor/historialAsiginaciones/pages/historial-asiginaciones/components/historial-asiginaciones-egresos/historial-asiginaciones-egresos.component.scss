@@ -1,0 +1,22 @@
+
+p {
+  &.name {
+    text-transform: lowercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--ion-color-primary) !important;
+    span {
+      font-weight: bold;
+    }
+  }
+  &.small {
+    font-family: "montserrat_mediumregular";
+    font-size: 11px;
+    padding-top: 5px;
+  }
+}
+.icon-x {
+    background: var(--ion-color-danger);
+    font-weight: bold;
+}

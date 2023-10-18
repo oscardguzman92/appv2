@@ -1,0 +1,25 @@
+ion-card-title {
+    font-size: 16px;   
+    padding-right: 14px;
+    text-transform: capitalize;
+}
+ion-card-content {
+    font-family: "montserrat_mediumregular";
+    line-height: 1.3;
+    // height: 50px;
+    padding-top: 10px;
+    overflow: hidden;
+    text-transform: initial;
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+}
+.footer-card {
+    height: 40px;
+    ion-col {
+        padding: 0 8px;
+    }
+}
+p {
+    margin-bottom: 0;
+}

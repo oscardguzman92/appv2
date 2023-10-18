@@ -1,0 +1,44 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="cerrarModal()">
+                <ion-icon slot="icon-only" class="icon-x icon-orange-gradient"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" class="medium" no-padding>{{user.nombre_contacto}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="vertical-align-content" padding>
+    <ion-grid no-padding>
+        <ion-row justify-content-center>
+            <ion-col size="10" text-center no-padding>
+                <h5 class="sub-title">Crear contraseña</h5>
+                <p>Para ingresar a recargas, debes crear una contraseña que te va a ser solicitada cuando utilices tu cupo.</p>
+            </ion-col>
+            <ion-col size="12" no-padding>
+                <form [formGroup]="passwordForm">
+                    <ion-item class="input-form">
+                        <ion-label position="floating">Contraseña</ion-label>
+                        <ion-input type="password" formControlName="password"></ion-input>
+                    </ion-item>
+
+                    <ion-item class="input-form">
+                        <ion-label position="floating">Repite contraseña</ion-label>
+                        <ion-input type="password" formControlName="repeatPassword"></ion-input>
+                    </ion-item>
+
+                    <div class="error"
+                         *ngIf="controls.password.value !== controls.repeatPassword.value && (controls.repeatPassword.touched && controls.password.touched)">
+                        Las contraseñas no coinciden
+                    </div>
+                </form>
+            </ion-col>
+            <ion-col size="12" text-center>
+                <ion-button (click)="createPassword(passwordForm.value)"
+                            [disabled]="!passwordForm.valid || controls.password.value !== controls.repeatPassword.value">
+                    Ingresar
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

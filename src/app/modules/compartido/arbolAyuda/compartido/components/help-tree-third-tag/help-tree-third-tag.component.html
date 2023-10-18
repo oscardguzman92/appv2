@@ -1,0 +1,39 @@
+<div>
+  <h5>
+    {{helpTreeElement.title}}
+  </h5>
+  <p>
+    {{helpTreeElement.description}}
+  </p>
+  <img *ngIf="helpTreeElement.image !== '' && helpTreeElement.image !== null" [src]="helpTreeElement.image" alt="">
+
+  <iframe
+    *ngIf="helpTreeElement.video !== '' && helpTreeElement.video !== null "
+    class="video"
+    [src]="video"
+    frameborder="0"
+    allowfullscreen="allowfullscreen"
+    mozallowfullscreen="mozallowfullscreen"
+    msallowfullscreen="msallowfullscreen"
+    oallowfullscreen="oallowfullscreen"
+    webkitallowfullscreen="webkitallowfullscreen"
+  >
+  </iframe>
+  <ion-button class="orange-button" (click)="goTochat()" *ngIf="helpTreeElement.name === 'chat'">
+    Abrir Chat
+  </ion-button>
+  <ion-button class="orange-button" (click)="goToSection()"
+   *ngIf="
+      helpTreeElement.name === 'seguros-home' ||
+      helpTreeElement.name === 'recargas' ||
+      helpTreeElement.name === 'pedidos'
+   ">
+    {{helpTreeElement.title}}
+  </ion-button>
+  <ion-button class="orange-button" (click)="openWhatsAppParalife()" *ngIf="helpTreeElement.name === 'whatsapp-paralife'">
+    Ir a Whatsapp
+  </ion-button>  
+  <ion-button class="orange-button" (click)="openWhatsApp()" *ngIf="helpTreeElement.name === 'whatsapp'">
+    Ir a Whatsapp
+  </ion-button>
+</div>

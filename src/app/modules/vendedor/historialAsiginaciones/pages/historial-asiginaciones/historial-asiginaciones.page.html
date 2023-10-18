@@ -1,0 +1,24 @@
+<app-compartido-cabecera [titulo]="'Historial Asignaciones'" [mostrarBotonAuxiliar]="false" [tituloBoton]=""
+    [showBackButton]="false" [isModal]="false" [user]="user"></app-compartido-cabecera>
+<ion-segment class="segment-general" (ionChange)="cambiarSegmento($event)">
+    <ion-segment-button value="egresos" checked>
+        <ion-label>Egresos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="ingresos">
+        <ion-label>Ingresos</ion-label>
+    </ion-segment-button>
+</ion-segment>
+<ion-content>
+    <ion-grid no-padding *ngIf="segmento == 'egresos'">
+        <app-historial-asiginaciones-egresos [egresos]="egresos"></app-historial-asiginaciones-egresos>
+    </ion-grid>
+    <ion-grid no-padding *ngIf="segmento == 'ingresos'">
+        <app-historial-asiginaciones-ingresos [ingresos]="ingresos"></app-historial-asiginaciones-ingresos>
+    </ion-grid>
+</ion-content>
+
+<ion-footer class="common-footer" *ngIf="account">
+    <ion-toolbar text-center>
+        <p no-margin>Su saldo actual es: <b>{{account.saldo | currency:"COP":'symbol-narrow':'0.0-0'}}</b></p>
+    </ion-toolbar>
+</ion-footer>

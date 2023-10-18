@@ -1,0 +1,50 @@
+<ion-content no-padding>
+    <ion-grid no-padding class="inicio" *ngIf="show">
+        <!-- <app-compartido-cabecera-sin-login [showImage]="true"></app-compartido-cabecera-sin-login> -->
+        <ion-row class="inicio__slider">
+            <ion-col size="12" no-padding>
+                <img src="../assets/images/ilustracion-intro.jpg">
+            </ion-col>
+        </ion-row>
+        <ion-row class="inicio__descripcion" justify-content-center>
+            <!-- <h4>Pasa tu Tienda a Otro Nivel</h4> -->
+            <ion-slides [pager]="true" [options]="slideOpts" (ionSlidesDidLoad)="slidesDidLoad(mySlider)" #mySlider>
+                <ion-slide>
+                    <ion-col size="10" text-center align-self-center>
+                        <div class="inicio__descripcion-imagen">
+                            <img src="../assets/images/ofertas.svg">
+                        </div>
+                    </ion-col>
+                </ion-slide>
+                <ion-slide>
+                    <ion-col size="10" text-center align-self-center>
+                        <div class="inicio__descripcion-imagen">
+                            <img src="../assets/images/control.svg">
+                        </div>
+                    </ion-col>
+                </ion-slide>
+                <ion-slide>
+                    <ion-col size="10" text-center align-self-center>
+                        <div class="inicio__descripcion-imagen">
+                            <img src="../assets/images/comunidad.svg">
+                        </div>
+                    </ion-col>
+                </ion-slide>
+            </ion-slides>
+            <ion-button class="orange-button" (click)="validacionDatos()">Comenzar</ion-button>
+        </ion-row>
+        <ion-row class="ion-justify-content-center ion-margin-top">
+            <ion-col size="10">
+                <div class="divider"></div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size="10" class="ion-text-center">
+                <div class="aditional-info">
+                    <p>Si tienes dudas ponte en contacto con nosotros acá: </p>
+                    <ion-button class="blue-button" (click)="openContactCenter()" size="small" expand="full">Contáctanos</ion-button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

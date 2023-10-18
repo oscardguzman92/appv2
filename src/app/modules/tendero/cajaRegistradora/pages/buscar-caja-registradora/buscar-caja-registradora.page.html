@@ -1,0 +1,146 @@
+<app-cabecera
+  [showBackButton]="showBackButton"
+  [total]="total | currency: 'COP':'symbol-narrow':'0.0-0'"
+  [products]="quantity"
+  [title]="title"
+  [subtitle]="subtitle"
+  [showTitle]="showTitle"
+  [showDataSale]="inSale"
+>
+</app-cabecera>
+<ion-content>
+  <div
+    *ngIf="!firstBranch && !showNewProduct"
+    class="filter-value"
+    
+  >
+    <div
+      *ngFor="
+        let threadFilter of threadFilters;
+        let i = index;
+        let even = even;
+        let odd = odd
+      "
+    >
+      <span (click)="reconfigureCategories(threadFilter.position)">{{ threadFilter.name }}</span>
+      <i class="icon-arrow-right" (click)="reconfigureCategories(threadFilter.position)"></i>
+    </div>
+    <i class="icon-x" (click)="reconfigurePageSearch(false)"></i>
+  </div>
+  <ng-container *ngIf="showNewProduct">
+    <ion-grid id="add">
+      <ion-row>
+        <ion-col align-items-center justify-content-center>
+          <div (click)="scanNewProduct()">
+            <p>
+              No encontramos el producto que buscas
+              <br />
+              ¿quieres agregar uno?
+            </p>
+            <object></object>
+            <div>
+              <ion-button
+                size="small"
+                expand="block"
+                class="button-outline-orange"
+                (click)="scanNewProduct()"
+              >
+                Crear Producto
+              </ion-button>
+                      
+            </div>
+      
+          </div>
+          <div class="close-add"  (click)="reconfigurePageSearch(false)" >
+              <span>Nueva búsqueda</span> 
+              <i class="icon-x"></i>
+          </div>  
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+  <div class="results" *ngIf="!showNewProduct" [ngClass]="{
+    'top': !firstBranch,
+    'normal': firstBranch
+  }">
+    <ion-slides
+      *ngIf="updatingSlides && !showNewProduct"
+      #SearchSlides
+      class="cash-register-slides ion-color-medium"
+      pager="true"
+      slidesPerColumn="4"
+      [options]="searchSlides"
+    >
+      <ng-container *ngIf="products && products.length > 0">
+        <ion-slide>
+          <ion-card class="plus-card" (click)="scanNewProduct()">
+            <ion-icon name="add"></ion-icon>
+            <p>Crear nuevo producto en esta categoría</p>
+          </ion-card>
+        </ion-slide>
+        <ion-slide
+          *ngFor="
+            let product of products;
+            let i = index;
+            let even = even;
+            let odd = odd
+          "
+          [ngClass]="{ odd: odd, even: even }"
+        >
+          <app-tarjeta-producto
+            [product]="product"
+            [sync]="false"
+            [showQuantity]="showQuantity"
+            [position]="i"
+            [ngStyle]="{ order: i }"
+            [inSale]="true"
+          >
+          </app-tarjeta-producto>
+        </ion-slide>
+      </ng-container>
+      <ng-container *ngIf="!products || products.length == 0">
+        <ion-slide *ngIf="firstBranch">
+          <app-tarjeta-categoria
+            (click)="overridingSearch()"
+            [category]="overriding"
+          >
+          </app-tarjeta-categoria>
+        </ion-slide>
+        <ion-slide *ngIf="firstBranch">
+          <app-tarjeta-categoria
+            (click)="outstandingSearch()"
+            [category]="outstanding"
+          >
+          </app-tarjeta-categoria>
+        </ion-slide>
+
+        <ion-slide
+          *ngFor="
+            let category of categories;
+            let i = index;
+            let even = even;
+            let odd = odd
+          "
+          [ngClass]="{ odd: odd, even: even }"
+        >
+          <app-tarjeta-categoria
+            (click)="searchCategory(category, true, i)"
+            [category]="category"
+          >
+          </app-tarjeta-categoria>
+        </ion-slide>
+      </ng-container>
+    </ion-slides>
+  </div>
+</ion-content>
+<ion-footer class="cash-register-footer" *ngIf="!showNewProduct">
+  <app-buscador (search)="searchProducts($event)" activeKeyUp="false">
+  </app-buscador>
+  <button (click)="scan()" align-items-center justify-content-center>
+    <p>
+      Escanear <br />
+      Producto
+    </p>
+    <ion-icon name="camera"></ion-icon>
+  </button>
+</ion-footer>

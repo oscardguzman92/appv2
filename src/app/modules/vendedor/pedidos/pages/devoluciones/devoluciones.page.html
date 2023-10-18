@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" no-padding *ngIf="shop">{{shop.nombre_tienda | titlecase}} <span>Cod.
+            {{shop.codigo_cliente}}</span></ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="vertical-align-content" *ngIf="!products">
+    <ion-grid>
+        <ion-row class="help-text ion-align-items-center">
+            <ion-col size="2">
+                <i class="icon-search"></i>
+            </ion-col>
+            <ion-col size="10">
+                <p>Busca y agrega los productos que quieres devolver</p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-content>
+    <ion-grid class="product-list-returns" padding *ngIf="products">
+        <app-product *ngFor="let producto of products" [product]="producto" (addProduct)="addProd($event)"
+             (rmProduct)="rmProd($event)" (writerProduct)="writerProduct()" (blurEvent)="blur($event)"
+             no-padding>
+        </app-product>
+    </ion-grid>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadInfiniteScroll($event)">
+        <ion-infinite-scroll-content
+                loadingSpinner="bubbles"
+                loadingText="Cargando más productos...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
+<ion-footer class="wrapper-search-scan">
+    <app-pedidos-buscador (search)="searchProducts($event)" [notSearchInCompany]="true" #pedidosBuscador
+          [nProducts]="countReturn" activeKeyUp="false" (focusEvent)="focusEvent()"
+          (blurEvent)="blurEvent()">
+    </app-pedidos-buscador>
+
+    <ion-button [@jump]="thingState" class="cart-button"
+                [ngClass]="{'show': countReturn > 0, 'small-button': !pedidosBuscador.inputExpand && !pedidosBuscador.small}"
+                (click)="abrirCarrito()">
+        <ion-row class="wrapper ion-align-items-center">
+            <ion-col class="text" no-padding text-left>
+                <p>Devolución</p>
+                <p class="value">{{returnValue | currency:"COP":'symbol-narrow':'0.0-0'}}</p>
+            </ion-col>
+            <ion-col size="auto" no-padding>
+                <ion-row class="wrapper-quantity">
+                    <ion-col size="12" no-padding>
+                        <small>{{countReturn}}</small>
+                    </ion-col>
+                    <ion-col size="12" no-padding>
+                        <ion-icon name="cart"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-button>
+</ion-footer>

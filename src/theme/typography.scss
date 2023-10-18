@@ -1,0 +1,55 @@
+
+// Typography------------
+
+/* Toolbar */
+ion-title {
+    font-family: 'montserrat_semiboldregular';
+    font-size: 19px;
+    &.medium {
+        font-size: 17px;
+    }
+    &.small {
+        font-size: 12px;
+    }
+    span {
+        font-size: 11px;
+        font-family: 'montserratregular';
+        color: var(--ion-color-dark);
+        display: block;
+    }
+}
+
+/* Headings*/
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'montserratbold';
+    margin: 0;
+}
+.sub-title {
+    font-family: 'montserratbold';
+    font-size: 19px;
+    color: var(--ion-color-primary);
+}
+/*links*/
+.small-link {
+    font-size: 13px;
+    font-family: 'montserrat_semiboldregular';
+    color: var(--ion-color-secondary);
+    text-decoration: none;
+    margin-top: 6px;
+}
+/*Paragraphs*/
+p {
+    font-size: calc(14px + var(--big-text-size));
+    line-height: calc(1.5 - var(--big-line-height));
+
+    &.small {
+        font-size: calc(12px + var(--big-text-size));
+        line-height: calc(1.6 - var(--big-line-height));
+    }
+}
+/* Card Title */
+ion-card-title {
+    --color: var(--ion-color-primary);
+    font-family: 'montserrat_semiboldregular';
+}
+

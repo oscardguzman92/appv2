@@ -1,0 +1,23 @@
+ion-item {
+    --padding-start:0;
+    --padding-end:0;
+    --inner-padding-start:0;
+    --inner-padding-end:0;
+    --inner-padding-bottom:10px;
+    margin-bottom: 10px;
+    ion-row {
+        width: 100%;
+        small {
+            font-family: "montserrat_mediumregular";
+            color: var(--ion-color-primary);
+        }
+        p {
+            font-size: 17px;
+            padding-right: 10px;
+        }
+        ion-item {
+            --inner-padding-bottom:0;
+            margin-bottom: 0;
+        }
+    }
+}

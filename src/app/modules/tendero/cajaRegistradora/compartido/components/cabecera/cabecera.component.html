@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons *ngIf="showMenuButton" slot="start">
+      <ion-button (click)="toggleMenu()">
+        <i slot="icon-only" class="icon-menu icon-orange-gradient"></i>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons *ngIf="showBackButton" slot="start">
+      <ion-button (click)="justBack()">
+        <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons *ngIf="showBackHomeButton" slot="start">
+      <ion-button (click)="goToHome()">
+        <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+      </ion-button>
+    </ion-buttons>    
+
+    <ion-title color="primary" class="medium" no-padding *ngIf="showTitle">
+      {{ title }}<span>{{ subtitle }}</span>
+    </ion-title>
+
+    <ion-title color="primary" class="medium data-sale" no-padding *ngIf="showDataSale">
+        $ {{ total }}<span>{{ products }} Productos</span>
+      </ion-title>   
+      
+      <ion-buttons slot="end" (click)="openModalFilter()"  *ngIf="showModalFilter">
+        <ion-button class="filter-button">                    
+            <i class="icon-filter"></i>
+        </ion-button>
+    </ion-buttons>      
+  </ion-toolbar>
+</ion-header>

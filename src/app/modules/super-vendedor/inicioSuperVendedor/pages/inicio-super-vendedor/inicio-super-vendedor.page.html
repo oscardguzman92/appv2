@@ -1,0 +1,34 @@
+<app-compartido-cabecera
+	[showBackButton]="false"
+	[titulo]="user.nombre_contacto"
+	[mostrarBotonAuxiliar]="false"
+></app-compartido-cabecera>
+
+<ion-content margin padding>
+
+	<ion-refresher slot="fixed" (ionRefresh)="refreshData()" #refreshElement>
+        <ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+	
+	<ion-list class="listing-clients" *ngIf="sellers.length > 0">
+		<ion-virtual-scroll [items]="sellers" approxItemHeight="50px">
+			<ion-item *virtualItem="let seller" (click)="goToMyShopkeepers(seller)" lines="full">
+				<span class="icon-user" slot="start"></span>
+				<ion-label text-wrap>
+					<p class="name">{{seller.nombre | titlecase}}</p>
+					<p class="number-contact">{{seller.cedula}}</p>
+					<p>
+						<span class="creation-date">Meta: {{seller.meta}}</span>
+						<span class="creation-date">Proyección: {{seller.proyeccion}}</span>
+					</p>
+					
+				</ion-label>
+			</ion-item>
+		</ion-virtual-scroll>
+	</ion-list>
+	
+	<ion-title *ngIf="sellers.length == 0" color="medium" class="medium msg-empty" text-center>
+		No tiene vendedores asociados
+	</ion-title>
+
+</ion-content>

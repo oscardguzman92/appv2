@@ -1,0 +1,17 @@
+<ion-toolbar>
+    <ion-grid>
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="5">
+                <p no-margin>
+                    <small>{{textInfo}}</small> 
+                    <b>{{textHighlighted | currency:"COP":'symbol-narrow':'0.0-0'}}</b>
+                </p>
+            </ion-col>
+            <ion-col size="7" text-center *ngIf="textButton !='' ">
+                <ion-button class="no-margin white-flat-button" (click)="eventFooter()">
+                    {{textButton}}
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-toolbar>

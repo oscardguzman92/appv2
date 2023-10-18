@@ -1,0 +1,336 @@
+.listing-clients {
+  .icon-storeapp, .number-list {
+    color: var(--ion-color-medium) !important;
+  }
+  .icon-user {
+    color: var(--ion-color-medium) !important;
+  }
+  .name {
+    color: var(--ion-color-medium) !important;
+    font-family: "montserrat_semiboldregular";
+    font-size: 13px;
+    margin: 0 !important;
+    line-height: 1.2;
+    padding-right: 16px;
+  }
+  .number-contact,
+  p.not-visit-day,
+  .sended {
+    font-size: 11px !important;
+    margin: 0 !important;
+    color: var(--ion-color-medium) !important;
+    line-height: 1.2;
+    font-family: "montserrat_mediumregular";
+    padding-right: 16px;
+  } 
+  .address {
+    font-size: 11px !important;
+    margin: 0 !important;
+    color: var(--ion-color-secondary) !important;
+    line-height: 1.5;
+    font-family: "montserrat_mediumregular";
+    padding-right: 14px;
+  }
+  .creation-date {
+    font-size: 11px;
+    font-family: "montserrat_mediumregular";
+    color: var(--ion-color-medium);
+    margin-left: 8px;
+    padding-left: 6px;
+    &:before {
+      content: "";
+      background: var(--ion-color-medium);
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
+  }
+  // .bullet {
+  //   opacity: 0.25;
+  // }
+  // .with-order {
+  //   .bullet {
+  //     opacity: 1;
+  //   }
+  // }
+  .active {
+    .icon-storeapp, .number-list {
+      color: var(--ion-color-primary) !important;
+    }
+    .name {
+      color: var(--ion-color-primary) !important;
+    }
+    .name {
+      color: var(--ion-color-primary) !important;
+    }
+    .number-contact,
+    .sended {
+      color: var(--ion-color-dark) !important;
+    }
+
+    &.not-visit-day {
+      .icon-storeapp, .number-list {
+        background-color: var(--ion-color-primary);
+        color: var(--ion-color-light) !important;
+      }
+    }
+  }
+  .icon-chevron-right {
+    color: var(--ion-color-primary);
+  }
+  .state-msg {
+    font-size: 12px !important;
+    color: var(--ion-color-dark);
+    span {
+      font-family: "montserrat_mediumregular";
+    }
+    &.sended {
+      span {
+        color: var(--ion-color-success);
+      }
+    }
+  }
+  .value {
+    font-family: "montserrat_mediumregular";
+    font-size: 12px;
+    // color: var(--ion-color-secondary);
+  }
+  .with-conflict {
+    .bullet {
+      background: var(--ion-color-danger);
+      opacity: 1;
+    }
+    .state-msg {
+      color: var(--ion-color-danger);
+    }
+  }
+  /*list clients--------------------*/
+  .icon-storeapp {
+    margin-right: 10px;
+    font-size: 19px;
+    color: var(--ion-color-primary);
+    background: var(--ion-color-light);
+    border-radius: 50px;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .number-list {
+    font-family: "montserrat_mediumregular";
+    margin-right: 12px;
+    font-size: 14px;
+    color: var(--ion-color-primary);
+    background: var(--ion-color-light);
+    border-radius: 50px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-user {
+    margin-right: 10px;
+    font-size: 19px;
+    color: var(--ion-color-primary);
+    background: var(--ion-color-light);
+    border-radius: 50px;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-check {
+    background: var(--ion-color-success);
+    font-weight: bold;
+  }
+  .icon-shopping-cart {
+    background: var(--ion-color-danger);
+  }
+  .icon-at-last {
+    // margin-right: -16px;
+    // margin-left: 14px;
+    height: 100%;
+    padding: 8px;
+    align-items: center;
+    display: flex;
+    color: white;
+    position: absolute;
+    right: 0;
+  }
+  .icon-no-order {
+    background: var(--ion-color-secondary);
+  }
+  .icon-back-product {
+    background: var(--ion-color-success);
+  }
+  .icon-conflict {
+    background: var(--ion-color-secondary);
+    // font-size: 19px;
+  }
+  p.not-visit-day {
+      color: var(--ion-color-primary) !important;
+  }
+  /*end list clients--------------------*/
+  &.my-sales {
+    ion-item-group {
+      border-bottom:1px solid red;
+      border-color: var(--ion-item-border-color,var(--ion-border-color,var(--ion-color-step-150,rgba(0,0,0,0.13))));
+      padding-bottom: 8px;
+      padding-top: 2px;
+      ion-item {
+        overflow: visible;
+        --min-height: auto;
+        ion-label {
+          margin: 0;
+        }
+        .footer-data {
+          // position: absolute;
+          // left: -12px;
+          // right: 16px;
+          width: 100%;
+          // bottom: -20px;
+          span {
+            display: inline;
+          }
+          .status-date {
+            font-size: 11px;
+            color: var(--ion-color-medium);
+            font-family: "montserrat_mediumregular";
+            &:before {
+              content: "";
+              background: var(--ion-color-medium);
+              width: 6px;
+              height: 6px;
+              display: inline-block;
+              margin-right: 5px;
+              border-radius: 50%;
+            }
+          }
+          .value {
+            float: right;
+            color: var(--ion-color-primary);
+            margin-right: 8px;
+            margin-top: 4px;
+            font-family: "montserrat_semiboldregular";
+          }
+        }
+      }
+      &.with-return {
+        ion-item {
+          .return-product {
+            font-family: "montserrat_mediumregular";
+            font-size: 11px;
+            padding: 6px 8px;
+            margin-top: 6px;
+            background-color: #f4f5f8;
+            border-radius: 4px;
+            i {
+              background: transparent;
+              margin-right: 5px;
+              font-size: 13px;
+            }
+            span {
+              float: right;
+            }
+          }
+        }        
+      }
+      &.send-same-day {
+        ion-item {
+          .status-date {
+            color: var(--ion-color-success);
+            &:before {
+              background: var(--ion-color-success);
+            }
+          }
+        }
+      }
+      &.send-another-day {
+        ion-item {
+          .status-date {
+            color: var(--ion-color-primary);
+            &:before {
+              background: var(--ion-color-primary);
+            }
+          }
+        }
+      }
+      &.created-another-day {
+        ion-item {
+          .creation-date {
+            color: var(--ion-color-secondary);
+            &:before {
+              background: var(--ion-color-secondary);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.indicators-bullets {
+  background: var(--ion-color-light);
+  div {
+    font-size: 9px;
+    text-transform: uppercase;
+    padding: 5px 12px 5px 0;
+    // color: var(--ion-color-dark) !important;
+    font-family: "montserrat_semiboldregular";
+    &:before {
+      content: "";
+      background: var(--ion-color-medium);
+      width: 6px;
+      height: 6px;
+      display: inline-block;
+      margin-right: 7px;
+      border-radius: 50%;
+    }
+    &.send-same-day {
+      color: var(--ion-color-success);
+      &:before {
+        background: var(--ion-color-success);
+      }
+    }
+    &.send-another-day {
+      color: var(--ion-color-danger);
+      &:before {
+        background: var(--ion-color-danger);
+      }
+    }
+    &.created-another-day {
+      color: var(--ion-color-secondary);
+      &:before {
+        background: var(--ion-color-secondary);
+      }
+    }
+  }
+}
+
+.quantity-cart-in-list {
+  position: relative;
+  display: inline;
+  margin-right: 20px;
+  span {
+      position: absolute;
+      background-color: var(--ion-color-primary);
+      color:white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px !important;
+      font-family: "montserrat_semiboldregular" !important;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      top: -12px;
+      right: -12px;
+  }
+  ion-icon {
+      font-size: 20px;
+  }
+}

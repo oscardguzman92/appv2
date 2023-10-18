@@ -1,0 +1,65 @@
+<ion-toolbar>
+  <ion-buttons slot="secondary">
+    <ion-button (click)="close()">
+      <i class="icon-x"></i>
+    </ion-button>
+  </ion-buttons>
+  <ion-title color="primary" class="large">
+    Venta
+  </ion-title>
+</ion-toolbar>
+<ion-content>
+  <div class="company-summary-cart" padding>
+    <ion-grid no-padding>
+      <ion-row class="header-list">
+        <ion-col size="1" text-center>
+          <small>{{ sale.sale.quantity }}</small>
+          <ion-icon name="cart" size="small"></ion-icon>
+        </ion-col>
+        <ion-col>
+          <h6>$ {{ sale.sale.total | number }}</h6>
+          <p class="small" no-margin>{{ sale.client.phone }}</p>
+          <span>{{ sale.client.name }}</span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="product-list-cart" no-padding>
+      <ion-row>
+        <app-lista-producto
+          [inSale]="true"
+          [sync]="false"
+          [showQuantity]="false"
+          [product]="product"
+          *ngFor="
+            let product of sale.products;
+            let i = index;
+            let even = even;
+            let odd = odd
+          "
+          [ngClass]="{ odd: odd, even: even }"
+        >
+        </app-lista-producto>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+
+<ion-footer *ngIf="!sale.sale.paid_out">
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="6"  *ngIf="sendReminder">
+          <p class="small" no-margin><b>Enviar recordatorio</b></p>
+        <ion-button expand="block" class="orange-button" no-margin (click)="reminderPay()"
+          >Enviar
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+          <p class="small" no-margin><b>La persona ya pago</b></p>
+        <ion-button expand="block" class="orange-button" no-margin (click)="paySale()"
+          >Ya Pago
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

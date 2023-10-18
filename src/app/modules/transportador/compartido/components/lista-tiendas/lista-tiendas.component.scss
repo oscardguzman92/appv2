@@ -1,0 +1,102 @@
+.route-clients {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow-y: scroll;
+  ion-item {
+    --background: transparent;
+    --border-color: #EAEEF6;
+    box-shadow: 0 1px 0px rgba(255, 255, 255, 1);
+    .number {
+      width: 30px;
+      height: 30px;
+      background-color: var(--ion-color-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: var(--ion-color-medium);
+      border-radius: 50%;
+      font-family: "montserrat_mediumregular";
+      margin-right: 18px;
+    }
+    &.focus-item {
+      .number {
+        color: var(--ion-color-primary);
+        background-color: var(--ion-color-tertiary);
+      }
+    }
+    .icon-chevron-right {
+      color: var(--ion-color-primary);
+    }
+    ion-label {
+      margin-top: 8px;
+      margin-bottom: 8px;
+      h2 {
+        font-size: 15px;
+        color: var(--ion-color-primary);
+        font-family: "montserrat_semiboldregular";
+        margin: 0;
+      }
+      p {
+        color: var(--ion-color-medium);
+        font-size: 12px;
+        margin: 0;
+      }
+    }
+  }
+
+}
+.window-list-shops {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  position: absolute;
+  bottom: -20px;
+  top: 83%;
+  left: 10px;
+  right: 10px;
+  background-color: #fafafa;
+  transition: all 0.5s ease-in-out;
+
+  &.window-show {
+    top: 40px;
+    .button-toggle-window {
+      .open {
+        display: none;
+      }
+      .close {
+        display: block;
+      }
+    }
+    &.with-scroll {
+      &:before {
+        content: "";
+        bottom: 32px;
+      }
+    }
+  }
+  &.with-scroll {
+    &:before {
+      content: none;
+    }
+  }
+  .button-toggle-window {
+    background: #E6EEF2;
+    width: 130px;
+    border-radius: 30px;
+    margin: 10px auto;
+    padding:2px 10px;
+    font-size: 11px;
+    color: var(--ion-color-primary);
+    text-align: center;
+    font-family: "montserrat_mediumregular";
+    .close {
+      display: none;
+    }
+  }
+
+}
+
+.disable-by-edit {
+  opacity: .2;
+}

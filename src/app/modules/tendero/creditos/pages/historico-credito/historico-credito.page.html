@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="justBack()">
+        <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary" class="medium" no-padding>
+      Detalle crédito
+    </ion-title>
+    <div class="ion-margin-end" slot="secondary">
+      <img src="https://via.placeholder.com/40x32" />
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding *ngIf="credit">
+  <ion-grid class="data-credit" padding>
+    <ion-row>
+      <ion-col
+        ><p no-margin>
+          Disponible: {{getAmount(credit) | currency: 'COP': 'symbol': '1.0'}}
+        </p></ion-col
+      >
+      <ion-col text-right
+        ><p no-margin>
+          Por Pagar: {{credit.debt | currency: 'COP': 'symbol': '1.0'}}
+        </p></ion-col
+      >
+    </ion-row>
+  </ion-grid>
+  <ion-grid no-padding>
+    <ion-list *ngIf="purchases">
+      <ion-item lines="full" *ngFor="let purchase of purchases">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <ion-row>
+              <ion-col>
+                <h3 class="sub-title" 
+                [ngClass]="{
+                  'color-success': purchase.state == 'Approved',
+                  'color-danger': purchase.state == 'Pending' || purchase.state == 'Canceled' || purchase.state == 'Declined'
+                  }"                
+                >
+                  {{purchase.amount | currency: 'COP': 'symbol': '1.0'}}
+                </h3>
+              </ion-col>
+              <ion-col size="auto">
+                <p class="phone-number" no-margin>
+                  <span>{{purchase.name}}</span>
+                  <small>{{purchase.description}}</small>
+                  <ng-container [ngSwitch]="purchase.state">
+                    <small *ngSwitchCase="'Approved'" class="color-success">Descuento aprobado</small>
+                    <small *ngSwitchCase="'Pending'" class="color-danger">Descuento pendiente</small>
+                    <small *ngSwitchCase="'Canceled'" class="color-danger">Descuento cancelado</small>
+                    <small *ngSwitchCase="'Declined'" class="color-danger">Descuento declinado</small>
+                  </ng-container>                  
+                </p>
+              </ion-col>
+              <ion-col size="12">
+                <p no-margin>
+                  <i class="icon-calendar"></i> {{purchase.created_at}}
+                </p>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item lines="full" *ngIf="false">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <ion-row>
+              <ion-col>
+                <h3 class="sub-title color-success">
+                  $0000000
+                </h3>
+              </ion-col>
+              <ion-col size="auto">
+                <p class="phone-number" no-margin>
+                  Pago crédito
+                  <small class="color-success">Abono deuda</small>
+                </p>
+              </ion-col>
+              <ion-col size="12">
+                <p no-margin>Pago en banco</p>
+                <p no-margin>
+                  <i class="icon-calendar"></i> 2019-08-15 15:12:35
+                </p>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="common-footer">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" text-center>
+          <!--<p no-margin><span>Su saldo actual es:</span> <b>$000000</b></p>-->
+          <ion-button class="no-margin orange-button">
+            Instrucciones de pago
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

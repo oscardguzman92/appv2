@@ -1,0 +1,40 @@
+<app-cabecera [title]="title" [subtitle]="subtitle" [showTitle]="showTitle" [showBackButton]="showBackButton">
+</app-cabecera>
+<ion-content>
+<div class="results">
+  <ion-slides
+    class="cash-register-slides ion-color-medium"
+    pager="true"
+    [options]="slideOpts"
+  >
+    <ng-container *ngIf="products && products.length > 0">
+      <ion-slide
+        *ngFor="
+          let product of products;
+          let i = index;
+          let even = even;
+          let odd = odd
+        "
+        [ngClass]="{ odd: odd, even: even }"
+      >
+        <app-tarjeta-producto
+          [product]="product"
+          [sync]="false"
+          [showQuantity]="false"
+          [position]="i"
+          [ngStyle]="{ order: i }"
+          [inSale]=false
+        >
+        </app-tarjeta-producto>
+      </ion-slide>
+    </ng-container>
+  </ion-slides>
+</div>
+</ion-content>
+<ion-footer class="cash-register-footer">
+  <!-- <button class="add blue-button" (click)="scan()">
+    <i class="icon-plus"></i>
+  </button> -->
+  <ion-button expand="block" (click)="scan()">Crear Nuevo Producto</ion-button>
+</ion-footer>
+

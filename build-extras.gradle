@@ -1,0 +1,29 @@
+def dependencyMap = [
+        "com.google.firebase:firebase-core" : "16.0.1",
+        "com.google.firebase:firebase-config": "16.4.1"
+]
+
+allprojects {
+    repositories {
+            google()
+            jcenter()
+            mavenLocal()
+    }
+
+    configurations.all {
+
+        resolutionStrategy {
+
+            eachDependency { DependencyResolveDetails details ->
+                def group = details.requested.group
+                def name = details.requested.name
+                def fullName =  group + ":" + name
+                print fullName
+                if (dependencyMap.containsKey(fullName)) {
+                    details.useVersion dependencyMap[fullName]
+                }
+            }
+        }
+    }
+
+}

@@ -1,0 +1,192 @@
+<ion-toolbar>
+    <ion-buttons slot="start" *ngIf="currentSection != loginSections.document">
+        <ion-button (click)="onClickBack()">
+            <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+        </ion-button>
+    </ion-buttons>
+</ion-toolbar>
+
+<ion-content no-padding>
+    <ion-grid no-padding class="validacion-cedula">
+        <app-compartido-cabecera-sin-login [showImage]="true">
+        </app-compartido-cabecera-sin-login>
+
+
+        <ion-row class="validacion-cedula__campos" justify-content-center align-items-center>
+
+            <!-- Sección Login por Cédula -->
+            <ion-col size="11" text-center *ngIf="currentSection == loginSections.document">
+                <form [formGroup]="formDocument" (ngSubmit)="login({login: document.value})">
+                    <h5 class="sub-title">Tu negocio a otro nivel</h5>
+                    <p no-margin>Ingresa tu número de documento</p>
+                    <div class="ion-margin-bottom">
+                        <ion-item class="input-form">
+                            <ion-label position="floating">Cédula o Nit <small>(Sin # Verificación)</small></ion-label>
+                            <ion-input formControlName="document" type="tel"></ion-input>
+                        </ion-item>
+                        <div class="error" *ngIf="document.invalid && document.touched">
+                            <span *ngIf="document.errors?.required">
+                                La cédula es obligatoria
+                            </span>
+
+                            <span *ngIf="document.errors?.pattern">
+                                Cédula invalida
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-description">
+                        Recibe el código de verificación vía:
+                    </p>
+                    <ion-row justify-content-center align-items-center>
+                        <ion-col size="6">
+                            <ion-button type="submit" [disabled]="!formDocument.valid"
+                                class="orange-button ion-margin-bottom" expand="block">SMS <ion-icon slot="start" name="text"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                        <ion-col size="6">
+                            <ion-button type="button" [disabled]="!formDocument.valid" (click)='send_code_via_wapp({login: document.value})'
+                                class="orange-button ion-margin-bottom" expand="block">Whatsapp <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <p class="privacy-policies" no-margin>
+                        <a target="_blank" href="http://www.storeapp.net/files/storeapp_terminos_condiciones.pdf">Términos & Condiciones</a>
+                        <a target="_blank" href="http://www.storeapp.net/files/storeapp_politicas_privacidad.pdf">Políticas de privacidad</a>
+                        <small>* Al ingresar acepta los términos y condiciones y políticas de privacidad de la información de storeapp</small>
+                    </p>
+                </form>
+            </ion-col>
+
+            <!-- Sección Login Desarrollo -->
+            <ion-col size="10" text-center *ngIf="currentSection == loginSections.loginDevelopers">
+                <form>
+                    <h5 class="sub-title">Tu negocio a otro nivel</h5>
+
+                    <ion-item class="input-form" [formGroup]="formDocument">
+                        <ion-label position="floating">Cédula o Nit <small>(Sin # Verificación)</small></ion-label>
+                        <ion-input formControlName="document" type="tel" [disabled]="true"></ion-input>
+                    </ion-item>
+
+                    <div class="error" *ngIf="document.invalid && document.touched">
+                        <span *ngIf="document.errors?.required">
+                            La cédula es obligatoria
+                        </span>
+
+                        <span *ngIf="document.errors?.pattern">
+                            Cédula invalida
+                        </span>
+                    </div>
+
+                    <form [formGroup]="formCellphone"
+                          (ngSubmit)="loginDevelopers({login: cellphone.value, password: document.value})">
+                        <ion-item class="input-form">
+                            <ion-label position="floating">Teléfono</ion-label>
+                            <ion-input formControlName="cellphone" type="tel"></ion-input>
+                        </ion-item>
+
+                        <div class="error" *ngIf="cellphone.invalid && cellphone.touched">
+                            <span *ngIf="cellphone.errors?.required">
+                                La teléfono es obligatorio
+                            </span>
+
+                            <span *ngIf="cellphone.errors?.pattern">
+                                Teléfono invalido
+                            </span>
+                        </div>
+
+                        <ion-button type="submit" [disabled]="!formDocument.valid || formCellphone.invalid">
+                            Siguiente
+                        </ion-button>
+                    </form>
+                </form>
+            </ion-col>
+
+            <!-- Sección SMS -->
+            <ion-col size="11" text-center *ngIf="currentSection == loginSections.codeSms">
+                <h5 class="sub-title">Tu negocio a otro nivel</h5>
+                <p>Por favor ingresa el código que recibiste en tu celular <b>({{cellphoneSms}})</b>.</p>
+                <app-general-codigo-sms (acceptedCode)="sucessCodeSms($event)"
+                                        [cellphone]="cellphoneSms"
+                                        [user]="accessUser.user"
+                                        [password]="accessUser.password"
+                                        [player_id]="player_id">
+                </app-general-codigo-sms>
+            </ion-col>
+
+            <!-- Sección refrescar información  -->
+            <ion-col size="10" text-center *ngIf="currentSection == loginSections.refreshLogin">
+                <form>
+                    <h5 class="sub-title">Tu negocio a otro nivel</h5>
+
+                    <p>Haz Clic en el siguiente botón para actualizar tu información</p>
+
+                    <ion-item class="input-form no-margin" lines="none" *ngIf="userTemp">
+                        <ion-title *ngIf="userTemp.telefono_contacto" text-center>{{userTemp.telefono_contacto}}</ion-title>
+                    </ion-item>
+                    <div class="ion-padding">
+                        <ion-button (click)="login({login: document.value})" expand="block" class="ion-margin-bottom orange-button">
+                            ¡Refrescar!
+                        </ion-button>
+                    </div>
+
+                </form>
+            </ion-col>
+
+            <!-- Sección validar teléfono -->
+            <ion-col size="10" text-center *ngIf="currentSection == loginSections.validCel">
+                <form>
+                    <h5 class="sub-title">Tu negocio a otro nivel</h5>
+
+                    <p>Ayúdanos a validar tu información. <br><b>¿Es este tu número celular?</b></p>
+
+                    <ion-item class="input-form no-margin" lines="none" *ngIf="userTemp.telefono_contacto">
+                        <ion-title text-center>{{userTemp.telefono_contacto}}</ion-title>
+                    </ion-item>
+
+                    <p>A este número vamos a enviar un mensaje de texto con el código de verificación para ingresar. Es necesario que tengas este celular a la mano para recibir el código</p>
+
+
+                    <div class="ion-padding">
+                        <ion-button (click)="selectIsCel()" expand="block" class="ion-margin-bottom orange-button">¡SÍ,
+                            ese es mi número!</ion-button>
+                        <ion-button (click)="selectNotIsCel()" expand="block">NO, no reconozco ese número</ion-button>
+                    </div>
+
+                </form>
+            </ion-col>
+
+
+            <!-- Sección Actualizar teléfono -->
+            <ion-col size="10" text-center *ngIf="currentSection == loginSections.updateCel">
+                <form [formGroup]="formCellphoneCountry">
+                    <h5 class="sub-title">Validación</h5>
+
+                    <p class="color-document"><b>Cédula / NIT: {{document.value}} </b></p>
+
+                    <p>Ingresa tu número de celular</p>
+                    <p class="small">A este número vamos a enviar un mensaje de texto con el código de verificación para ingresar. Es necesario que tengas este celular a la mano para recibir el código</p>
+                    <ion-item class="input-form">
+                        <ion-label position="floating">Celular</ion-label>
+                        <ion-input formControlName="cellphone" type="tel"></ion-input>
+                    </ion-item>
+
+                    <div class="error" *ngIf="cellphoneCountry.invalid && cellphoneCountry.touched">
+                        <p class="small" *ngIf="cellphoneCountry.errors?.required">
+                            El número celular es obligatorio
+                        </p>
+
+                        <p class="small" *ngIf="
+                            cellphoneCountry.errors?.pattern ||
+                            cellphoneCountry.errors?.wrongNumber ||
+                            cellphoneCountry.errors?.minLength ||
+                            cellphoneCountry.errors?.maxLength">
+                            Teléfono invalido
+                        </p>
+                    </div>
+
+                    <ion-button (click)="updateCel()" [disabled]="!formCellphoneCountry.valid">Aceptar</ion-button>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

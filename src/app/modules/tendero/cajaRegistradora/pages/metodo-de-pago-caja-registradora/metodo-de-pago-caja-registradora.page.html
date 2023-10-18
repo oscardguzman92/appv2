@@ -1,0 +1,117 @@
+<app-cabecera
+  [total]="total | number"
+  [products]="quantity"
+  [title]="title"
+  [subtitle]="subtitle"
+  [showTitle]="showTitle"
+  [showDataSale]="true"
+  [showBackButton]="showBackButton"
+>
+</app-cabecera>
+<ion-content>
+  <ion-grid>
+    <ion-row align-items-center justify-content-center>
+      <form id="content-method" [formGroup]="dataPay">
+        <div id="header-method">
+          <ion-col size="12" class="ion-text-center">
+            <h5>Total a pagar:</h5>
+            <h1>$ {{ total | number }}</h1>
+          </ion-col>
+        </div>
+        <div id="select-method">
+          <ion-col size="4">
+            <button
+              class="card-button"
+              (click)="cash()"
+              [ngClass]="{ active: saleSelect.cash }"
+            >
+              <ion-grid no-padding>
+                <ion-row class="ion-align-items-center">
+                  <ion-col no-padding>
+                    Efectivo
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </button>
+          </ion-col>
+
+          <ion-col size="4">
+            <button
+              class="card-button"
+              (click)="card()"
+              [ngClass]="{ active: saleSelect.card }"
+            >
+              <ion-grid no-padding>
+                <ion-row class="ion-align-items-center">
+                  <ion-col no-padding>
+                    Tarjeta
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </button>
+          </ion-col>
+
+          <ion-col size="4">
+            <button
+              class="card-button"
+              (click)="trustworthy()"
+              [ngClass]="{ active: saleSelect.trustworthy }"
+            >
+              <ion-grid no-padding>
+                <ion-row class="ion-align-items-center">
+                  <ion-col no-padding>
+                    Fiado
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </button>
+          </ion-col>
+        </div>
+        <div id="forms-method" class="cash-register-form">
+          <ion-item class="input-form" *ngIf="saleSelect.trustworthy">
+            <ion-label position="floating">Teléfono del cliente</ion-label>
+            <ion-input
+              formControlName="phone"
+              type="tel"
+              [(ngModel)]="phone"
+              (keyup)="searchClient($event)"
+            ></ion-input>
+          </ion-item>
+          <ion-item class="input-form" *ngIf="saleSelect.trustworthy">
+            <ion-label position="floating">Nombre del cliente</ion-label>
+            <ion-input formControlName="name" [(ngModel)]="name"></ion-input>
+          </ion-item>
+          <ion-item class="input-form" *ngIf="saleSelect.cash">
+            <ion-label position="floating"
+              >¿Con cuanto paga el cliente?</ion-label
+            >
+            <ion-input
+              formControlName="subtracting"
+              type="number"
+              (keyup)="valueReturn($event)"
+              [(ngModel)]="subtracting"
+            ></ion-input>
+          </ion-item>
+          <span *ngIf="saleSelect.cash">
+            Debes devolver al cliente <br />
+            <strong>$ {{ return | number }}</strong>
+          </span>
+        </div>
+      </form>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer class="cash-register-footer">
+  <button class="even" (click)="cancel()">
+    <p>
+      Cancelar
+    </p>
+    <ion-icon class="icon-x"></ion-icon>
+  </button>
+  <button class="odd" (click)="confirm()">
+    <p>
+      Terminar
+    </p>
+    <ion-icon class="icon-check"></ion-icon>
+  </button>
+</ion-footer>

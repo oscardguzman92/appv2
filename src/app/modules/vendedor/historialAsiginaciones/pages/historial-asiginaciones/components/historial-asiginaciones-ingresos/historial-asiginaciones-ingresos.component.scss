@@ -1,0 +1,23 @@
+h6 {
+    color:var(--ion-color-primary);
+}
+p {
+    &.name {
+      text-transform: lowercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--ion-color-primary) !important;
+      span {
+        font-weight: bold;
+      }
+    }
+    &.small {
+      font-family: "montserrat_mediumregular";
+      font-size: 11px;
+    }
+    &.detail {
+        font-family: "montserrat_mediumregular";
+        padding: 6px 0;
+    }
+  }

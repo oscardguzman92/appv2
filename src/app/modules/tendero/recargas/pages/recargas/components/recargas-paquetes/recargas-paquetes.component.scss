@@ -1,0 +1,28 @@
+h6 {
+    text-transform: lowercase;
+    color: var(--ion-color-dark);
+    font-family: "montserrat_semiboldregular";
+}
+img {
+    padding-left: 10px;
+}
+.operator {
+    border: 1px solid #efefef;
+
+    .click-shadow {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        height: 100%;
+        background: rgba(#efefef,0.6);
+        top: 0;
+        display: none;
+    }
+}
+
+.operator.operator__active {
+    position: relative;
+    .click-shadow {
+        display: block;
+    }
+}

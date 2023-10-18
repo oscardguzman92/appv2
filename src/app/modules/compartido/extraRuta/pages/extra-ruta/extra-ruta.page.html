@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="justBack()">
+        <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary" no-paddinggit>{{data.fecha_envio}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid padding>
+    <ion-row>
+      <ion-col size="12" text-center>
+        <h2>Pedido # {{data.pedido_id}}</h2>
+      </ion-col>
+      <!-- <ion-col size="12">
+        toque la fecha de envio al sistema para cambiarla 
+      </ion-col> -->
+      <ion-col size="12" text-center>
+        <p>Fecha actual: <b>{{data.fecha_envio}}</b></p>
+        <ion-button class="button-outline">
+          <ion-icon slot="start" class="icon-calendar"></ion-icon>
+          Cambiar fecha de envio
+        </ion-button>
+        <!-- <ion-item>
+          <ion-label>Date</ion-label>
+          <ion-datetime display-format="YYYY-MM-DD" min="today" [min]="today" [(ngModel)]="newSendDate"
+            value="{{data.fecha_envio}}"></ion-datetime>
+        </ion-item> -->
+      </ion-col>
+      <ion-col size="12">
+        <!-- escriba aquí su comentario -->
+        <!-- <textarea name="comentario" id="comentario" [(ngModel)]="comment" cols="30" rows="10"
+          placeholder="Es un comentario de pruebas"></textarea> -->
+          <ion-item class="input-form" no-padding>
+            <ion-label position="floating">Escribe tu Comentario</ion-label>
+            <ion-textarea name="comentario" id="comentario" [(ngModel)]="comment" rows="6"></ion-textarea>
+          </ion-item>
+      </ion-col>
+      <ion-col>
+        <div class="divider"></div>
+      </ion-col>
+      <ion-col size=12>
+        <ion-row>
+          <ion-col size="6">
+            <p no-margin><b>Subtotal (sin IVA):</b></p>
+          </ion-col>
+          <ion-col size="6" text-right>
+            <p no-margin>{{data.subtotalsinIva| currency:"COP":'symbol-narrow':'3.0-0'}}</p>
+          </ion-col>
+          <ion-col size="6">
+            <p no-margin><b>IVA:</b></p>
+          </ion-col>
+          <ion-col size="6" text-right>
+            <p no-margin>{{data.subtotalIva | currency:"COP":'symbol-narrow':'3.0-0'}}</p>
+          </ion-col>
+          <ion-col size="12">
+            <ion-button (click)="sendExtraRoute()" expand="block">Enviar Datos</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

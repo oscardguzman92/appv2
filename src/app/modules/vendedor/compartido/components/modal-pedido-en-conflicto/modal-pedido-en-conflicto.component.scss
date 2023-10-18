@@ -1,0 +1,233 @@
+ion-slides{
+    height: 100vh;
+    .wrapper {
+        display: flex;
+        align-items:center;
+        justify-content: center;
+        flex-direction: column;
+        h3 {
+            width: 80%;
+            margin: 0 auto 2rem;
+            text-align: center;
+            font-family: "montserrat_mediumregular";
+            font-size: 20px;
+            b {
+                font-family: "montserratbold";
+            }
+        }
+        img {
+            margin-bottom: 1rem;
+            width:300px;
+        }
+    }
+}
+.skip-bottom {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    color: var(--ion-color-primary);
+    z-index: 999;
+    display: flex;
+    align-items:center;
+    background-color: #e1ebff;
+    padding: 8px 16px;
+    border-radius:30px;
+    
+    span {
+        font-family: "montserrat_mediumregular";
+        font-size: 14px;
+        line-height: 1;
+    }
+    ion-icon {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+}
+.help-button {
+    position: fixed;
+    bottom: 70px;
+    right: 16px;
+    color: var(--ion-color-primary);
+    z-index: 999;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    background-color: #e1ebff;
+    border-radius:30px;
+    width: 35px;
+    height: 35px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    border: 2px solid var(--ion-color-primary);
+    span {
+        font-family: "montserrat_mediumregular";
+        font-size: 14px;
+        line-height: 1;
+    }
+    ion-icon {
+        font-size: 22px;
+    }
+}
+.header {
+    background-color: #e7ecf5;
+    margin-bottom: 10px;
+    ion-col {
+        .top {
+            display: flex;
+            align-items: flex-end;
+            font-size: 19px;
+            color: var(--ion-color-primary);
+            font-family: "montserratbold";
+            img {
+                height:30px;
+                margin-right:10px;
+            }
+        }        
+        .name {
+            width: 100%;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 12px;
+            margin-top: 3px;
+            font-family: "montserrat_mediumregular";
+        }
+        border-bottom:1px solid var(--ion-color-primary);
+    }
+    .border-right {
+        border-right: 1px solid var(--ion-color-primary);
+    }
+}
+.conflicting-list-product {
+    padding-left: 10px;
+    padding-right: 10px;
+    position: relative;
+    ion-col {
+        .card-wrapper {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            height: 100%;
+            border-radius: 7px;
+            padding: 8px 14px;
+            border: 2px solid #bfbfbf;
+            position: relative;
+            .title {
+                h4 {
+                    font-family: "montserratbold";
+                    color: var(--ion-color-medium);
+                    font-size: 11px;
+                    line-height: 1.3;
+                    text-transform: capitalize;
+                    &:before {
+                        content:'';
+                        width: 7px;
+                        height: 7px;
+                        background-color: #bfbfbf;
+                        border-radius: 50%;
+                        display: inline-block;
+                        margin-right: 5px;
+                    }
+                }
+            }
+            
+            p {
+                margin: 0;
+                color: #bfbfbf;
+                &.quantity {
+                    font-family: "montserrat_semiboldregular";
+                }
+            } 
+            ion-icon {
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                font-size: 16px;
+                right: 10px;
+                bottom: 8px;
+                font-size: 28px;
+                &.selected {
+                    display: none;
+                    color: var(--ion-color-success);
+                }
+                &.unSelected {
+                    display: block;
+                    color: #bfbfbf;
+                }
+            }
+        }
+        &.active {
+            .card-wrapper {
+                border: 2px solid var(--ion-color-success);
+                .title {
+                    h4 {
+                        color: var(--ion-color-dark);
+                        &:before {
+                            background-color: var(--ion-color-dark);
+                        }
+                    }
+                }
+                p {
+                    color: var(--ion-color-dark);
+                }     
+                ion-icon {
+                    &.selected {
+                        display: block;
+                    }
+                    &.unSelected {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+    .total-units {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--ion-color-success);
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -20px;
+        margin-left: -20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        small {
+            font-size: 40%;
+            font-weight: normal;
+            text-align: center;
+            line-height: 1;
+            font-family: "montserrat_mediumregular";
+        }
+        p {
+            font-family: "montserrat_semiboldregular";
+            font-size: 12px;
+            line-height: 1;
+            margin: 0;
+            span {
+                font-size: 9px;
+            }
+        }
+    }
+}
+.title-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:var(--ion-color-primary);
+    color:white;
+    font-family: "montserrat_semiboldregular";
+    padding:12px;
+    img {
+        transform: rotate(-35deg);
+        width: 23px;
+        margin-right: 16px;
+    }
+    p {
+        margin: 0;
+        line-height: 1.2;
+        font-size: 12px;
+    }
+}

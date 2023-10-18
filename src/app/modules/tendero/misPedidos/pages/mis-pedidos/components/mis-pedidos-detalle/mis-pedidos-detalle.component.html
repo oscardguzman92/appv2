@@ -1,0 +1,142 @@
+<ion-toolbar>
+    <ion-buttons slot="secondary">
+        <ion-button (click)="close()">
+            <i class="icon-x"></i>
+        </ion-button>
+    </ion-buttons>
+    <ion-title color="primary" class="large">
+        Pedido N° {{orderCode}}
+    </ion-title>
+</ion-toolbar>
+<ion-content scrollable>
+    <div class="company-summary-cart" no-padding>
+        <ion-grid>
+            <ion-row class="header-list">
+                <ion-col size="1" text-center>
+                    <small>{{nProducts}}</small>
+                    <ion-icon name="cart" size="small"></ion-icon>
+                </ion-col>
+                <ion-col>
+                    <h6>{{companie}}</h6>
+                    <p class="small" no-margin>{{estado}}</p>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <ion-segment scrollable class="segment-general" (ionChange)="cambiarSegmento($event)" *ngIf="productos_devueltos && productos_devueltos.length > 0">
+
+            <ion-segment-button checked value="productos" layout="icon-start" *ngIf="products && products.length > 0">
+                <ion-label>Productos</ion-label>
+                <ion-icon name="null" class="icon-shopping-cart"></ion-icon>
+            </ion-segment-button>
+            <ion-segment-button value="devueltos" layout="icon-start" [checked]="(products && products.length == 0) || !products">
+                <ion-label>{{(products && products.length > 0) ? 'Devueltos' : 'Productos devueltos'}}</ion-label>
+                <ion-icon name="null" class="icon-back-product"></ion-icon>
+            </ion-segment-button>
+        </ion-segment>
+
+        <ion-grid class="product-list-cart" no-padding *ngIf="(products && products.length > 0) && (segmento == 'productos' || ((productos_devueltos && productos_devueltos.length == 0) || !productos_devueltos)) ">
+            <ion-row class="ion-padding-horizontal" *ngFor="let product of products; let i = index;">
+                <ion-col size="2">
+                    <img *ngIf="product.imagenes && product.imagenes.length > 0" onerror="this.src='assets/images/product-without-image.jpg'" [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagenes[0].url">
+                    <img *ngIf="!product.imagenes || product.imagenes.length == 0" src="assets/images/product-without-image.jpg">
+                </ion-col>
+                <ion-col size="10">
+                    <ng-container *ngIf="user.role == roles.seller">
+                        <div class="title">
+                            {{ product.nombre | titlecase }}
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="user.role != roles.seller">
+                        <div class="title" *ngIf="(!product.ofertas) || (product.ofertas && product.ofertas[0] && !product.ofertas[0].descripcion_oferta)">
+                            {{ getFullProductName(product) | titlecase }}
+                        </div>
+                        <div class="title" *ngIf="product.ofertas && product.ofertas[0] && product.ofertas[0].descripcion_oferta">
+                            {{ product.ofertas[0].descripcion_oferta | titlecase }}
+                        </div>
+                    </ng-container>
+                    <ion-row>
+                        <ion-col size="7" no-padding>
+                            <small>Cod.: {{product.cod_sap}}</small>
+                            <ion-row>
+                                <ion-col size="auto" no-padding>
+                                    <p class="price-card">
+                                        {{ +product.precio | currency:"COP":'symbol-narrow':'3.0-0' }}</p>
+                                </ion-col>
+                                <ion-col no-padding>
+                                    <p class="price-card before">
+                                        <p class="price-card before" *ngIf="product.ofertas && product.ofertas.length > 0">
+                                            {{ +product.ofertas[0].descuento | currency:"COP":'symbol-narrow':'3.0-0' }}
+                                        </p>
+                                </ion-col>
+                            </ion-row>
+                        </ion-col>
+                        <ion-col class="ion-align-self-end quantity" size="5" text-right no-padding>{{product.cantidad}} <span *ngIf="product.unidad_seleccionada">{{getMesureName(product.unidad_seleccionada)}}</span></ion-col>
+
+                    </ion-row>
+                </ion-col>
+                <ion-col size="12" no-padding>
+                    <div class="divider"></div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid class="product-list-cart" no-padding *ngIf="productos_devueltos && productos_devueltos.length > 0 && segmento == 'devueltos'">
+            <ion-row class="ion-padding-horizontal" *ngFor="let product of productos_devueltos; let i = index;">
+                <ion-col size="2">
+                    <img *ngIf="product.imagenes && product.imagenes.length > 0" onerror="this.src='assets/images/product-without-image.jpg'" [src]="'https://admin.storeapp.net/imagenes/productos/thumb/'+product.imagenes[0].url">
+                    <img *ngIf="!product.imagenes || product.imagenes.length == 0" src="assets/images/product-without-image.jpg">
+                </ion-col>
+                <ion-col size="10">
+                    <div class="title">{{getFullProductName(product) | titlecase}}</div>
+                    <ion-row>
+                        <ion-col size="7" no-padding>
+                            <small>Cod.: {{product.cod_sap}}</small>
+                            <ion-row>
+                                <ion-col size="auto" no-padding>
+                                    <p class="price-card">
+                                        {{ +product.precio | currency:"COP":'symbol-narrow':'3.0-0' }}</p>
+                                </ion-col>
+                                <ion-col no-padding>
+                                    <p class="price-card before">
+                                        <p class="price-card before" *ngIf="product.ofertas && product.ofertas.length > 0">
+                                            {{ +product.ofertas[0].descuento | currency:"COP":'symbol-narrow':'3.0-0' }}
+                                        </p>
+                                </ion-col>
+                            </ion-row>
+                        </ion-col>
+                        <ion-col class="ion-align-self-end quantity" size="5" text-right no-padding>{{product.cantidad}}</ion-col>
+                    </ion-row>
+                </ion-col>
+                <ion-col size="12" no-padding>
+                    <div class="divider"></div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>
+
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-row padding>
+            <ion-col size="6" no-padding>
+                <span>Subtotal (sin iva)</span>
+            </ion-col>
+            <ion-col size="6" text-right no-padding>
+                <span>{{ totalOrder | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+            <ion-col size="6" no-padding>
+                <span>IVA</span>
+            </ion-col>
+            <ion-col size="6" text-right no-padding>
+                <span>{{ totalOrderIVA | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+            <ion-col size="6" no-padding>
+                <span>Total (con iva)</span>
+            </ion-col>
+            <ion-col size="6" text-right no-padding>
+                <span>{{ total | currency:"COP":'symbol-narrow':'0.0-0' }}</span>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

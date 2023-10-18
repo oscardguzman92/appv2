@@ -1,0 +1,158 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="justBack()">
+                <i slot="icon-only" class="icon-arrow-left icon-orange-gradient"></i>
+            </ion-button>
+        </ion-buttons>
+        <ion-title color="primary" no-padding *ngIf="shop">{{shop.nombre_tienda | titlecase}} <span>Cod.
+            {{shop.codigo_cliente}}</span></ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid class="data-client" padding *ngIf="!focusDocumentActive">
+        <ion-row *ngIf="client">
+            <ion-col size="12" no-padding>
+                <h6 class="sub-title title-white" margin-bottom>Datos registrados en distribuidor</h6>
+            </ion-col>
+        </ion-row>
+        <app-mis-clientes-datos-cliente *ngIf="shop" direction="{{shop.direccion | titlecase}}"
+                                        cellphone="{{shop.telefono_contacto}}" visitDay="{{shop.dia}}"
+                                        [name]="shop.nombre_contacto"
+                                        [document]="shop.cedula_distribuidor">
+        </app-mis-clientes-datos-cliente>
+    </ion-grid>
+
+    <ion-grid padding *ngIf="!client && !tipoConsulta">
+        <ion-row class="ion-justify-content-center" margin-top>
+            <ion-col size="11" no-padding>
+                <h6 class="sub-title">Asocia un cliente a sus datos y configuraciones de servicio</h6>
+            </ion-col>
+            <ion-col size="11" no-padding>
+                <p class="small">
+                    *Puedes hacerlo ingresando la cédula que el cliente registró en storeapp.
+                </p>
+            </ion-col>
+            <ion-col size="11" no-padding>
+                <p class="small">
+                    *El código lo puedes encontrar en la pantalla principal del tendero. Solo debes dar clic al mismo para agrandarlo.
+                </p>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col size="6">
+                <ion-button expand="block" (click)="readQR()" no-margin>
+                    Leer Código
+                </ion-button>
+            </ion-col>
+
+            <ion-col size="6">
+                <ion-button expand="block" (click)="open('cedula')" no-margin>
+                    Ingresa cédula
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid padding *ngIf="!client && tipoConsulta == 'cedula'">
+        <ion-row class="ion-justify-content-center" margin-top>
+            <ion-col size="11" no-padding>
+                <h6 class="sub-title">Ingrese la cédula del tendero inscrito en storeapp</h6>
+            </ion-col>
+            <ion-col size="11" no-padding>
+                <p class="small">
+                    *Puedes encontrarla en el app del Tendero, en el menú lateral debajo del nombre
+                </p>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col size="12" no-padding>
+                <form [formGroup]="formDocument" (ngSubmit)="validateDocument(formDocument.value)">
+                    <ion-item class="input-form">
+                        <ion-input formControlName="document" type="tel" placeholder="Número de Cédula"
+                                   (ionFocus)="focusDocument(true)" (ionBlur)="focusDocument(false)">
+                        </ion-input>
+                    </ion-item>
+                    <div class="error" *ngIf="controls.document.invalid && controls.document.touched" text-center>
+                        <span *ngIf="controls.document.errors?.required">
+                            El número de cédula es obligatorio
+                        </span>
+                        <span *ngIf="controls.document.errors?.pattern && !controls.document.errors?.required">
+                            El número de cédula es inválido
+                        </span>
+                    </div>
+                    <ion-row justify-content-center align-items-center>
+                        <ion-col size="12" text-center>
+                            <ion-button type="submit" [disabled]="!formDocument.valid">
+                                Validar
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="client" class="data-client">
+        <ion-row class="ion-padding-bottom client-storeapp" padding>
+            <ion-col size="12" no-padding>
+                <h6 class="sub-title title-white" margin-bottom>Datos registrados en storeapp</h6>
+            </ion-col>
+            <ion-col size="12" *ngIf="client.nombre_contacto">
+                <small class="title-white">
+                    <i class="icon-user"></i>Nombre de contacto
+                </small>
+                <p no-margin class="title-white">{{client.nombre_contacto}}</p>
+            </ion-col>
+            <ion-col size="6" *ngIf="client.cedula">
+                <small class="title-white">
+                    <i class="icon-info"></i>No. Cédula / NIT
+                </small>
+                <p no-margin class="title-white">{{client.cedula}}</p>
+            </ion-col>
+            <ion-col size="6" *ngIf="client.telefono_contacto">
+                <small class="title-white">
+                    <i class="icon-phone"></i>Teléfono
+                </small>
+                <p no-margin class="title-white">{{client.telefono_contacto}}</p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="client" padding>
+        <ion-row>
+            <ion-col size="12" no-padding>
+                <h6 class="sub-title" margin-bottom>Seleccione los datos a asociar</h6>
+            </ion-col>
+        </ion-row>
+        <ion-row class="client-storeapp">
+            <ion-list class="list">
+                <ion-item *ngFor="let shop of client.tiendas" margin-bottom lines="none">
+                    <label [ngClass]="{'error error--asignar_cliente': !ciudadesEnDistribuidores(shop.ciudad_id)}"
+                           *ngIf="!ciudadesEnDistribuidores(shop.ciudad_id)">
+                        Pertenece a una ciudad diferente
+                    </label>
+                    <label [ngClass]="{'label-diferente-ciudad': !ciudadesEnDistribuidores(shop.ciudad_id)}">
+                        <div>
+                            <small>Nombre</small>
+                            <p no-margin>{{shop.nombre}}</p>
+                        </div>
+                        <div>
+                            <small>Dirección</small>
+                            <p no-margin>{{shop.direccion}}</p>
+                        </div>
+                        <div>
+                            <small>Estrato</small>
+                            <p no-margin>{{shop.estrato}}</p>
+                        </div>
+                    </label>
+                    <!-- <ion-checkbox *ngIf="ciudadesEnDistribuidores(shop.ciudad_id)" slot="start" [(ngModel)]="shop.checkedAsignClient" (ionChange)="selectShop(shop)"> -->
+                    <ion-checkbox slot="start" [(ngModel)]="shop.checkedAsignClient" (ionChange)="selectShop(shop)">
+                    </ion-checkbox>
+                </ion-item>
+            </ion-list>
+        </ion-row>
+    </ion-grid>
+</ion-content>

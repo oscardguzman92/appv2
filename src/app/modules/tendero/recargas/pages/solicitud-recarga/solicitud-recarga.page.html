@@ -1,0 +1,66 @@
+<app-compartido-cabecera [showBackButton]="true" [titulo]="user.nombre_contacto"
+                         [mostrarBotonAuxiliar]="false"></app-compartido-cabecera>
+<ion-segment (ionChange)="changeSegment($event)">
+    <ion-segment-button value="general" checked>
+        <ion-label>Instrucciones</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="dddedo" *ngIf="showDddedo">
+        <ion-label>Afiliado <img src="../assets/images/logo-dddedo.png"></ion-label>
+    </ion-segment-button>
+</ion-segment>
+<ion-content *ngIf="segment === 'general'">
+    <img style="margin-bottom: 60px" src="../assets/images/instructivo.png">
+</ion-content>
+<ion-content *ngIf="segment === 'dddedo'">
+    <ion-row justify-content-center align-items-center text-center>
+        <ion-col size="10">
+            <!--<p class="ion-margin-bottom" no-margin>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>-->
+        </ion-col>
+    </ion-row>
+    <ion-row justify-content-center align-items-center *ngIf="cupo">
+        <ion-col size="6" text-center>
+            <img src="../assets/images/logo-dddedo.png">
+        </ion-col>
+    </ion-row>
+    <ion-row justify-content-center align-items-center *ngIf="cupo">
+        <ion-col size="12" text-center class="sub-title ion-padding-vertical">
+            Cupo Dddedo: {{cupo.cupo_disponible | currency:"COP":'symbol-narrow':'0.0-0'}}
+        </ion-col>
+    </ion-row>
+    <form [formGroup]="formTopsUps">
+        <ion-row>
+            <ion-col size="12">
+                <ion-item class="input-form">
+                    <ion-label position="floating">Monto de la Recarga</ion-label>
+                    <ion-input formControlName="value" input="number" placeholder="Mín.: 50,000">
+                    </ion-input>
+                </ion-item>
+
+                <div class="error" text-center *ngIf="controls.value.invalid && controls.value.touched">
+                    <span *ngIf="controls.value.errors?.required">
+                        El valor es obligatorio
+                    </span>
+
+                    <span *ngIf="controls.value.errors?.min">
+                        El valor mínimo es de 50,000
+                    </span>
+
+                    <span *ngIf="controls.value.errors?.pattern && !controls.value.errors?.required">
+                        El valor es inválido
+                    </span>
+                </div>
+            </ion-col>
+        </ion-row>
+
+        <ion-row justify-content-center align-items-center>
+            <ion-col size="12" text-center>
+                <ion-button [disabled]="!formTopsUps.valid" (click)="sendDddedo(formTopsUps.value)">
+                    Enviar Recargar
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </form>
+</ion-content>
+<ion-button class="contact-us" (click)="openChat()">Contáctanos
+    <ion-icon class="icon-phone-forwarded" slot="end" name="call"></ion-icon>
+</ion-button>
